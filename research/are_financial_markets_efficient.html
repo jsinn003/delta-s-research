@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Are Financial Markets Efficient? A Discussion of the Efficient Markets Hypothesis (EMH) — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#CFCFCF;--mid:#888;--dim:#555;--faint:#333;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .article-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .article-meta-row{display:flex;align-items:center;gap:20px;margin-bottom:32px;}
+  .article-section-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .article-date-label{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);font-variant-numeric:tabular-nums;}
+  .article-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .article-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .article-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .article-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .article-body p:last-child{margin-bottom:0;}.article-body strong{font-weight:400;color:var(--white);}.article-body em{font-style:italic;color:var(--mid);}
+  .article-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .article-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .article-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .article-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .article-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-research{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-research:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.article-header{padding:120px 24px 60px;}.article-body{padding:56px 24px 100px;}.article-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="article-header">
+  <a class="back-link" href="../research.html">
+    <span class="back-arrow">←</span>
+    <span>All Research</span>
+  </a>
+  <div class="article-meta-row">
+      <span class="article-section-label">Research</span>
+      <div class="meta-divider"></div>
+      <span class="article-date-label">2026.04</span>
+    </div>
+  <h1 class="article-title">Are Financial Markets Efficient? A Discussion of the Efficient Markets Hypothesis (EMH)</h1>
+  <p class="article-abstract">While the Efficient Markets Hypothesis provides a useful benchmark, full efficiency is unattainable due to information costs, behavioural biases, and limits to arbitrage. Market efficiency is therefore state-dependent, strengthening in stable conditions and weakening during periods of stress.</p>
+</header>
+
+
+<article class="article-body">
+
+    <div class="pull-quote">
+      <p>imagine a market where thousands of smart traders are constantly scanning for mispricing. The moment something looks cheap or expensive, they act on it, and their actions immediately correct the price. So opportunities disappear almost as soon as they appear.</p>
+    </div>
+
+    <h3>1. Introduction</h3>
+
+    <p>In <em>The Wolf of Wall Street</em>, a young broker aggressively promotes a virtually worthless over-the- counter stock as a “cutting-edge high-tech firm awaiting imminent patent approval.” In reality, the company operates from a garage and offers little credible disclosure. The scene illustrates a structural weakness in opaque markets. When information cannot be verified, disclosure standards are weak, and participants differ markedly in both access and interpretative capacity, prices may reflect the rhetoric of intermediaries rather than underlying fundamentals (Fohlin, 2016, p.125).</p>
+
+    <p>The Efficient Markets Hypothesis (EMH) describes the opposite condition. In sufficiently competitive markets, asset prices fully reflect all publicly available information, and no investor can systematically earn abnormal risk-adjusted returns. Rational traders exploit any mispricing through arbitrage by rapidly compressing deviations from fundamental value. In this benchmark setting, persistent price distortions should not endure.</p>
+
+    <p>This essay argues that financial markets are neither perfectly efficient nor systematically irrational. The static formulation of the EMH reflects an important theoretical benchmark, yet full informational efficiency is both theoretically unattainable and practically constrained by information costs, behavioural biases, and limits to arbitrage. In practice, markets exhibit a dynamic, state-dependent form of efficiency shaped by institutions, incentives, and the interaction between distortions and corrective force. Market efficiency is therefore better understood as an evolving equilibrium rather than a binary condition.</p>
+
+    <h3>2. The Static Ideal – The Classical EMH</h3>
+
+    <p>The classical Efficient Markets Hypothesis (EMH) posits that market prices fully reflect all available information (Fama, 1970). In such a setting, investors are motivated by profit opportunities and exploit informational advantages through arbitrage. By acting on private or superior information, market participants incorporate it into prices and thereby “eliminate the profit opportunities that first motivated their trades” (Lo, 2007, p. 3).</p>
+
+    <p>In an idealised world of frictionless markets and costless trading, this adjustment occurs instantaneously. Prices fully reflect relevant information, leaving no profits to be generated from information-based trading. Any apparent profit opportunity is immediately competed away.</p>
+
+    <p>If information is rapidly and correctly incorporated, returns should follow a martingale process (Samuelson, 1965). In more efficient markets, price changes become increasingly unpredictable conditional on available information.</p>
+
+    <p>This ideal rests on strong structural assumptions. Information must be costlessly acquired and processed, trading must occur without delay, and arbitrage capital must be sufficiently abundant to eliminate mispricing as soon as it arises. Together, these conditions define an idealised frictionless equilibrium that serves as a benchmark for analysing real financial markets.</p>
+
+    <h3>3. Theoretical Tension: Why Perfect Efficiency Is Impossible</h3>
+
+    <p>The static benchmark of full informational efficiency gives rise to an immediate theoretical difficulty. Information acquisition requires resources, time, and analytical effort. If prices already reflect all available information, what incentive remains for investors to incur the costs of producing it? If information is incorporated into prices instantaneously, the private return to information production would be eliminated.</p>
+
+    <p>Perfectly efficient markets are therefore internally inconsistent. If prices fully reflect all relevant information, informed traders cannot earn returns sufficient to cover their information costs (Grossman and Stiglitz, 1980). Yet without informed traders, prices cannot incorporate information in the first place. Full efficiency is thus unattainable. Some degree of mispricing must persist to compensate information acquisition and sustain informed participation.</p>
+
+    <p>The implication is that deviations from full informational efficiency are not necessarily instances of market failure but inherent features of market equilibrium. If mispricing is required to reward informed traders, observable departures from fundamental value may reflect the incentive structure that sustains information production. The relevant question therefore shifts from whether markets are perfectly efficient to how such deviations arise, how persistent they are, and under what conditions corrective forces operate effectively.</p>
+
+    <h3>4. Behavioural Sources of Market Deviations</h3>
+
+    <p>Beyond informational incentives, systematic behavioural biases provide an additional explanation for deviations from fundamental value. While the classical EMH assumes that investors form rational judgements (Lo, 2007, p. 1), research in behavioural economics suggests that decision- making under uncertainty is prone to predictable errors. Investors may exhibit overconfidence in their private information (Fischoff and Slovic, 1980), overreact to recent news or performance (De Bondt and Thaler, 1985), or engage in herd behaviour when confronted with uncertainty (Huberman and Regev, 2001). De Bondt and Thaler (1985) show that NYSE stocks with the worst returns over a 36-month period subsequently outperformed prior winners, a pattern consistent with temporary price overshooting followed by gradual correction.</p>
+
+    <p>When such biases are widespread, they may generate aggregate price movements. Herd behaviour can amplify trends, while overreaction may produce reversals. In these circumstances, deviations from fundamental value may persist not because information is absent, but because it is systematically misinterpreted.</p>
+
+    <p>However, the empirical interpretation of such findings is constrained by the joint hypothesis problem. Any test of market efficiency is simultaneously a test of the asset pricing model used to define abnormal returns (Lo, 2007, p. 6). Apparent anomalies may therefore reflect model misspecification rather than genuine mispricing. Consistent with this view, Chan (1988) shows that once returns are risk-adjusted, contrarian profits are consistent with the EMH. Apparent behavioural inefficiency may thus reflect compensation for omitted systematic risk factors.</p>
+
+    <p>Accordingly, the data alone cannot decisively distinguish between behavioural mispricing and rational risk pricing. The joint hypothesis problem implies that no single anomaly can conclusively refute the EMH. Even if behavioural distortions arise, their persistence depends on the ability of arbitrage capital to correct them.</p>
+
+    <h3>5. Arbitrage and Market Discipline</h3>
+
+    <p>Behavioural distortions may generate mispricing, yet modern financial markets contain institutional mechanisms that constrain such deviations. Hedge funds, proprietary trading desks, quantitative investment firms, and high-frequency traders actively search for pricing anomalies across asset classes. When mispricing emerges, these actors deploy capital to exploit it, exerting pressure that narrows spreads and moves prices toward fundamentals. In deep and liquid markets, this corrective process can operate rapidly.</p>
+
+    <p>However, as Shleifer and Vishny (1997) demonstrate, arbitrage is limited by the capital supplied by outside investors. Funding conditions, risk management constraints, and balance sheet capacity restrict the ability of arbitrageurs to maintain positions. During periods of stress, these constraints tighten, mispricing can widen, and volatility may increase.</p>
+
+    <h3>6. Crisis and the State-Dependence of Arbitrage</h3>
+
+    <p>During periods of financial stress, funding liquidity often deteriorates sharply. Historical evidence shows that liquidity freezes can rapidly drive up bid–ask spreads and other measures of illiquidity (Fohlin, 2016, p. 126). Widening spreads raise trading costs and further discourage arbitrage activity. Arbitrageurs may then face margin calls, investor redemptions, and tightening balance sheet constraints. Under such conditions, positions are reduced through forced liquidation and deleveraging, limiting the ability of arbitrage capital to sustain corrective trades.</p>
+
+    <p>In normal conditions, hedge funds rely on diversification and cross-asset hedging to manage risk. During systemic crises, however, correlations across asset classes tend to rise significantly. As investors simultaneously demand liquidity, positions are unwound across markets. Assets that typically offset one another may decline together, weakening diversification and generating indiscriminate selling pressure. When risk exposures converge, price declines amplify across markets.</p>
+
+    <p>The 1998 collapse of Long-Term Capital Management (LTCM) illustrates this mechanism (Lowenstein, 2000). LTCM had built large positions in closely related instruments grounded in fundamental convergence trades. Following the Russian debt default, cross-asset correlations spiked, losses accumulated simultaneously across positions, and LTCM faced margin calls it could not meet. Its positions were liquidated at extremely low prices. Mispricing widened not because fundamentals were misjudged, but because funding constraints forced premature liquidation.</p>
+
+    <p>The corrective function of arbitrage is therefore state-dependent. It operates effectively in stable environments but becomes fragile under systemic stress. Market discipline does not disappear, but its capacity to restore prices to fundamentals depends critically on funding liquidity and balance sheet resilience.</p>
+
+    <h3>7. Conclusion</h3>
+
+    <p>The static formulation of the EMH provides an important benchmark: in sufficiently liquid and transparent markets, arbitrage compresses mispricing and renders price changes difficult to predict. Yet perfect informational efficiency is neither theoretically sustainable nor empirically universal. Behavioural evidence documents systematic deviations from rational valuation, while episodes such as LTCM demonstrate that arbitrage can fail precisely under conditions of stress.</p>
+
+    <p>At the same time, the joint hypothesis problem cautions against inferring inefficiency from anomalies alone. Apparent violations of the EMH may reflect model misspecification rather than genuine mispricing. The persistence of the debate therefore reflects a structural limitation of empirical testing.</p>
+
+    <p>Financial markets are neither frictionless nor systematically irrational. Efficiency is best understood as state-dependent: strong in deep and liquid environments, weaker in opaque or stressed conditions where information costs rise and arbitrage capital contracts. The relevant question is not whether markets are efficient, but under what institutional and funding conditions they approximate efficiency most closely.</p>
+
+    <h3>Bibliography</h3>
+
+    <p>Chan, K., 1988. On the contrarian investment strategy. <em>Journal of Business</em>, 61(2), pp.147–164.</p>
+
+    <p>De Bondt, W.F.M. and Thaler, R., 1985. Does the stock market overreact? <em>Journal of Finance</em>, 40(3), pp.793–807.</p>
+
+    <p>Fama, E.F., 1970. Efficient capital markets: A review of theory and empirical work. <em>Journal of Finance</em>, 25(2), pp.383–417.</p>
+
+    <p>Fischoff, B. and Slovic, P., 1980. A little learning: Confidence in multi-cue judgment tasks. In: R. Nickerson, ed. <em>Attention and Performance VIII</em>. Hillsdale, NJ: Erlbaum.</p>
+
+    <p>Fohlin, C., 2016. Frictions: Lessons from the history of financial market microstructure. In: D. Chambers and E. Dimson, eds. <em>Financial Market History</em>. Charlottesville, VA: CFA Institute Research Foundation, pp.115–128.</p>
+
+    <p>Grossman, S.J. and Stiglitz, J.E., 1980. On the impossibility of informationally efficient markets. <em>American Economic Review</em>, 70(3), pp.393–408.</p>
+
+    <p>Huberman, G. and Regev, T., 2001. Contagious speculation and a cure for cancer: A nonevent that made stock prices soar. <em>Journal of Finance</em>, 56(1), pp.387–396.</p>
+
+    <p>Lo, A.W., 2007. Efficient markets hypothesis. In: <em>The New Palgrave Dictionary of Economics</em>, 2nd ed. London: Palgrave Macmillan.</p>
+
+    <p>Lowenstein, R., 2000. <em>When Genius Failed: The Rise and Fall of Long-Term Capital Management</em>. New York: Random House.</p>
+
+    <p>Samuelson, P.A., 1965. Proof that properly anticipated prices fluctuate randomly. <em>Industrial Management Review</em>, 6(2), pp.41–49.</p>
+
+    <p>Shleifer, A. and Vishny, R.W., 1997. The limits of arbitrage. <em>Journal of Finance</em>, 52(1), pp.35–55.</p>
+
+</article>
+
+<div class="article-end">
+  <div>
+    <div class="article-end-label">Note</div>
+    <p class="article-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-research" href="../research.html">← All Research</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
