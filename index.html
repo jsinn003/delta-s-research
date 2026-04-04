@@ -515,9 +515,9 @@
     <div class="section-label reveal">Research</div>
     <div class="article-list reveal">
       <!-- Top 5 always visible -->
-      <a class="article-row" href="research/dollar-hegemony.html">
-        <span class="article-name">The Maintenance Cost of Dollar Hegemony</span>
-        <span class="article-date">2026.03</span>
+      <a class="article-row" href="research/are_financial_markets_efficient.html">
+        <span class="article-name">Are Financial Markets Efficient? A Discussion of the Efficient Markets Hypothesis (EMH)</span>
+        <span class="article-date">2026.04</span>
       </a>
       <a class="article-row" href="#">
         <span class="article-name">Skew as a Structural Signal</span>
@@ -682,6 +682,13 @@ function toggleResearch() {
   const btn = document.getElementById('research-toggle');
   const open = collapsed.classList.toggle('open');
   btn.textContent = open ? 'Show less' : 'Show more';
+}
+
+/* Show More button control */
+const collapsed = document.getElementById('research-collapsed');
+const toggle = document.querySelector('.research-expand-wrap');
+if (collapsed && collapsed.querySelectorAll('.article-row').length === 0) {
+  toggle.style.display = 'none';
 }
 
 /* ═══ SCROLL PROGRESS ═══ */
