@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research — Order Decays</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --grey: #CFCFCF;
+    --mid: #888888;
+    --dim: #555555;
+    --faint: #333333;
+    --rule: rgba(255,255,255,0.06);
+    --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+  }
+
+  html { font-size: 16px; background: var(--black); }
+  body {
+    font-family: var(--font); font-weight: 300;
+    color: var(--white); background: var(--black);
+    letter-spacing: 0.035em; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+  /* ═══ NAV ═══ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 52px; height: 64px;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-wordmark {
+    font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--white); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dim);
+    text-decoration: none; transition: color 0.35s ease; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+  }
+  .nav-links a:hover { color: var(--grey); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ═══ PAGE ═══ */
+  .page-wrap {
+    padding-top: 64px; min-height: 100vh;
+  }
+
+  .page-header {
+    padding: 100px 52px 80px;
+    max-width: 1120px; margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+    text-decoration: none; transition: color 0.35s ease;
+    margin-bottom: 56px;
+  }
+  .back-link:hover { color: var(--grey); }
+  .back-arrow { font-size: 13px; transition: transform 0.35s ease; }
+  .back-link:hover .back-arrow { transform: translateX(-3px); }
+
+  .page-title {
+    font-size: clamp(32px, 5vw, 64px); font-weight: 300;
+    letter-spacing: 0.04em; color: var(--white);
+    margin-bottom: 16px;
+  }
+  .page-subtitle {
+    font-size: 13px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ═══ SEARCH ═══ */
+  .search-wrap {
+    max-width: 720px; margin: 0 auto;
+    padding: 52px 52px 0;
+  }
+  .search-field {
+    width: 100%; background: none;
+    border: none; border-bottom: 1px solid var(--rule);
+    color: var(--grey); font-family: var(--font);
+    font-size: 14px; font-weight: 300; letter-spacing: 0.05em;
+    padding: 14px 0; outline: none;
+    transition: border-color 0.35s ease;
+  }
+  .search-field::placeholder { color: var(--faint); letter-spacing: 0.1em; }
+  .search-field:focus { border-color: rgba(255,255,255,0.18); }
+  .search-count {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.1em;
+    color: var(--faint); margin-top: 14px;
+    min-height: 18px;
+  }
+
+  /* ═══ ARTICLE LIST ═══ */
+  .article-section {
+    max-width: 720px; margin: 0 auto;
+    padding: 40px 52px 120px;
+  }
+  .article-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 28px 0; border-bottom: 1px solid var(--rule);
+    text-decoration: none; color: inherit; transition: opacity 0.3s ease; cursor: pointer;
+  }
+  .article-row:first-child { border-top: 1px solid var(--rule); }
+  .article-row:hover { opacity: 0.55; }
+  .article-name {
+    font-size: 15px; font-weight: 300; color: var(--grey);
+    letter-spacing: 0.02em; line-height: 1.45;
+  }
+  .article-date {
+    font-size: 11px; font-weight: 300; color: var(--faint);
+    letter-spacing: 0.08em; white-space: nowrap; margin-left: 32px;
+    font-variant-numeric: tabular-nums;
+  }
+  .article-row.hidden { display: none; }
+
+  .no-results {
+    padding: 48px 0;
+    font-size: 13px; font-weight: 300; color: var(--faint);
+    letter-spacing: 0.1em; display: none;
+  }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    padding: 72px 52px 56px; text-align: center;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-mark {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 20px; }
+    .nav-links a { font-size: 10px; }
+    .page-header { padding: 80px 24px 56px; }
+    .search-wrap { padding: 40px 24px 0; }
+    .article-section { padding: 32px 24px 80px; }
+    .article-row { flex-direction: column; gap: 6px; }
+    .article-date { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="index.html">Order Decays</a>
+  <ul class="nav-links">
+    <li><a href="index.html#philosophy">Philosophy</a></li>
+    <li><a href="index.html#methodology">Methodology</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="market-insights.html">Weekly Insights</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <a class="back-link" href="index.html">
+      <span class="back-arrow">←</span>
+      <span>Order Decays</span>
+    </a>
+    <h1 class="page-title">Research</h1>
+    <p class="page-subtitle">All published research — structural analysis of market systems</p>
+  </div>
+
+  <div class="search-wrap">
+    <input
+      class="search-field"
+      id="search"
+      type="text"
+      placeholder="Search research..."
+      autocomplete="off"
+      spellcheck="false"
+    >
+    <div class="search-count" id="search-count"></div>
+  </div>
+
+  <div class="article-section">
+    <div id="article-list">
+      <a class="article-row" href="research/dollar-hegemony.html" data-title="The Maintenance Cost of Dollar Hegemony">
+        <span class="article-name">The Maintenance Cost of Dollar Hegemony</span>
+        <span class="article-date">2026.03</span>
+      </a>
+      <a class="article-row" href="#" data-title="Skew as a Structural Signal">
+        <span class="article-name">Skew as a Structural Signal</span>
+        <span class="article-date">2026.02</span>
+      </a>
+      <a class="article-row" href="#" data-title="Credit Decay in the Shadow Banking System">
+        <span class="article-name">Credit Decay in the Shadow Banking System</span>
+        <span class="article-date">2026.01</span>
+      </a>
+      <a class="article-row" href="#" data-title="Liquidity Regimes and the Illusion of Depth">
+        <span class="article-name">Liquidity Regimes and the Illusion of Depth</span>
+        <span class="article-date">2025.12</span>
+      </a>
+      <a class="article-row" href="#" data-title="Term Structure Breaks and the Policy Ceiling">
+        <span class="article-name">Term Structure Breaks and the Policy Ceiling</span>
+        <span class="article-date">2025.11</span>
+      </a>
+      <a class="article-row" href="#" data-title="Repo Markets and the Architecture of Fragility">
+        <span class="article-name">Repo Markets and the Architecture of Fragility</span>
+        <span class="article-date">2025.10</span>
+      </a>
+      <a class="article-row" href="#" data-title="The Forward Guidance Trap">
+        <span class="article-name">The Forward Guidance Trap</span>
+        <span class="article-date">2025.09</span>
+      </a>
+      <a class="article-row" href="#" data-title="Cross-Asset Dislocations in Late-Cycle Credit">
+        <span class="article-name">Cross-Asset Dislocations in Late-Cycle Credit</span>
+        <span class="article-date">2025.08</span>
+      </a>
+    </div>
+    <div class="no-results" id="no-results">No research found matching your query.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Order Decays</div>
+</footer>
+
+<script>
+const searchInput = document.getElementById('search');
+const rows = document.querySelectorAll('#article-list .article-row');
+const noResults = document.getElementById('no-results');
+const searchCount = document.getElementById('search-count');
+const total = rows.length;
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  let visible = 0;
+
+  rows.forEach(row => {
+    const title = row.getAttribute('data-title').toLowerCase();
+    const match = !q || title.includes(q);
+    row.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+
+  noResults.style.display = visible === 0 ? 'block' : 'none';
+
+  if (q) {
+    searchCount.textContent = visible + ' of ' + total + ' articles';
+  } else {
+    searchCount.textContent = '';
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Article Title] — Order Decays</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --grey: #CFCFCF;
+    --mid: #888888;
+    --dim: #555555;
+    --faint: #333333;
+    --rule: rgba(255,255,255,0.06);
+    --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+  }
+
+  html { font-size: 16px; background: var(--black); }
+  body {
+    font-family: var(--font); font-weight: 300;
+    color: var(--white); background: var(--black);
+    letter-spacing: 0.035em; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+  /* ═══ NAV ═══ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 52px; height: 64px;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-wordmark {
+    font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--white); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dim);
+    text-decoration: none; transition: color 0.35s ease; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+  }
+  .nav-links a:hover { color: var(--grey); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ═══ ARTICLE HEADER ═══ */
+  .article-header {
+    padding: 148px 52px 80px;
+    max-width: 800px; margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+    text-decoration: none; transition: color 0.35s ease;
+    margin-bottom: 64px;
+  }
+  .back-link:hover { color: var(--grey); }
+  .back-arrow { transition: transform 0.35s ease; }
+  .back-link:hover .back-arrow { transform: translateX(-3px); }
+
+  .article-meta-row {
+    display: flex; align-items: center; gap: 20px;
+    margin-bottom: 32px;
+  }
+  .article-section-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--faint);
+  }
+  .meta-divider {
+    width: 1px; height: 12px; background: var(--faint);
+  }
+  .article-date-label {
+    font-size: 10px; font-weight: 300; letter-spacing: 0.16em;
+    color: var(--faint); font-variant-numeric: tabular-nums;
+  }
+
+  .article-title {
+    font-size: clamp(28px, 4.5vw, 56px); font-weight: 300;
+    letter-spacing: 0.03em; line-height: 1.15;
+    color: var(--white); margin-bottom: 32px;
+  }
+
+  .article-abstract {
+    font-size: clamp(15px, 1.6vw, 18px); font-weight: 300;
+    color: var(--dim); letter-spacing: 0.03em; line-height: 1.85;
+    max-width: 660px;
+  }
+
+  /* ═══ ARTICLE BODY ═══ */
+  .article-body {
+    max-width: 800px; margin: 0 auto;
+    padding: 80px 52px 140px;
+  }
+
+  /* ── Typography ── */
+  .article-body p {
+    font-size: clamp(15px, 1.5vw, 17px); font-weight: 300;
+    color: var(--grey); letter-spacing: 0.025em; line-height: 1.95;
+    margin-bottom: 32px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+  .article-body strong { font-weight: 400; color: var(--white); }
+  .article-body em { font-style: italic; color: var(--mid); }
+
+  /* ── Section headings ── */
+  .article-body h2 {
+    font-size: clamp(13px, 1.3vw, 15px); font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--dim); margin: 72px 0 28px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+  }
+  .article-body h3 {
+    font-size: clamp(16px, 1.8vw, 20px); font-weight: 300;
+    letter-spacing: 0.04em; color: var(--white);
+    margin: 48px 0 20px;
+  }
+
+  /* ── Pull quote ── */
+  .pull-quote {
+    margin: 64px 0; padding: 0 0 0 28px;
+    border-left: 1px solid rgba(255,255,255,0.14);
+  }
+  .pull-quote p {
+    font-size: clamp(17px, 1.9vw, 22px) !important;
+    color: var(--grey) !important; font-style: italic;
+    letter-spacing: 0.02em !important; line-height: 1.75 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* ── Key points / callout box ── */
+  .callout {
+    margin: 56px 0; padding: 36px 40px;
+    border: 1px solid var(--rule);
+  }
+  .callout-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 20px;
+  }
+  .callout ul {
+    list-style: none; display: flex; flex-direction: column; gap: 12px;
+  }
+  .callout ul li {
+    font-size: 14px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.03em; line-height: 1.6;
+    padding-left: 16px; position: relative;
+  }
+  .callout ul li::before {
+    content: ''; position: absolute; left: 0; top: 9px;
+    width: 5px; height: 1px; background: var(--faint);
+  }
+
+  /* ── Data / stat highlight ── */
+  .stat-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 56px 0;
+  }
+  .stat-cell {
+    background: var(--black); padding: 32px 28px;
+  }
+  .stat-value {
+    font-size: clamp(22px, 3vw, 36px); font-weight: 300;
+    color: var(--white); letter-spacing: 0.04em;
+    margin-bottom: 8px; font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 11px; font-weight: 300; color: var(--faint);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+
+  /* ── Section rule ── */
+  .body-rule {
+    width: 1px; height: 64px; margin: 72px auto;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+  }
+
+  /* ═══ ARTICLE FOOTER ═══ */
+  .article-end {
+    max-width: 800px; margin: 0 auto;
+    padding: 0 52px 80px;
+    border-top: 1px solid var(--rule);
+    padding-top: 56px;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;
+  }
+  .article-end-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 14px;
+  }
+  .article-end-note {
+    font-size: 13px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.03em; line-height: 1.7; max-width: 360px;
+  }
+  .back-to-research {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dim);
+    text-decoration: none; transition: color 0.35s ease;
+    white-space: nowrap; margin-top: 28px;
+  }
+  .back-to-research:hover { color: var(--grey); }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    padding: 72px 52px 56px; text-align: center;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-mark {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 20px; }
+    .nav-links a { font-size: 10px; }
+    .article-header { padding: 120px 24px 60px; }
+    .article-body { padding: 56px 24px 100px; }
+    .article-end { padding: 48px 24px 64px; flex-direction: column; }
+    .stat-row { grid-template-columns: 1fr; }
+    .callout { padding: 28px 24px; }
+    footer { padding: 56px 24px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Order Decays</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     ARTICLE HEADER — fill in your metadata
+     ═══════════════════════════════════════════ -->
+<header class="article-header">
+  <a class="back-link" href="../research.html">
+    <span class="back-arrow">←</span>
+    <span>All Research</span>
+  </a>
+
+  <div class="article-meta-row">
+    <span class="article-section-label">Research</span>
+    <div class="meta-divider"></div>
+    <!-- REPLACE: publication date in YYYY.MM format -->
+    <span class="article-date-label">2026.03</span>
+  </div>
+
+  <!-- REPLACE: your article title -->
+  <h1 class="article-title">The Maintenance Cost of Dollar Hegemony</h1>
+
+  <!-- REPLACE: 1–3 sentence abstract / lede that appears below the title -->
+  <p class="article-abstract">
+    The dollar's reserve status is not a passive condition. It is actively maintained — through military posture, debt absorption, and the quiet suppression of competing settlement mechanisms. We examine what that maintenance costs, and what happens when the bill comes due.
+  </p>
+</header>
+
+
+<!-- ═══════════════════════════════════════════
+     ARTICLE BODY — your writing goes here
+     ═══════════════════════════════════════════
+
+     Available components:
+       <p>               — body paragraph
+       <h2>              — section heading (uppercase label style)
+       <h3>              — subheading
+       <div class="pull-quote"><p>…</p></div>    — large pull quote
+       <div class="callout">…</div>              — key points box
+       <div class="stat-row">…</div>             — data highlights (3 cells)
+       <div class="body-rule"></div>             — decorative section break
+
+     ═══════════════════════════════════════════ -->
+<article class="article-body">
+
+  <h2>I. The Architecture of Reserve Status</h2>
+
+  <p>
+    [Replace this paragraph with your writing. This is the opening of your first section. Write naturally — the styling handles spacing, colour, and rhythm automatically. Aim for 120–200 words per paragraph for readability at this size.]
+  </p>
+
+  <p>
+    [Second paragraph. Use <strong>bold</strong> to stress a term or claim. Use <em>italics</em> for a phrase you want to carry a slightly different register — a qualifier, a technical term, a moment of irony.]
+  </p>
+
+  <!-- Pull quote: use sparingly — one or two per piece maximum -->
+  <div class="pull-quote">
+    <p>"[A sentence from your piece that deserves to stand alone — a strong claim, a clean formulation, or a pivot in your argument.]"</p>
+  </div>
+
+  <p>
+    [Continue the section. The pull quote above breaks the visual flow and gives the reader a breath before you push into the next point.]
+  </p>
+
+
+  <h2>II. The Costs That Do Not Appear on a Balance Sheet</h2>
+
+  <p>
+    [Open the second section. You can use as many <code>h2</code> headings as your structure requires — they render as small uppercase labels with a rule beneath them, keeping the visual weight low while clearly marking the transition.]
+  </p>
+
+  <!-- Callout box: key points, caveats, or a numbered argument structure -->
+  <div class="callout">
+    <div class="callout-label">Key observations</div>
+    <ul>
+      <li>[First key point — keep each item to one tight sentence.]</li>
+      <li>[Second key point.]</li>
+      <li>[Third key point.]</li>
+      <li>[Fourth key point, if needed.]</li>
+    </ul>
+  </div>
+
+  <p>
+    [Continue after the callout. The box above works well to crystallise an argument before you develop its implications in the following paragraphs.]
+  </p>
+
+
+  <h2>III. Signals and Expressions</h2>
+
+  <!-- Stat row: three data points side by side -->
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-value">[00%]</div>
+      <div class="stat-label">[Metric label]</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">[$0T]</div>
+      <div class="stat-label">[Metric label]</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">[0.0x]</div>
+      <div class="stat-label">[Metric label]</div>
+    </div>
+  </div>
+
+  <p>
+    [The stat row above surfaces three numbers from your analysis. Use it once per piece — it draws the eye and should anchor a key empirical claim, not decorate the page.]
+  </p>
+
+  <h3>[Optional subheading within a section]</h3>
+
+  <p>
+    [Use <code>h3</code> when a section is long enough to need internal signposting — two or three subsections at most. It renders as a mid-weight title at a larger size than the section label, creating a clear visual hierarchy without competing with the main title.]
+  </p>
+
+  <!-- Section break — use between major structural shifts -->
+  <div class="body-rule"></div>
+
+  <h2>IV. Conclusion</h2>
+
+  <p>
+    [Your closing section. Bring the argument back to the central thesis. What does the structural analysis tell us? What should a reader carry away?]
+  </p>
+
+  <p>
+    [Final paragraph. Keep it tight. The design gives the last words room to land.]
+  </p>
+
+</article>
+
+
+<!-- ═══════════════════════════════════════════
+     ARTICLE END — editorial note + back link
+     ═══════════════════════════════════════════ -->
+<div class="article-end">
+  <div>
+    <div class="article-end-label">Note</div>
+    <!-- REPLACE: optional disclosure, methodology note, or standing disclaimer -->
+    <p class="article-end-note">
+      [Optional: add a brief methodological note, data source disclosure, or standing disclaimer here — e.g. "This analysis draws on publicly available data as of [date]. It does not constitute investment advice."]
+    </p>
+  </div>
+  <a class="back-to-research" href="../research.html">← All Research</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Order Decays</div>
+</footer>
+
+</body>
+</html>

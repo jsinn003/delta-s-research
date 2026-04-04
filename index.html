@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --grey: #CFCFCF;
+    --mid: #888888;
+    --dim: #555555;
+    --faint: #333333;
+    --rule: rgba(255,255,255,0.06);
+    --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+  }
+
+  html { font-size: 16px; background: var(--black); }
+
+  body {
+    font-family: var(--font);
+    font-weight: 300;
+    color: var(--white);
+    background: var(--black);
+    letter-spacing: 0.035em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+  /* ═══ NAV ═══ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 52px; height: 64px;
+    background: transparent;
+    transition: background 0.5s ease, border-color 0.5s ease;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-color: var(--rule);
+  }
+  .nav-wordmark {
+    font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--white);
+    opacity: 0; transition: opacity 0.5s ease;
+  }
+  nav.scrolled .nav-wordmark { opacity: 1; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dim);
+    text-decoration: none; transition: color 0.35s ease; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+  }
+  .nav-links a:hover { color: var(--grey); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ═══ HERO SCROLL STAGE ═══ */
+  .hero-scroll-region { position: relative; height: 450vh; }
+  .hero-sticky {
+    position: sticky; top: 0; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-canvas-wrap {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #globe { width: min(62vw, 640px); height: min(62vw, 640px); }
+  .hero-copy {
+    position: relative; z-index: 2; text-align: center; pointer-events: none;
+  }
+  .hero-title {
+    font-size: clamp(48px, 7vw, 96px); font-weight: 300;
+    letter-spacing: 0.05em; line-height: 1.04; margin-bottom: 14px;
+  }
+  .hero-title .t-order { color: var(--white); }
+  .hero-title .t-decays {
+    background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 40%, #CFCFCF 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-subtitle {
+    font-size: clamp(12px, 1.3vw, 16px); font-weight: 300;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dim); margin-bottom: 40px; opacity: 0.8;
+  }
+  .hero-tagline {
+    font-size: clamp(13px, 1.35vw, 16px); font-weight: 300;
+    color: var(--dim); letter-spacing: 0.06em; line-height: 1.75;
+    max-width: 480px; margin: 0 auto;
+  }
+  .hero-tagline em { font-style: normal; color: var(--grey); }
+  .scroll-indicator {
+    position: absolute; bottom: 36px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 3;
+  }
+  .scroll-indicator span {
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(255,255,255,0.2);
+  }
+  .scroll-line {
+    width: 1px; height: 28px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.18), transparent);
+    animation: scrollPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.7; transform: scaleY(1.15); }
+  }
+
+  /* ═══ CONTENT ═══ */
+  .content { position: relative; z-index: 10; background: var(--black); }
+  section { padding: 140px 52px; max-width: 1120px; margin: 0 auto; }
+  .section-rule {
+    width: 1px; height: 80px; margin: 0 auto;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.12), transparent);
+  }
+  .section-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--dim); margin-bottom: 64px; text-align: center;
+  }
+
+  /* ── PHILOSOPHY ── */
+  .philosophy { text-align: center; }
+  .philosophy-body { max-width: 640px; margin: 0 auto; }
+  .philosophy-body p {
+    font-size: clamp(17px, 1.8vw, 22px); font-weight: 300;
+    line-height: 1.9; color: var(--grey); margin-bottom: 28px;
+  }
+  .philosophy-body p:last-child { margin-bottom: 0; }
+  .philosophy-body strong { font-weight: 400; color: var(--white); }
+
+  /* ── METHODOLOGY ── */
+  .method-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    max-width: 1020px; margin: 0 auto; border: 1px solid var(--rule);
+  }
+  .method-card {
+    padding: 48px 36px; display: flex; flex-direction: column;
+    border-right: 1px solid var(--rule); transition: background 0.4s ease;
+  }
+  .method-card:last-child { border-right: none; }
+  .method-card:hover { background: rgba(255,255,255,0.012); }
+  .method-idx {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+    color: var(--faint); margin-bottom: 28px; font-variant-numeric: tabular-nums;
+  }
+  .method-name {
+    font-size: 18px; font-weight: 300; color: var(--white);
+    letter-spacing: 0.04em; margin-bottom: 24px;
+  }
+  .method-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: auto; }
+  .method-list li {
+    font-size: 13px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.03em; padding-left: 14px; position: relative; line-height: 1.5;
+  }
+  .method-list li::before {
+    content: ''; position: absolute; left: 0; top: 7px;
+    width: 4px; height: 1px; background: var(--faint);
+  }
+  .method-summary {
+    margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--rule);
+    font-size: 12px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.06em; font-style: italic;
+  }
+  .method-flow {
+    text-align: center; padding: 44px 0 0;
+    font-size: 13px; font-weight: 300; color: var(--faint); letter-spacing: 0.16em;
+  }
+  .method-flow .arrow { color: var(--dim); margin: 0 6px; }
+
+  /* ── RESEARCH ── */
+  .research { padding-bottom: 100px; }
+  .article-list { max-width: 720px; margin: 0 auto; }
+  .article-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 28px 0; border-bottom: 1px solid var(--rule);
+    text-decoration: none; color: inherit; transition: opacity 0.3s ease; cursor: pointer;
+  }
+  .article-row:first-child { border-top: 1px solid var(--rule); }
+  .article-row:hover { opacity: 0.55; }
+  .article-name {
+    font-size: 15px; font-weight: 300; color: var(--grey);
+    letter-spacing: 0.02em; line-height: 1.45;
+  }
+  .article-date {
+    font-size: 11px; font-weight: 300; color: var(--faint);
+    letter-spacing: 0.08em; white-space: nowrap; margin-left: 32px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── RESEARCH COLLAPSE ── */
+  .article-collapsed { display: none; }
+  .article-collapsed.open { display: block; }
+
+  .research-expand-wrap {
+    max-width: 720px; margin: 0 auto;
+    display: flex; align-items: center; gap: 24px;
+    padding-top: 36px;
+  }
+  .research-expand-line {
+    flex: 1; height: 1px; background: var(--rule);
+  }
+  .research-expand-btn {
+    font-size: 10px; font-weight: 300; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--dim);
+    background: none; border: none; cursor: pointer;
+    transition: color 0.3s ease; padding: 0; white-space: nowrap;
+  }
+  .research-expand-btn:hover { color: var(--grey); }
+
+  .research-view-all {
+    max-width: 720px; margin: 40px auto 0;
+    display: flex; justify-content: center;
+  }
+  .research-view-all a {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--faint);
+    text-decoration: none; transition: color 0.35s ease;
+    position: relative;
+  }
+  .research-view-all a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0;
+    width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+  }
+  .research-view-all a:hover { color: var(--grey); }
+  .research-view-all a:hover::after { width: 100%; }
+
+  /* ── WEEKLY MARKET INSIGHTS ── */
+  .insights { text-align: center; }
+  .insights-intro {
+    max-width: 560px; margin: 0 auto 64px;
+    font-size: clamp(14px, 1.4vw, 17px); font-weight: 300;
+    color: var(--dim); letter-spacing: 0.04em; line-height: 1.85;
+  }
+  .insights-cta-wrap {
+    display: flex; justify-content: center;
+  }
+  .insights-cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    border: 1px solid var(--rule); padding: 28px 52px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.4s ease, background 0.4s ease;
+    cursor: pointer;
+  }
+  .insights-cta:hover {
+    border-color: rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.018);
+  }
+  .insights-cta-label {
+    font-size: 12px; font-weight: 300; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--grey);
+  }
+  .insights-cta-arrow {
+    font-size: 14px; color: var(--dim);
+    transition: transform 0.35s ease, color 0.35s ease;
+  }
+  .insights-cta:hover .insights-cta-arrow { transform: translateX(4px); color: var(--grey); }
+  .insights-meta {
+    margin-top: 36px;
+    font-size: 11px; font-weight: 300; letter-spacing: 0.12em;
+    color: var(--faint); font-style: italic;
+  }
+
+  /* ── ABOUT ── */
+  .about { text-align: center; }
+  .about-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    max-width: 900px; margin: 0 auto 80px; gap: 1px;
+    border: 1px solid var(--rule);
+  }
+  .about-cell {
+    padding: 48px 40px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+  }
+  .about-cell:nth-child(2n) { border-right: none; }
+  .about-cell:nth-child(3), .about-cell:nth-child(4) { border-bottom: none; }
+  .about-cell-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 20px;
+  }
+  .about-cell-body {
+    font-size: 14px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.03em; line-height: 1.8;
+  }
+  .about-cell-body em { color: var(--grey); font-style: normal; }
+  .about-founders {
+    max-width: 720px; margin: 0 auto;
+  }
+  .about-founders-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint);
+    margin-bottom: 40px; text-align: center;
+  }
+  .founder-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 24px 0; border-bottom: 1px solid var(--rule);
+  }
+  .founder-row:first-of-type { border-top: 1px solid var(--rule); }
+  .founder-name {
+    font-size: 15px; font-weight: 300; color: var(--grey); letter-spacing: 0.03em;
+  }
+  .founder-role {
+    font-size: 11px; font-weight: 300; color: var(--faint); letter-spacing: 0.1em;
+  }
+  .founder-contact {
+  font-size: 11px; font-weight: 300; color: var(--faint); letter-spacing: 0.1em;
+  }
+
+  /* ── CONTACT ── */
+  .contact { text-align: center; }
+  .contact-intro {
+    max-width: 500px; margin: 0 auto 72px;
+    font-size: clamp(15px, 1.5vw, 18px); font-weight: 300;
+    color: var(--dim); letter-spacing: 0.04em; line-height: 1.85;
+  }
+  .contact-grid {
+    display: inline-block;
+    width: fit-content;
+    margin: 0 auto;
+    border: 1px solid var(--rule);
+  }
+  .contact-card {
+    padding: 44px 36px; border-right: 1px solid var(--rule);
+    text-align: center; transition: background 0.4s ease;
+  }
+  .contact-card:last-child { border-right: none; }
+  .contact-card:hover { background: rgba(255,255,255,0.012); }
+  .contact-card-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 20px;
+  }
+  .contact-card-value {
+    font-size: 14px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.04em; line-height: 1.7;
+  }
+  .contact-card-value a {
+    color: var(--grey); text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+  .contact-card-value a:hover { opacity: 0.6; }
+  .contact-note {
+    max-width: 560px; margin: 56px auto 0;
+    font-size: 12px; font-weight: 300; color: var(--faint);
+    letter-spacing: 0.06em; line-height: 1.9; font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 96px 52px 72px; text-align: center;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-closing {
+    font-size: 14px; font-weight: 300; color: var(--dim);
+    letter-spacing: 0.05em; line-height: 1.85;
+    max-width: 520px; margin: 0 auto 56px;
+  }
+  .footer-mark {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+  }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #globe { width: min(80vw, 480px); height: min(80vw, 480px); }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-cell { border-right: none; border-bottom: 1px solid var(--rule); padding: 36px 24px; }
+    .about-cell:last-child { border-bottom: none; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-card { border-right: none; border-bottom: 1px solid var(--rule); }
+    .contact-card:last-child { border-bottom: none; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; height: 56px; }
+    .nav-links { gap: 20px; }
+    .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+    section { padding: 100px 24px; }
+    .method-grid { grid-template-columns: 1fr; border: none; }
+    .method-card { border-right: none; border-bottom: 1px solid var(--rule); padding: 36px 0; }
+    .method-card:last-child { border-bottom: none; }
+    .article-row { flex-direction: column; gap: 6px; }
+    .article-date { margin-left: 0; }
+    footer { padding: 72px 24px 56px; }
+    .hero-scroll-region { height: 380vh; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-wordmark">Delta S Research</div>
+  <ul class="nav-links">
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#methodology">Methodology</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="market-insights.html">Weekly Insights</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero-scroll-region" id="hero-region">
+  <div class="hero-sticky">
+    <div class="hero-canvas-wrap">
+      <canvas id="globe"></canvas>
+    </div>
+    <div class="hero-copy" id="hero-copy">
+      <h1 class="hero-title">
+        <span class="t-order">Delta S</span><br>
+        <span class="t-decays">Research</span>
+      </h1>
+      <p class="hero-subtitle">The Cost of Stability</p>
+      <p class="hero-tagline">
+        Markets are not stable systems.<br>
+        They are <em>maintained</em> systems.
+      </p>
+    </div>
+    <div class="scroll-indicator" id="scroll-ind">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="section-rule"></div>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy" id="philosophy">
+    <div class="section-label reveal">Philosophy</div>
+    <div class="philosophy-body reveal">
+      <p>Stability is not natural. It is <strong>constructed</strong> — sustained through continuous intervention, narrative reinforcement, and rising cost.</p>
+      <p>Every system that appears stable is consuming resources to remain so. Instability does not arrive from outside. It accumulates within.</p>
+      <p>We study the cost of that maintenance — and the conditions under which it can no longer be sustained.</p>
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- METHODOLOGY -->
+  <section class="methodology" id="methodology">
+    <div class="section-label reveal">Methodology</div>
+    <div class="method-grid reveal">
+      <div class="method-card">
+        <div class="method-idx">01</div>
+        <div class="method-name">Structure</div>
+        <ul class="method-list">
+          <li>Monetary system</li>
+          <li>Credit system</li>
+          <li>Liquidity architecture</li>
+          <li>Institutional framework</li>
+        </ul>
+        <div class="method-summary">How the system operates</div>
+      </div>
+      <div class="method-card">
+        <div class="method-idx">02</div>
+        <div class="method-name">Decay</div>
+        <ul class="method-list">
+          <li>Rising maintenance cost</li>
+          <li>Policy dependency</li>
+          <li>Narrative reinforcement</li>
+          <li>Structural fragility</li>
+        </ul>
+        <div class="method-summary">Where instability accumulates</div>
+      </div>
+      <div class="method-card">
+        <div class="method-idx">03</div>
+        <div class="method-name">Expression</div>
+        <ul class="method-list">
+          <li>Implied vs realized volatility</li>
+          <li>Skew</li>
+          <li>Term structure</li>
+          <li>Cross-asset dislocations</li>
+        </ul>
+        <div class="method-summary">How markets price it</div>
+      </div>
+    </div>
+    <div class="method-flow reveal">
+      Structure <span class="arrow">→</span> Decay <span class="arrow">→</span> Mispricing
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- RESEARCH -->
+  <section class="research" id="research">
+    <div class="section-label reveal">Research</div>
+    <div class="article-list reveal">
+      <!-- Top 5 always visible -->
+      <a class="article-row" href="research/dollar-hegemony.html">
+        <span class="article-name">The Maintenance Cost of Dollar Hegemony</span>
+        <span class="article-date">2026.03</span>
+      </a>
+      <a class="article-row" href="#">
+        <span class="article-name">Skew as a Structural Signal</span>
+        <span class="article-date">2026.02</span>
+      </a>
+      <a class="article-row" href="#">
+        <span class="article-name">Credit Decay in the Shadow Banking System</span>
+        <span class="article-date">2026.01</span>
+      </a>
+      <a class="article-row" href="#">
+        <span class="article-name">Liquidity Regimes and the Illusion of Depth</span>
+        <span class="article-date">2025.12</span>
+      </a>
+      <a class="article-row" href="#">
+        <span class="article-name">Term Structure Breaks and the Policy Ceiling</span>
+        <span class="article-date">2025.11</span>
+      </a>
+
+      <!-- Collapsed articles — add more here as your archive grows -->
+      <div class="article-collapsed" id="research-collapsed">
+        <a class="article-row" href="#">
+          <span class="article-name">Repo Markets and the Architecture of Fragility</span>
+          <span class="article-date">2025.10</span>
+        </a>
+        <a class="article-row" href="#">
+          <span class="article-name">The Forward Guidance Trap</span>
+          <span class="article-date">2025.09</span>
+        </a>
+        <a class="article-row" href="#">
+          <span class="article-name">Cross-Asset Dislocations in Late-Cycle Credit</span>
+          <span class="article-date">2025.08</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Expand / Collapse toggle -->
+    <div class="research-expand-wrap reveal">
+      <div class="research-expand-line"></div>
+      <button class="research-expand-btn" id="research-toggle" onclick="toggleResearch()">
+        Show more
+      </button>
+      <div class="research-expand-line"></div>
+    </div>
+
+    <!-- Link to full archive -->
+    <div class="research-view-all reveal">
+      <a href="research.html">View all research &rarr;</a>
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- WEEKLY MARKET INSIGHTS -->
+  <section class="insights" id="insights">
+    <div class="section-label reveal">Weekly Market Insights</div>
+    <p class="insights-intro reveal">
+      Each week we publish a focused analysis of structural developments across rates, credit, and volatility markets to trace the cost of stability in real time.
+    </p>
+    <div class="insights-cta-wrap reveal">
+      <a class="insights-cta" href="market-insights.html">
+        <span class="insights-cta-label">Browse all weekly insights</span>
+        <span class="insights-cta-arrow">→</span>
+      </a>
+    </div>
+    <p class="insights-meta reveal">Updated every week — searchable archive available</p>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-label reveal">About</div>
+    <div class="about-grid reveal">
+      <div class="about-cell">
+        <div class="about-cell-label">Who we are</div>
+        <div class="about-cell-body">
+          <em>Delta S Research is an investment research team founded by a group of researchers across Singapore, London, and Hong Kong. With academic roots at the London School of Economics and Nanyang Technological University, we focus on both quantitative research and active portfolio management, exploring how market entropy shapes the decisions of investors.</em>
+        </div>
+      </div>
+      <div class="about-cell">
+        <div class="about-cell-label">What we do</div>
+        <div class="about-cell-body">
+          <em>We examine how shifts in market entropy shape investor behavior and drive price formation. Our research is not purely theoretical or abstract, but is designed to center around execution.</em>
+        </div>
+      </div>
+      <div class="about-cell">
+        <div class="about-cell-label">Our approach</div>
+        <div class="about-cell-body">
+          <em>We start with careful, ground-up research and turn it into algorithmic ways of reading the market. Options strategies are the core of how we operate, and our algorithms help interpret signals and guide decisions. We actively manage our assets to effectively navigate volatile markets. </em>
+        </div>
+      </div>
+      <div class="about-cell">
+        <div class="about-cell-label">Audience</div>
+        <div class="about-cell-body">
+          <em>Our work is for investors, capital allocators, and researchers who reject the assumption of stable equilibrium. We focus on those who view markets as changing systems. We believe that understanding disorder, rather than assuming stability, provides a more reliable basis for strategy. </em>
+        </div>
+      </div>
+    </div>
+    <div class="about-founders reveal">
+      <div class="about-founders-label">Team</div>
+      <div class="founder-row">
+        <span class="founder-name">Fraklin Xiong</span>
+        <span class="founder-contact">frank@orderdecay.com</span>
+        <span class="founder-role">Founder & Director of Research</span>
+      </div>
+      <div class="founder-row">
+        <span class="founder-name">Jason Shan</span>
+        <span class="founder-contact">jason@orderdecay.com</span>
+        <span class="founder-role">Founder & Director of Strategy</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-label reveal">Contact</div>
+    <p class="contact-intro reveal">
+      For research inquiries, institutional access, or press, please feel free to reach us through one of the channels below.
+    </p>
+    <div class="contact-grid reveal">
+      <div class="contact-card">
+        <div class="contact-card-label">General Inquiries</div>
+        <div class="contact-card-value">
+          <a href="mailto:hello@orderdecays.com">contact@orderdecay.com</a><br>
+          <span style="font-size:12px; color: var(--faint); margin-top:8px; display:block;"> We will respond to your inquiry as soon as possible. If you have any urgent request, please copy our founders in your email to expedite your inquiry. Thank you for your understanding. </span>
+        </div>
+      </div>
+    </div>
+    <p class="contact-note reveal">
+      "We are not a traditional research team, and we welcome unsolicited inquiries. We are always open to new ideas, research collaborations, and partnership opportunities. If you have any research idea, no matter how small, please feel free to connect with us! However, please note that defamatory, spamming, or unreasonable requests will not be entertained."
+    </p>
+  </section>
+</div>
+
+<footer>
+  <p class="footer-closing reveal">
+    We do not interpret markets.<br>
+    We study the structures that sustain them —<br>
+    and the conditions under which they fail.
+  </p>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+/* ═══ NAV ═══ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+
+/* ═══ REVEAL ═══ */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ═══ RESEARCH COLLAPSE ═══ */
+function toggleResearch() {
+  const collapsed = document.getElementById('research-collapsed');
+  const btn = document.getElementById('research-toggle');
+  const open = collapsed.classList.toggle('open');
+  btn.textContent = open ? 'Show less' : 'Show more';
+}
+
+/* ═══ SCROLL PROGRESS ═══ */
+const heroRegion = document.getElementById('hero-region');
+const heroCopy = document.getElementById('hero-copy');
+const scrollInd = document.getElementById('scroll-ind');
+let scrollProgress = 0;
+
+function getProgress() {
+  const rect = heroRegion.getBoundingClientRect();
+  const runway = heroRegion.offsetHeight - window.innerHeight;
+  return Math.min(Math.max(-rect.top / runway, 0), 1);
+}
+
+function updateHeroCopy() {
+  scrollProgress = getProgress();
+  const p = scrollProgress;
+  const copyFade = 1 - Math.min(Math.max((p - 0.12) / 0.25, 0), 1);
+  const copyShift = Math.min(Math.max((p - 0.12) / 0.25, 0), 1) * -50;
+  heroCopy.style.opacity = copyFade.toFixed(3);
+  heroCopy.style.transform = 'translateY(' + copyShift.toFixed(1) + 'px)';
+  scrollInd.style.opacity = (1 - Math.min(p / 0.06, 1)).toFixed(3);
+}
+window.addEventListener('scroll', updateHeroCopy, { passive: true });
+
+/* ═══════════════════════════════════════════════════════════════════════
+   WIREFRAME GLOBE — VERTEX-BASED STRUCTURAL DECAY
+   ═══════════════════════════════════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('globe');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    canvas.width = r.width * dpr;
+    canvas.height = r.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const RINGS = 16;
+  const SEGS = 30;
+  const FOCAL_THETA = 0.35;
+  const FOCAL_PHI = Math.PI * 0.48;
+  const DECAY_RADIUS_MAX = Math.PI * 1.1;
+
+  const vertices = [];
+  for (let i = 0; i <= RINGS; i++) {
+    vertices[i] = [];
+    const phi = (Math.PI / RINGS) * i;
+    for (let j = 0; j < SEGS; j++) {
+      const theta = (Math.PI * 2 / SEGS) * j;
+      const dt = Math.atan2(Math.sin(theta - FOCAL_THETA), Math.cos(theta - FOCAL_THETA));
+      const dp = phi - FOCAL_PHI;
+      const focalDist = Math.sqrt(dt * dt + dp * dp);
+      const seed = Math.sin(i * 127.1 + j * 311.7) * 43758.5453;
+      const rand = seed - Math.floor(seed);
+      vertices[i][j] = {
+        theta, phi, focalDist, rand,
+        px: 0, py: 0, vx: 0, vy: 0,
+        detached: false, detachTime: 0, particleLife: 1.0,
+      };
+    }
+  }
+
+  let time = 0;
+
+  function smoothstep(a, b, t) {
+    const x = Math.min(Math.max((t - a) / (b - a), 0), 1);
+    return x * x * (3 - 2 * x);
+  }
+
+  function project(x, y, z, size) {
+    const cx = size / 2, cy = size / 2;
+    const d = 560;
+    const p = d / (d + z);
+    return { x: cx + x * p, y: cy + y * p * 0.97, z, p };
+  }
+
+  function computeVertex(v, progress, size) {
+    const R = size * 0.36;
+    const rotSpeed = 0.055 - progress * 0.025;
+    const waveRadius = smoothstep(0.08, 0.85, progress) * DECAY_RADIUS_MAX;
+    const distFromWave = v.focalDist - waveRadius;
+    const insideWave = Math.min(Math.max(-distFromWave / 0.8, 0), 1);
+    const decayBase = insideWave * smoothstep(0.06, 0.5, progress);
+    const decayNoise = v.rand * 0.35;
+    const decay = Math.min(Math.max(decayBase + (decayBase > 0.1 ? decayNoise * decayBase : 0), 0), 1);
+
+    const isDisconnected = decay > (0.55 + v.rand * 0.2);
+    const nodeVisible = decay < (0.9 + v.rand * 0.1);
+    const coherence = 1 - smoothstep(0.15, 0.75, decay);
+    const lineWeight = 1 - smoothstep(0.1, 0.6, decay) * 0.7;
+    const stress = smoothstep(0.1, 0.45, decay);
+    const compression = stress * 14;
+    const twist = stress * 0.06;
+
+    const rTheta = v.theta + time * rotSpeed;
+    let nx = Math.sin(v.phi) * Math.cos(rTheta);
+    let ny = Math.cos(v.phi);
+    let nz = Math.sin(v.phi) * Math.sin(rTheta);
+    const ct = Math.cos(twist), st = Math.sin(twist);
+    const tx = nx * ct - nz * st;
+    const tz = nx * st + nz * ct;
+    const r = R - compression;
+    const wx = r * tx, wy = r * ny, wz = r * tz;
+    const projected = project(wx, wy, wz, size);
+
+    if (isDisconnected && !v.detached) {
+      v.detached = true;
+      v.detachTime = time;
+      v.px = projected.x;
+      v.py = projected.y;
+      const dx = projected.x - size / 2;
+      const dy = projected.y - size / 2;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      v.vx = (dx / dist) * (0.08 + v.rand * 0.12) + (v.rand - 0.5) * 0.06;
+      v.vy = (dy / dist) * (0.08 + v.rand * 0.12) + (Math.sin(v.rand * 20) - 0.5) * 0.06;
+      v.particleLife = 1.0;
+    }
+
+    if (v.detached) {
+      v.px += v.vx;
+      v.py += v.vy;
+      v.vx *= 0.997;
+      v.vy *= 0.997;
+      v.particleLife -= 0.0018 + v.rand * 0.001;
+    }
+
+    return {
+      sx: projected.x, sy: projected.y, sz: projected.z, sp: projected.p,
+      coherence, lineWeight, isDisconnected, nodeVisible, decay,
+      detached: v.detached, px: v.px, py: v.py, particleLife: v.particleLife,
+    };
+  }
+
+  function draw() {
+    const size = canvas.getBoundingClientRect().width || 520;
+    ctx.clearRect(0, 0, size, size);
+    const progress = scrollProgress;
+    const globalAlpha = 1 - smoothstep(0.82, 1.0, progress) * 0.5;
+
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size * 0.38, 0, Math.PI * 2);
+    const halo = ctx.createRadialGradient(size/2, size/2, size*0.15, size/2, size/2, size*0.44);
+    const haloA = 0.022 * globalAlpha;
+    halo.addColorStop(0, 'rgba(255,255,255,' + haloA + ')');
+    halo.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = halo;
+    ctx.fill();
+
+    const states = [];
+    for (let i = 0; i <= RINGS; i++) {
+      states[i] = [];
+      for (let j = 0; j < SEGS; j++) {
+        states[i][j] = computeVertex(vertices[i][j], progress, size);
+      }
+    }
+
+    for (let i = 0; i <= RINGS; i++) {
+      for (let j = 0; j < SEGS; j++) {
+        const j2 = (j + 1) % SEGS;
+        const a = states[i][j], b = states[i][j2];
+        if (a.isDisconnected || b.isDisconnected) continue;
+        if (a.coherence < 0.02 && b.coherence < 0.02) continue;
+        if (i === 0 || i === RINGS) continue;
+        const alpha = Math.min(a.coherence, b.coherence) * 0.16 * globalAlpha;
+        const weight = Math.min(a.lineWeight, b.lineWeight) * 0.65;
+        if (alpha < 0.003) continue;
+        ctx.beginPath();
+        ctx.moveTo(a.sx, a.sy);
+        ctx.lineTo(b.sx, b.sy);
+        ctx.strokeStyle = 'rgba(255,255,255,' + alpha.toFixed(4) + ')';
+        ctx.lineWidth = weight;
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < RINGS; i++) {
+      for (let j = 0; j < SEGS; j++) {
+        const a = states[i][j], b = states[i+1][j];
+        if (a.isDisconnected || b.isDisconnected) continue;
+        if (a.coherence < 0.02 && b.coherence < 0.02) continue;
+        const alpha = Math.min(a.coherence, b.coherence) * 0.13 * globalAlpha;
+        const weight = Math.min(a.lineWeight, b.lineWeight) * 0.58;
+        if (alpha < 0.003) continue;
+        ctx.beginPath();
+        ctx.moveTo(a.sx, a.sy);
+        ctx.lineTo(b.sx, b.sy);
+        ctx.strokeStyle = 'rgba(255,255,255,' + alpha.toFixed(4) + ')';
+        ctx.lineWidth = weight;
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 1; i < RINGS; i++) {
+      for (let j = 0; j < SEGS; j++) {
+        const s = states[i][j];
+        if (s.isDisconnected || !s.nodeVisible) continue;
+        const depthFactor = Math.max(0.05, (s.sz + size * 0.36) / (size * 0.72));
+        const alpha = s.coherence * depthFactor * 0.32 * globalAlpha;
+        if (alpha < 0.005) continue;
+        const r = Math.max(0.4, 0.85 * s.sp * s.lineWeight);
+        ctx.beginPath();
+        ctx.arc(s.sx, s.sy, r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + alpha.toFixed(4) + ')';
+        ctx.fill();
+      }
+    }
+
+    for (let i = 1; i < RINGS; i++) {
+      for (let j = 0; j < SEGS; j++) {
+        const v = vertices[i][j];
+        const s = states[i][j];
+        if (!v.detached || v.particleLife <= 0) continue;
+        const alpha = v.particleLife * 0.2 * globalAlpha;
+        const r = v.particleLife * (0.5 + v.rand * 0.4);
+        ctx.beginPath();
+        ctx.arc(v.px, v.py, r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + alpha.toFixed(4) + ')';
+        ctx.fill();
+        if (v.particleLife > 0.5) {
+          const trailAlpha = (v.particleLife - 0.5) * 0.08 * globalAlpha;
+          ctx.beginPath();
+          ctx.moveTo(s.sx, s.sy);
+          ctx.lineTo(v.px, v.py);
+          ctx.strokeStyle = 'rgba(255,255,255,' + trailAlpha.toFixed(4) + ')';
+          ctx.lineWidth = 0.3;
+          ctx.stroke();
+        }
+      }
+    }
+
+    if (progress > 0.15) {
+      const stressAlpha = smoothstep(0.15, 0.5, progress) * 0.018 * globalAlpha;
+      const fRot = FOCAL_THETA + time * (0.055 - progress * 0.025);
+      const fNx = Math.sin(FOCAL_PHI) * Math.cos(fRot);
+      const fNy = Math.cos(FOCAL_PHI);
+      const fNz = Math.sin(FOCAL_PHI) * Math.sin(fRot);
+      const fR = size * 0.36;
+      const fp = project(fR * fNx, fR * fNy, fR * fNz, size);
+      const stressR = smoothstep(0.15, 0.7, progress) * size * 0.22;
+      const stressGrad = ctx.createRadialGradient(fp.x, fp.y, 0, fp.x, fp.y, stressR);
+      stressGrad.addColorStop(0, 'rgba(255,255,255,' + stressAlpha.toFixed(4) + ')');
+      stressGrad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.beginPath();
+      ctx.arc(fp.x, fp.y, stressR, 0, Math.PI * 2);
+      ctx.fillStyle = stressGrad;
+      ctx.fill();
+    }
+
+    time += 0.01;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Market Insights — Order Decays</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --grey: #CFCFCF;
+    --mid: #888888;
+    --dim: #555555;
+    --faint: #333333;
+    --rule: rgba(255,255,255,0.06);
+    --rule-hover: rgba(255,255,255,0.1);
+    --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+  }
+
+  html { font-size: 16px; background: var(--black); }
+  body {
+    font-family: var(--font); font-weight: 300;
+    color: var(--white); background: var(--black);
+    letter-spacing: 0.035em; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+  /* ═══ NAV ═══ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 52px; height: 64px;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-wordmark {
+    font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--white); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dim);
+    text-decoration: none; transition: color 0.35s ease; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+  }
+  .nav-links a:hover { color: var(--grey); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ═══ PAGE ═══ */
+  .page-wrap { padding-top: 64px; min-height: 100vh; }
+
+  .page-header {
+    padding: 100px 52px 72px;
+    max-width: 1120px; margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+    text-decoration: none; transition: color 0.35s ease;
+    margin-bottom: 56px;
+  }
+  .back-link:hover { color: var(--grey); }
+  .back-arrow { font-size: 13px; transition: transform 0.35s ease; }
+  .back-link:hover .back-arrow { transform: translateX(-3px); }
+  .page-title {
+    font-size: clamp(32px, 5vw, 64px); font-weight: 300;
+    letter-spacing: 0.04em; color: var(--white); margin-bottom: 16px;
+  }
+  .page-subtitle {
+    font-size: 13px; font-weight: 300; color: var(--dim); letter-spacing: 0.1em;
+  }
+
+  /* ═══ CONTROLS ═══ */
+  .controls-wrap {
+    max-width: 1120px; margin: 0 auto;
+    padding: 48px 52px 0;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
+  }
+  .search-group { flex: 1; max-width: 480px; }
+  .search-label {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 12px; display: block;
+  }
+  .search-field {
+    width: 100%; background: none;
+    border: none; border-bottom: 1px solid var(--rule);
+    color: var(--grey); font-family: var(--font);
+    font-size: 14px; font-weight: 300; letter-spacing: 0.05em;
+    padding: 12px 0; outline: none;
+    transition: border-color 0.35s ease;
+  }
+  .search-field::placeholder { color: var(--faint); letter-spacing: 0.1em; }
+  .search-field:focus { border-color: rgba(255,255,255,0.18); }
+  .results-meta {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.1em;
+    color: var(--faint); padding-bottom: 2px; text-align: right;
+    min-height: 18px;
+  }
+
+  /* ═══ GRID ═══ */
+  .insights-grid-wrap {
+    max-width: 1120px; margin: 0 auto;
+    padding: 52px 52px 120px;
+  }
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .insight-card {
+    background: var(--black);
+    padding: 40px 36px 44px;
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: background 0.35s ease;
+    position: relative;
+  }
+  .insight-card:hover { background: rgba(255,255,255,0.014); }
+  .insight-card.hidden { display: none; }
+
+  .card-week {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint);
+    margin-bottom: 20px; font-variant-numeric: tabular-nums;
+  }
+  .card-title {
+    font-size: 15px; font-weight: 300; color: var(--grey);
+    letter-spacing: 0.02em; line-height: 1.5;
+    margin-bottom: 20px; flex: 1;
+  }
+  .card-tags {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+  }
+  .card-tag {
+    font-size: 10px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+    border: 1px solid var(--rule); padding: 4px 10px;
+  }
+  .card-arrow {
+    font-size: 13px; color: var(--faint);
+    transition: color 0.35s ease, transform 0.35s ease;
+    align-self: flex-end;
+  }
+  .insight-card:hover .card-arrow { color: var(--grey); transform: translate(3px, -3px); }
+
+  .no-results {
+    grid-column: 1 / -1;
+    padding: 72px 0;
+    font-size: 13px; font-weight: 300; color: var(--faint);
+    letter-spacing: 0.1em; text-align: center;
+    display: none;
+  }
+  .no-results.visible { display: block; }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    padding: 72px 52px 56px; text-align: center;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-mark {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+  }
+
+  @media (max-width: 1000px) {
+    .insights-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 20px; }
+    .nav-links a { font-size: 10px; }
+    .page-header { padding: 80px 24px 56px; }
+    .controls-wrap { flex-direction: column; align-items: flex-start; padding: 36px 24px 0; gap: 20px; }
+    .results-meta { text-align: left; }
+    .insights-grid-wrap { padding: 36px 24px 80px; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .insight-card { padding: 32px 24px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="index.html">Order Decays</a>
+  <ul class="nav-links">
+    <li><a href="index.html#philosophy">Philosophy</a></li>
+    <li><a href="index.html#methodology">Methodology</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="market-insights.html">Weekly Insights</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <a class="back-link" href="index.html">
+      <span class="back-arrow">←</span>
+      <span>Order Decays</span>
+    </a>
+    <h1 class="page-title">Weekly Market Insights</h1>
+    <p class="page-subtitle">Published every week — structural analysis of live market conditions</p>
+  </div>
+
+  <div class="controls-wrap">
+    <div class="search-group">
+      <label class="search-label" for="search">Search insights</label>
+      <input
+        class="search-field"
+        id="search"
+        type="text"
+        placeholder="Title, topic, or keyword..."
+        autocomplete="off"
+        spellcheck="false"
+      >
+    </div>
+    <div class="results-meta" id="results-meta"></div>
+  </div>
+
+  <div class="insights-grid-wrap">
+    <div class="insights-grid" id="insights-grid">
+
+      <!-- Add new weekly insights here — copy one .insight-card block per article -->
+      <a class="insight-card" href="insights/market-recap-0330.html" data-title="Your Article Title Here">
+        <div class="card-week">Week of 2026.03.30</div>
+        <div class="card-title">Weekly Market Recap | Mar 30 – Apr 2, 2026: Selling Volatility, Not Direction</div>
+        <div class="card-tags">
+          <span class="card-tag">Volatility</span>
+          <span class="card-tag">Options</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Volatility Surface Compression and the Risk of a Sudden Unwind">
+        <div class="card-week">Week of 2026.03.30</div>
+        <div class="card-title">Volatility Surface Compression and the Risk of a Sudden Unwind</div>
+        <div class="card-tags">
+          <span class="card-tag">Volatility</span>
+          <span class="card-tag">Options</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Credit Spreads Are Calm. That Is the Problem.">
+        <div class="card-week">Week of 2026.03.23</div>
+        <div class="card-title">Credit Spreads Are Calm. That Is the Problem.</div>
+        <div class="card-tags">
+          <span class="card-tag">Credit</span>
+          <span class="card-tag">HY</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Front-End Rate Suppression and the Shape of the Next Dislocation">
+        <div class="card-week">Week of 2026.03.16</div>
+        <div class="card-title">Front-End Rate Suppression and the Shape of the Next Dislocation</div>
+        <div class="card-tags">
+          <span class="card-tag">Rates</span>
+          <span class="card-tag">Fed</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Dollar Liquidity Cracks: Offshore Funding Under Pressure">
+        <div class="card-week">Week of 2026.03.09</div>
+        <div class="card-title">Dollar Liquidity Cracks: Offshore Funding Under Pressure</div>
+        <div class="card-tags">
+          <span class="card-tag">Dollar</span>
+          <span class="card-tag">FX</span>
+          <span class="card-tag">Liquidity</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Skew Pricing as a Leading Indicator: What the Options Market Is Saying">
+        <div class="card-week">Week of 2026.03.02</div>
+        <div class="card-title">Skew Pricing as a Leading Indicator: What the Options Market Is Saying</div>
+        <div class="card-tags">
+          <span class="card-tag">Options</span>
+          <span class="card-tag">Skew</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="The Repo Stress Playbook: History, Mechanics, and Current Signals">
+        <div class="card-week">Week of 2026.02.23</div>
+        <div class="card-title">The Repo Stress Playbook: History, Mechanics, and Current Signals</div>
+        <div class="card-tags">
+          <span class="card-tag">Repo</span>
+          <span class="card-tag">Funding</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Equity Positioning and the Hidden Leverage in Systematic Strategies">
+        <div class="card-week">Week of 2026.02.16</div>
+        <div class="card-title">Equity Positioning and the Hidden Leverage in Systematic Strategies</div>
+        <div class="card-tags">
+          <span class="card-tag">Equities</span>
+          <span class="card-tag">CTA</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Sovereign Spreads and the Cost of Political Risk Repricing">
+        <div class="card-week">Week of 2026.02.09</div>
+        <div class="card-title">Sovereign Spreads and the Cost of Political Risk Repricing</div>
+        <div class="card-tags">
+          <span class="card-tag">Sovereign</span>
+          <span class="card-tag">EM</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="insight-card" href="#" data-title="Cross-Asset Correlation Breakdown: When Hedges Stop Working">
+        <div class="card-week">Week of 2026.02.02</div>
+        <div class="card-title">Cross-Asset Correlation Breakdown: When Hedges Stop Working</div>
+        <div class="card-tags">
+          <span class="card-tag">Multi-Asset</span>
+          <span class="card-tag">Correlation</span>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <!-- No-results placeholder -->
+      <div class="no-results" id="no-results">No insights found matching your search.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Order Decays</div>
+</footer>
+
+<script>
+const searchInput = document.getElementById('search');
+const cards = document.querySelectorAll('#insights-grid .insight-card');
+const noResults = document.getElementById('no-results');
+const resultsMeta = document.getElementById('results-meta');
+const total = cards.length;
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  let visible = 0;
+
+  cards.forEach(card => {
+    const title = card.getAttribute('data-title').toLowerCase();
+    const match = !q || title.includes(q);
+    card.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+
+  const none = visible === 0;
+  noResults.classList.toggle('visible', none);
+
+  if (q) {
+    resultsMeta.textContent = visible + ' of ' + total + ' insights';
+  } else {
+    resultsMeta.textContent = total + ' insights';
+  }
+});
+
+// Show total on load
+resultsMeta.textContent = total + ' insights';
+</script>
+</body>
+</html>
