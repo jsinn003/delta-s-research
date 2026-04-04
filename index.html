@@ -431,7 +431,10 @@
     <div class="hero-copy" id="hero-copy">
       <h1 class="hero-title">
         <span class="t-order" style="display: block;">Delta S</span>
-        <span id="order-decay-text" style="display: block; margin: 18px 0; font-size: clamp(13px, 1.4vw, 17px); letter-spacing: 0.2em; text-transform: uppercase; color: #AAAAAA; font-weight: 300;">Order Decay</span>
+        <!-- <span id="order-decay-text" style="display: block; margin: 18px 0; font-size: clamp(13px, 1.4vw, 17px); letter-spacing: 0.2em; text-transform: uppercase; color: #AAAAAA; font-weight: 300;">Order Decay</span> -->
+        <div id="order-decay-wrap" style="display: block; margin: 18px 0; position: relative; height: 24px;">
+          <canvas id="order-decay-canvas" style="position: absolute; left: 50%; transform: translateX(-50%);"></canvas>
+        </div>
         <span class="t-decays" style="display: block;">Research</span>
       </h1>
       <p class="hero-subtitle">The Cost of Stability</p>
@@ -687,7 +690,7 @@ const heroCopy = document.getElementById('hero-copy');
 const scrollInd = document.getElementById('scroll-ind');
 
 /*Zoom in effect*/
-const orderDecayText = document.getElementById('order-decay-text');
+// const orderDecayText = document.getElementById('order-decay-text');
 let scrollProgress = 0;
 
 function getProgress() {
@@ -706,11 +709,87 @@ function updateHeroCopy() {
   scrollInd.style.opacity = (1 - Math.min(p / 0.06, 1)).toFixed(3);
 
   /*Zoom in effect*/
+  // const odProgress = Math.min(Math.max((p - 0.03) / 0.15, 0), 1);
+  // orderDecayText.style.opacity = (1 - odProgress).toFixed(3);
+  // orderDecayText.style.transform = 'scale(' + (1 + odProgress * 1.5).toFixed(3) + ')';
+  
+  /* Order Decay particle disintegration */
   const odProgress = Math.min(Math.max((p - 0.03) / 0.15, 0), 1);
-  orderDecayText.style.opacity = (1 - odProgress).toFixed(3);
-  orderDecayText.style.transform = 'scale(' + (1 + odProgress * 1.5).toFixed(3) + ')';
+  if (window._odDraw) window._odDraw(odProgress);
 }
 window.addEventListener('scroll', updateHeroCopy, { passive: true });
+
+/* Order Decay particle disintegration */
+(function() {
+  const canvas = document.getElementById('order-decay-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const canvasH = 28;
+  let particles = [];
+
+  function init() {
+    const wrap = document.getElementById('order-decay-wrap');
+    const canvasW = wrap.offsetWidth || 600;
+
+    canvas.width = canvasW * dpr;
+    canvas.height = canvasH * dpr;
+    canvas.style.width = canvasW + 'px';
+    canvas.style.height = canvasH + 'px';
+
+    const fontSize = Math.min(Math.max(13, window.innerWidth * 0.014), 17);
+
+    const off = document.createElement('canvas');
+    off.width = canvasW * dpr;
+    off.height = canvasH * dpr;
+    const octx = off.getContext('2d');
+    octx.scale(dpr, dpr);
+    octx.fillStyle = '#AAAAAA';
+    octx.font = '300 ' + fontSize + 'px Inter, -apple-system, Helvetica Neue, Helvetica, sans-serif';
+    octx.letterSpacing = '0.2em';
+    octx.textAlign = 'center';
+    octx.textBaseline = 'middle';
+    octx.fillText('ORDER DECAY', canvasW / 2, canvasH / 2);
+
+    const img = octx.getImageData(0, 0, canvasW * dpr, canvasH * dpr);
+    particles = [];
+    const step = 2;
+    for (let y = 0; y < canvasH * dpr; y += step) {
+      for (let x = 0; x < canvasW * dpr; x += step) {
+        const i = (y * canvasW * dpr + x) * 4;
+        if (img.data[i + 3] > 40) {
+          const speed = Math.random() * 2 + 0.5;
+          const angle = (Math.random() - 0.5) * Math.PI;
+          particles.push({
+            ox: x / dpr, oy: y / dpr,
+            vx: Math.cos(angle) * speed,
+            vy: -(Math.random() * speed + 0.3),
+            size: Math.random() * 1.2 + 0.4,
+            alpha: img.data[i + 3] / 255
+          });
+        }
+      }
+    }
+    draw(0);
+  }
+
+  function draw(progress) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    particles.forEach(function(p) {
+      const x = p.ox + p.vx * progress * 70;
+      const y = p.oy + p.vy * progress * 70;
+      const a = (p.alpha * (1 - progress)).toFixed(3);
+      ctx.fillStyle = 'rgba(170,170,170,' + a + ')';
+      ctx.fillRect(x, y, p.size, p.size);
+    });
+    ctx.restore();
+  }
+
+  window._odDraw = draw;
+  document.fonts.ready.then(init);
+  window.addEventListener('resize', init);
+})();
 
 /* ═══════════════════════════════════════════════════════════════════════
    WIREFRAME GLOBE — VERTEX-BASED STRUCTURAL DECAY
