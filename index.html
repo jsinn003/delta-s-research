@@ -430,8 +430,9 @@
     </div>
     <div class="hero-copy" id="hero-copy">
       <h1 class="hero-title">
-        <span class="t-order">Delta S</span><br>
-        <span class="t-decays">Research</span>
+        <span class="t-order" style="display: block;">Delta S</span>
+        <span id="order-decay-text" style="display: block; margin: 18px 0; font-size: clamp(13px, 1.4vw, 17px); letter-spacing: 0.2em; text-transform: uppercase; color: #AAAAAA; font-weight: 300;">Order Decay</span>
+        <span class="t-decays" style="display: block;">Research</span>
       </h1>
       <p class="hero-subtitle">The Cost of Stability</p>
       <p class="hero-tagline">
@@ -684,6 +685,9 @@ function toggleResearch() {
 const heroRegion = document.getElementById('hero-region');
 const heroCopy = document.getElementById('hero-copy');
 const scrollInd = document.getElementById('scroll-ind');
+
+/*Zoom in effect*/
+const orderDecayText = document.getElementById('order-decay-text');
 let scrollProgress = 0;
 
 function getProgress() {
@@ -700,6 +704,11 @@ function updateHeroCopy() {
   heroCopy.style.opacity = copyFade.toFixed(3);
   heroCopy.style.transform = 'translateY(' + copyShift.toFixed(1) + 'px)';
   scrollInd.style.opacity = (1 - Math.min(p / 0.06, 1)).toFixed(3);
+
+  /*Zoom in effect*/
+  const odProgress = Math.min(Math.max((p - 0.03) / 0.15, 0), 1);
+  orderDecayText.style.opacity = (1 - odProgress).toFixed(3);
+  orderDecayText.style.transform = 'scale(' + (1 + odProgress * 1.5).toFixed(3) + ')';
 }
 window.addEventListener('scroll', updateHeroCopy, { passive: true });
 
