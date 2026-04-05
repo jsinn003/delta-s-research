@@ -145,6 +145,67 @@
   .philosophy-body p:last-child { margin-bottom: 0; }
   .philosophy-body strong { font-weight: 400; color: var(--white); }
 
+  /* ── PHILOSOPHY SCROLL / PARTICLE ── */
+  .phil-scroll-region { position: relative; height: 320vh; }
+  .phil-sticky {
+    position: sticky; top: 0; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--black);
+  }
+  .phil-canvas-wrap { position: absolute; inset: 0; overflow: hidden; }
+  #phil-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  /* Label pinned to top of panel, above ORDER/DECAY text */
+  .phil-overlay {
+    position: absolute; top: 3rem; left: 0; right: 0;
+    z-index: 3; text-align: center; pointer-events: none;
+  }
+  /* State pill below 64px nav bar so it stays visible */
+  .phil-state-pill {
+    position: absolute; top: 5.5rem; right: 3rem; z-index: 4;
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 14px; border: 1px solid var(--rule);
+    background: rgba(0,0,0,0.5);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .phil-state-pill.visible { opacity: 1; }
+  .phil-state-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--faint); transition: background 0.4s;
+  }
+  .phil-state-pill.decay .phil-state-dot { background: var(--grey); }
+  .phil-state-txt {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--dim);
+  }
+  .phil-metrics {
+    position: absolute; bottom: 3rem; left: 50%;
+    transform: translateX(-50%); display: flex;
+    border: 1px solid var(--rule); z-index: 3;
+    opacity: 0; transition: opacity 0.5s; white-space: nowrap;
+    background: rgba(0,0,0,0.4);
+  }
+  .phil-metrics.visible { opacity: 1; }
+  .phil-metric {
+    padding: 20px 40px; text-align: center;
+    border-right: 1px solid var(--rule);
+  }
+  .phil-metric:last-child { border-right: none; }
+  .phil-metric-val {
+    font-size: clamp(18px, 2.2vw, 26px); font-weight: 300;
+    color: var(--white); letter-spacing: 0.04em; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .phil-metric-lbl {
+    font-size: 9px; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--faint);
+  }
+  @media (max-width: 768px) {
+    .phil-scroll-region { height: 280vh; }
+    .phil-state-pill { top: 4.5rem; right: 1.5rem; }
+    .phil-metric { padding: 14px 20px; }
+    .phil-metric-val { font-size: clamp(15px, 4vw, 22px); }
+  }
+
   /* ── METHODOLOGY ── */
   .method-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
@@ -432,7 +493,7 @@
       <h1 class="hero-title">
         <span class="t-order" style="display: block;">∆S</span>
         <!-- <span id="order-decay-text" style="display: block; margin: 18px 0; font-size: clamp(13px, 1.4vw, 17px); letter-spacing: 0.2em; text-transform: uppercase; color: #AAAAAA; font-weight: 300;">Order Decay</span> -->
-        <div id="order-decay-wrap" style="display: block; margin: 18px 0; position: relative; height: 24px;">
+        <div id="order-decay-wrap" style="display: none; margin: 18px 0; position: relative; height: 24px;">
           <canvas id="order-decay-canvas" style="position: absolute; left: 50%; transform: translateX(-50%);"></canvas>
         </div>
         <span class="t-decays" style="display: block;">Research</span>
@@ -454,8 +515,35 @@
   <div class="section-rule"></div>
 
   <!-- PHILOSOPHY -->
-  <section class="philosophy" id="philosophy">
-    <div class="section-label reveal">Philosophy</div>
+  <div class="phil-scroll-region" id="philosophy">
+    <div class="phil-sticky">
+      <div class="phil-canvas-wrap">
+        <canvas id="phil-canvas"></canvas>
+      </div>
+      <div class="phil-overlay">
+        <div class="section-label" style="opacity:0.6;">Philosophy</div>
+      </div>
+      <div class="phil-state-pill" id="phil-state-pill">
+        <div class="phil-state-dot"></div>
+        <div class="phil-state-txt" id="phil-state-txt">Order</div>
+      </div>
+      <div class="phil-metrics" id="phil-metrics">
+        <div class="phil-metric">
+          <div class="phil-metric-val" id="phil-entropy">0.0</div>
+          <div class="phil-metric-lbl">Entropy (S)</div>
+        </div>
+        <div class="phil-metric">
+          <div class="phil-metric-val" id="phil-order">100%</div>
+          <div class="phil-metric-lbl">Order</div>
+        </div>
+        <div class="phil-metric">
+          <div class="phil-metric-val" id="phil-cost">Low</div>
+          <div class="phil-metric-lbl">Maintenance Cost</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="philosophy">
     <div class="philosophy-body reveal">
       <p>Stability is not natural. It is <strong>constructed</strong> and sustained through continuous intervention, narrative reinforcement, and rising cost.</p>
       <p>Every system that appears stable is consuming resources to remain so. Instability does not arrive from outside. It accumulates within.</p>
@@ -755,7 +843,7 @@ window.addEventListener('scroll', updateHeroCopy, { passive: true });
     octx.letterSpacing = '0.2em';
     octx.textAlign = 'center';
     octx.textBaseline = 'middle';
-    octx.fillText('ORDER DECAY', canvasW / 2, canvasH / 2);
+    // octx.fillText('ORDER DECAY', canvasW / 2, canvasH / 2);
 
     const img = octx.getImageData(0, 0, canvasW * dpr, canvasH * dpr);
     particles = [];
@@ -1031,6 +1119,184 @@ window.addEventListener('scroll', updateHeroCopy, { passive: true });
   }
 
   draw();
+})();
+
+/* ═══ PHILOSOPHY PARTICLE ANIMATION ═══ */
+(function() {
+  const canvas = document.getElementById('phil-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let W, H, textParticles = [], bgParticles = [];
+  let scrollProgress = 0, currentEntropy = 0;
+
+  function resize() {
+    const wrap = canvas.parentElement;
+    W = wrap.offsetWidth;
+    H = wrap.offsetHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    generateTextParticles();
+    generateBgParticles();
+  }
+
+  function generateTextParticles() {
+    textParticles = [];
+    const off = document.createElement('canvas');
+    const octx = off.getContext('2d');
+    off.width = W * dpr;
+    off.height = H * dpr;
+    octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const fontSize = Math.min(W * 0.14, 130);
+    octx.font = '300 ' + fontSize + 'px Inter, -apple-system, Helvetica Neue, Helvetica, sans-serif';
+    octx.textAlign = 'center';
+    octx.textBaseline = 'middle';
+    octx.fillStyle = '#ffffff';
+
+    const lineGap = fontSize * 0.18;
+    const startY = H / 2 - (fontSize + lineGap / 2);
+    octx.fillText('ORDER', W / 2, startY);
+    octx.fillText('DECAY', W / 2, startY + fontSize + lineGap);
+
+    const imgData = octx.getImageData(0, 0, off.width, off.height);
+    const data = imgData.data;
+    const positions = [];
+    const sampleStep = Math.max(3, Math.round(4 * dpr));
+    for (let y = 0; y < off.height; y += sampleStep) {
+      for (let x = 0; x < off.width; x += sampleStep) {
+        const i = (y * off.width + x) * 4;
+        if (data[i + 3] > 128) positions.push({ x: x / dpr, y: y / dpr });
+      }
+    }
+    const maxP = Math.min(positions.length, 900);
+    const step = Math.max(1, Math.floor(positions.length / maxP));
+    for (let i = 0; i < positions.length; i += step) {
+      const pos = positions[i];
+      textParticles.push({
+        homeX: pos.x, homeY: pos.y,
+        x: pos.x, y: pos.y,
+        size: 1.6 + Math.random() * 2,
+        entropy: 0,
+        drift: { wobble: Math.random() * Math.PI * 2, wobbleSpeed: 0.005 + Math.random() * 0.015 },
+        fadeDelay: Math.random(),
+        disperseAngle: Math.random() * Math.PI * 2,
+        disperseDist: 80 + Math.random() * 320
+      });
+    }
+  }
+
+  function generateBgParticles() {
+    bgParticles = [];
+    const count = Math.floor(W * H / 10000);
+    for (let i = 0; i < count; i++) {
+      bgParticles.push({
+        x: Math.random() * W, y: Math.random() * H,
+        size: 0.5 + Math.random() * 1.2,
+        alpha: 0.02 + Math.random() * 0.05,
+        vx: (Math.random() - 0.5) * 0.12,
+        vy: (Math.random() - 0.5) * 0.12
+      });
+    }
+  }
+
+  function updateScroll() {
+    const region = document.getElementById('philosophy');
+    if (!region) return;
+    const rect = region.getBoundingClientRect();
+    const totalScroll = region.offsetHeight - window.innerHeight;
+    scrollProgress = Math.max(0, Math.min(1, -rect.top / totalScroll));
+  }
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+  }
+
+  function updateParticles() {
+    currentEntropy += (scrollProgress - currentEntropy) * 0.05;
+    const e = easeInOutCubic(currentEntropy);
+    textParticles.forEach(p => {
+      const effE = Math.max(0, Math.min(1, (e - p.fadeDelay * 0.15) / 0.85));
+      p.entropy = effE;
+      const dx = Math.cos(p.disperseAngle) * p.disperseDist * effE;
+      const dy = Math.sin(p.disperseAngle) * p.disperseDist * effE;
+      p.drift.wobble += p.drift.wobbleSpeed * (1 + effE * 3);
+      const wx = Math.sin(p.drift.wobble) * effE * 12;
+      const wy = Math.cos(p.drift.wobble * 0.7) * effE * 8;
+      p.x += (p.homeX + dx + wx - p.x) * 0.08;
+      p.y += (p.homeY + dy + wy - p.y) * 0.08;
+    });
+    bgParticles.forEach(p => {
+      const speed = 1 + e * 3;
+      p.x = (p.x + p.vx * speed + W) % W;
+      p.y = (p.y + p.vy * speed + H) % H;
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const e = easeInOutCubic(currentEntropy);
+    bgParticles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + Math.min(0.12, p.alpha * (1 + e * 2)) + ')';
+      ctx.fill();
+    });
+    textParticles.forEach(p => {
+      const pe = p.entropy;
+      const alpha = pe < 0.7 ? 1 : 1 - (pe - 0.7) / 0.3;
+      if (alpha <= 0) return;
+      const brightness = Math.round(255 - pe * 60);
+      const finalAlpha = alpha * (0.45 + (1 - pe) * 0.55);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (1 + pe * 0.5), 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + brightness + ',' + brightness + ',' + brightness + ',' + finalAlpha + ')';
+      ctx.fill();
+      if (pe > 0.1 && pe < 0.8) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (finalAlpha * 0.04) + ')';
+        ctx.fill();
+      }
+    });
+  }
+
+  function updateUI() {
+    const e = easeInOutCubic(currentEntropy);
+    const metrics = document.getElementById('phil-metrics');
+    const pill = document.getElementById('phil-state-pill');
+    if (scrollProgress > 0.04) {
+      metrics && metrics.classList.add('visible');
+      pill && pill.classList.add('visible');
+    }
+    const entropyEl = document.getElementById('phil-entropy');
+    const orderEl   = document.getElementById('phil-order');
+    const costEl    = document.getElementById('phil-cost');
+    const stateEl   = document.getElementById('phil-state-txt');
+    if (entropyEl) entropyEl.textContent = (e * 100).toFixed(1);
+    if (orderEl)   orderEl.textContent   = Math.round(Math.max(0, 100 - e * 100)) + '%';
+    let costLabel, stateLabel;
+    if (e < 0.15)      { costLabel = 'Low';           stateLabel = 'Order'; }
+    else if (e < 0.35) { costLabel = 'Rising';        stateLabel = 'Drift'; }
+    else if (e < 0.6)  { costLabel = 'High';          stateLabel = 'Decay'; }
+    else if (e < 0.85) { costLabel = 'Unsustainable'; stateLabel = 'Disorder'; }
+    else               { costLabel = 'Irrelevant';    stateLabel = 'Equilibrium'; }
+    if (costEl)  costEl.textContent  = costLabel;
+    if (stateEl) stateEl.textContent = stateLabel;
+    if (pill) pill.classList.toggle('decay', e > 0.35);
+  }
+
+  function loop() {
+    updateScroll();
+    updateParticles();
+    draw();
+    updateUI();
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  document.fonts.ready.then(() => { resize(); loop(); });
 })();
 </script>
 </body>
