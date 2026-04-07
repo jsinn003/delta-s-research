@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Risk Is Not Volatility — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .article-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .article-meta-row{display:flex;align-items:center;gap:20px;margin-bottom:32px;}
+  .article-section-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .article-date-label{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);font-variant-numeric:tabular-nums;}
+  .article-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .article-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .article-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .article-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .article-body p:last-child{margin-bottom:0;}.article-body strong{font-weight:400;color:var(--white);}.article-body em{font-style:italic;color:var(--mid);}
+  .article-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .article-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .article-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .article-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .article-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-research{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-research:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.article-header{padding:120px 24px 60px;}.article-body{padding:56px 24px 100px;}.article-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="article-header">
+  <a class="back-link" href="../research.html">
+    <span class="back-arrow">←</span>
+    <span>All Research</span>
+  </a>
+  <div class="article-meta-row">
+      <span class="article-section-label">Research</span>
+      <div class="meta-divider"></div>
+      <span class="article-date-label">2026.04</span>
+    </div>
+  <h1 class="article-title">Why Risk Is Not Volatility</h1>
+  <p class="article-abstract">Volatility describes the extent of price fluctuations, while risk concerns whether those fluctuations can be endured. Risk depends on how price movements combine with constraints such as leverage, liquidity, and funding, which can force liquidation before any possible recovery. Thus, low volatility should not be mistaken for safety; what matters is whether the system supporting the position can withstand stress.</p>
+</header>
+
+
+<article class="article-body">
+
+    <p>Volatility measures how much prices move. Risk determines whether you survive the move.</p>
+
+    <p>The two are related, but not the same.</p>
+
+    <h3>What Volatility Actually Is</h3>
+
+    <p>Volatility is dispersion. It tells you how far prices deviate from a reference point over a given period.</p>
+
+    <p>This works under one assumption: that deviations are temporary. Prices move away, then come back. Losses are statistical. Time smooths them out.</p>
+
+    <p>Under that view, risk is something you experience. Not something that ends your participation.</p>
+
+    <p>That distinction is the entire point.</p>
+
+    <figure class="article-figure">
+      <img src="../images/WhyRiskIsNotVolatility.png" alt="WhyRiskIsNotVolatility.png" loading="lazy">
+    </figure>
+
+    <h3>Where It Breaks</h3>
+
+    <p>An asset drops from 100 to 80 and later returns to 100.</p>
+
+    <p>The same drop forces someone else to liquidate at 80.</p>
+
+    <p>Volatility sees two identical paths. One participant survived. The other was removed from the game.</p>
+
+    <p>The difference has nothing to do with dispersion. It has everything to do with constraint.</p>
+
+    <p>Funds face redemptions, banks face capital requirements, and traders face margin calls. Positions get unwound not because the thesis is wrong, but because the structure holding the position cannot sustain the drawdown.</p>
+
+    <p>LTCM’s trades were right in the long run. The fund simply could not survive long enough to see that outcome. The constraint was funding, not expected value.</p>
+
+    <figure class="article-figure">
+      <img src="../images/WhyRiskIsNotVolatility1.png" alt="WhyRiskIsNotVolatility1.png" loading="lazy">
+    </figure>
+
+    <h3>Risk Is the Loss of Optionality</h3>
+
+    <p>Risk is not uncertainty. Uncertainty is a condition. Risk is the possibility that you are forced to act under that condition.</p>
+
+    <p>A more precise framing: risk is the interaction between price movement and constraint. When that interaction forces liquidation, the path forward no longer matters. The outcome is locked in.</p>
+
+    <p>This is why position sizing matters more than forecast precision. Why liquidity matters more than valuation at the point of stress. Why strategies fail not because they are wrong, but because they cannot be held long enough.</p>
+
+    <h3>Short Volatility Makes This Visible</h3>
+
+    <p>In calm conditions, selling volatility produces steady returns. The distribution looks favourable and risk metrics look clean.</p>
+
+    <p>Then the environment shifts.</p>
+
+    <p>February 2018. XIV blows up in a single session. The VIX spikes, inverse vol products enter forced liquidation, and the unwind feeds on itself. The losses were not proportional to the move. They were a function of the structure collapsing: margin requirements rising, liquidity thinning, and forced selling compressing into a window too narrow to absorb it.</p>
+
+    <p>This is what happens when constraints bind simultaneously. Losses accelerate at the exact moment the ability to hold declines. The position does not just lose money, it loses the ability to exist.</p>
+
+    <figure class="article-figure">
+      <img src="../images/WhyRiskIsNotVolatility2.png" alt="WhyRiskIsNotVolatility2.png" loading="lazy">
+    </figure>
+
+    <h3>Standard Models Miss This</h3>
+
+    <p>Most risk models approximate returns as normally distributed. Large deviations are treated as unlikely. Tails are thin.</p>
+
+    <p>Markets disagree. Extreme moves cluster. They appear precisely when liquidity is scarce and constraints are binding — the moments when participants are least able to absorb them.</p>
+
+    <p>The result is not just larger losses but also the replacement of discretion with liquidation.</p>
+
+    <h3>The Maintained-System Problem</h3>
+
+    <p>Volatility captures how unstable prices are.</p>
+
+    <p>It does not capture how fragile the system holding those positions might be.</p>
+
+    <p>That fragility sits in funding, leverage, liquidity, and behaviour under pressure. It is the maintenance cost of the position — the exergy required to keep the structure intact.</p>
+
+    <p>When that maintenance fails, the position does not gradually adjust. It collapses. Order does not erode smoothly. It decays in steps, and usually at the worst possible time.</p>
+
+    <p>Low volatility is not safety. It is a system that has not yet been tested.</p>
+
+    <p>And when it is tested, what matters is not how much prices move. It is whether the structure survives.</p>
+
+</article>
+
+<div class="article-end">
+  <div>
+    <div class="article-end-label">Note</div>
+    <p class="article-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-research" href="../research.html">← All Research</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
