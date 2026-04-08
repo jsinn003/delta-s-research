@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI, Efficiency, and the Illusion of Stability — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .embed-block{margin:56px 0;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .article-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .article-meta-row{display:flex;align-items:center;gap:20px;margin-bottom:32px;}
+  .article-section-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .article-date-label{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);font-variant-numeric:tabular-nums;}
+  .article-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .article-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .article-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .article-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .article-body p:last-child{margin-bottom:0;}.article-body strong{font-weight:400;color:var(--white);}.article-body em{font-style:italic;color:var(--mid);}
+  .article-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .article-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .article-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .article-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .article-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-research{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-research:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.article-header{padding:120px 24px 60px;}.article-body{padding:56px 24px 100px;}.article-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="article-header">
+  <a class="back-link" href="../research.html">
+    <span class="back-arrow">←</span>
+    <span>All Research</span>
+  </a>
+  <div class="article-meta-row">
+      <span class="article-section-label">Research</span>
+      <div class="meta-divider"></div>
+      <span class="article-date-label">2026.04</span>
+    </div>
+  <h1 class="article-title">AI, Efficiency, and the Illusion of Stability</h1>
+  <p class="article-abstract">Artificial intelligence is being sold as a stabilizing force in financial markets. Faster processing, better risk detection, improved execution. All true. But incomplete. AI does not remove risk. It reshapes it. And in doing so, it pushes the system toward a familiar outcome: stability in normal times, fragility in stress.</p>
+</header>
+
+
+<article class="article-body">
+
+    <h3>Efficiency First</h3>
+
+    <p>Start with what AI actually improves.</p>
+
+    <p>Markets are information systems. The edge comes from processing speed, pattern recognition, and execution efficiency. AI pushes all three forward.</p>
+
+    <p>It scans data faster than any human desk. It identifies discrepancies across assets, venues, and timeframes. It executes without hesitation. Traders don't need to &quot;see&quot; the market anymore. The model does.</p>
+
+    <p>In that sense, AI pulls markets closer to the textbook version of efficiency. Prices adjust faster. Mispricings close quicker. Information gets embedded almost instantly. Risk systems tighten. Fraud detection sharpens. Credit decisions become more data-driven. Customer service scales without headcount.</p>
+
+    <p>In normal conditions, this looks like progress. And it is.</p>
+
+    <p>But a tighter system is not necessarily a stronger one.</p>
+
+    <h3>Where It Breaks</h3>
+
+    <p>The problem starts where AI's competence ends.</p>
+
+    <p>AI learns from data. Financial data is overwhelmingly drawn from stable regimes. Orderly markets, small shocks, repeated patterns. But markets are defined by their discontinuities, and discontinuities are exactly what stable data cannot teach.</p>
+
+    <p>Crises live in the tails. And the tails are exactly where AI has no training data.</p>
+
+    <figure class="article-figure">
+      <img src="../images/MOV_MarginCall4_2290.jpg" alt="Scene from Margin Call (2011)" loading="lazy">
+      <figcaption>Scene from Margin Call (2011)</figcaption>
+    </figure>
+
+    <p>So the system acquires a structural blind spot. Strong in the centre of the distribution, weak at the edges where it matters most.</p>
+
+    <p>AI does not understand uncertainty. It interpolates within what it has seen. It cannot price what it has never experienced. Its confidence is highest precisely where its exposure to genuine disorder is lowest.</p>
+
+    <h3>From Efficiency to Crowding</h3>
+
+    <p>Once AI is widely adopted, the issue is no longer individual model failure. It becomes system behavior.</p>
+
+    <p>Most firms are not building fundamentally different models. They are using similar datasets, training on similar histories, optimizing for similar objectives. That produces alignment. Mechanical similarity, even without intentional coordination.</p>
+
+    <p>Positions begin to converge. Same signals. Same trades. Same risk triggers.</p>
+
+    <p>This is not new. LTCM was built on convergence trades. Everyone saw the same relative value and crowded into it. 2008 was built on correlated leverage. Everyone held assets assumed to be uncorrelated, until they weren't.</p>
+
+    <p>AI follows the same logic. The difference is scale and speed.</p>
+
+    <p>When every participant's model ingests the same regime and outputs the same positioning, the market doesn't become more efficient. It becomes more brittle. Diversity of opinion is how stress gets absorbed. AI erodes that diversity through convergence alone.</p>
+
+    <h3>The Compression of Time</h3>
+
+    <p>Human traders introduce friction. Hesitation, disagreement, delayed execution. These are inefficiencies in the textbook sense, but they serve a structural purpose. They slow the transmission of shocks. They create space for reassessment.</p>
+
+    <figure class="article-figure">
+      <img src="../images/day-trader-madness.png" alt="By Kena Betancur/Getty Images." loading="lazy">
+      <figcaption>By Kena Betancur/Getty Images.</figcaption>
+    </figure>
+
+    <p>AI removes all of that. Reactions become instantaneous, automated, synchronised. What used to unfold over days now unfolds in minutes.</p>
+
+    <p>Feedback loops tighten. Prices move. Models update. Trades execute. Prices move further. And because the models are similar, they move together.</p>
+
+    <p>That is how local efficiency turns into global instability.</p>
+
+    <h3>The Illusion of Liquidity</h3>
+
+    <p>AI changes how liquidity looks, and how it behaves.</p>
+
+    <p>In calm markets, spreads tighten, depth increases, execution improves. Everything appears healthy. But that liquidity is conditional. It exists as long as models are willing to provide it.</p>
+
+    <p>The moment volatility spikes, models widen or withdraw. Market-making capacity doesn't thin gradually. It vanishes. The system flips from liquid to illiquid without transition.</p>
+
+    <p>That gap between apparent liquidity and realized liquidity is where instability lives. The liquidity was always algorithmic. And algorithms have exit conditions.</p>
+
+    <h3>The Tail Problem</h3>
+
+    <p>When the world behaves in ways that are not in the data, models break.</p>
+
+    <p>You don't need theory for this. You can see it in practice. When geopolitical risk becomes path-dependent, when policy becomes inconsistent, when outcomes are driven by individuals rather than distributions, models struggle. The structure of the problem changes underneath them.</p>
+
+    <p>A statistical model cannot price something that has no statistical precedent. If outcomes are driven by events that do not repeat, the model has nothing to learn from.</p>
+
+    <p>AI cannot know what it has never seen. And when that gap matters, it matters all at once, because every model discovers the same blind spot at the same time.</p>
+
+    <div class="embed-block">
+<div style="background: #0a0a0a; padding: 2rem; border-radius: 8px;">
+<div style="font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #555; margin-bottom: 1.5rem;"><span style="color:#888;">∆S</span> — Distribution of outcomes</div>
+<svg id="dsc2" width="100%" viewBox="0 0 680 360"></svg>
+<div style="display:flex; gap:2rem; margin-top:1.2rem; font-family:'Courier New',monospace; font-size:10px; letter-spacing:0.02em; color:#555;">
+  <div style="display:flex;align-items:center;gap:6px;"><svg width="18" height="2"><line x1="0" y1="1" x2="18" y2="1" stroke="#444" stroke-width="1.5"/></svg>Normal distribution</div>
+  <div style="display:flex;align-items:center;gap:6px;"><svg width="18" height="2"><line x1="0" y1="1" x2="18" y2="1" stroke="#c45a2d" stroke-width="1.5"/></svg>AI regime</div>
+  <div style="display:flex;align-items:center;gap:6px;"><svg width="18" height="8"><rect width="18" height="8" fill="#c45a2d" opacity="0.15" rx="1"/></svg>Tail concentration</div>
+</div>
+<div style="margin-top:1.2rem; font-family:system-ui,sans-serif; font-size:12px; font-weight:300; line-height:1.7; color:#555; max-width:480px; font-style:italic;">
+  Fewer small dislocations. Higher probability of large ones. Efficiency compresses the centre and fattens the tails.
+</div>
+</div>
+<script>
+const svg = document.getElementById('dsc2');
+const W=680,H=360,L=50,R=640,T=20,B=300;
+const cW=R-L,cH=B-T;
+const xMin=-4.3,xMax=4.3,yMin=0,yMax=0.58;
+function px(x){return L+(x-xMin)/(xMax-xMin)*cW}
+function py(y){return B-(y-yMin)/(yMax-yMin)*cH}
+function gauss(x,mu,sig){return Math.exp(-0.5*((x-mu)/sig)**2)/(sig*Math.sqrt(2*Math.PI))}
+function norm(x){return gauss(x,0,1)}
+function fat(x){return 0.72*gauss(x,0,0.62)+0.28*gauss(x,0,3.2)}
+const pts=[];for(let x=xMin;x<=xMax;x+=0.04)pts.push(x);
+function curvePath(fn){return pts.map((x,i)=>`${i?'L':'M'}${px(x).toFixed(1)},${py(fn(x)).toFixed(1)}`).join('')}
+function areaPath(fn,x0,x1){const s=pts.filter(x=>x>=x0&&x<=x1);let d=`M${px(s[0]).toFixed(1)},${B}`;s.forEach(x=>{d+=`L${px(x).toFixed(1)},${py(fn(x)).toFixed(1)}`});d+=`L${px(s[s.length-1]).toFixed(1)},${B}Z`;return d}
+let m='';
+m+=`<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#222" stroke-width="0.5"/>`;
+[-4,-3,-2,-1,0,1,2,3,4].forEach(s=>{const x=px(s);m+=`<line x1="${x}" y1="${B}" x2="${x}" y2="${B+5}" stroke="#333" stroke-width="0.5"/>`;m+=`<text x="${x}" y="${B+18}" text-anchor="middle" font-family="'Courier New',monospace" font-size="9.5" fill="#444">${s>0?'+':''}${s}σ</text>`});
+[0.1,0.2,0.3,0.4,0.5].forEach(y=>{m+=`<line x1="${L}" y1="${py(y)}" x2="${R}" y2="${py(y)}" stroke="#181818" stroke-width="0.5"/>`});
+const th=2.0;
+m+=`<line x1="${px(-th)}" y1="${T}" x2="${px(-th)}" y2="${B}" stroke="#c45a2d" stroke-width="0.5" stroke-dasharray="3,4" opacity="0.3"/>`;
+m+=`<line x1="${px(th)}" y1="${T}" x2="${px(th)}" y2="${B}" stroke="#c45a2d" stroke-width="0.5" stroke-dasharray="3,4" opacity="0.3"/>`;
+m+=`<path d="${areaPath(norm,xMin,xMax)}" fill="#444" opacity="0.04"/>`;
+m+=`<path d="${areaPath(fat,xMin,xMax)}" fill="#c45a2d" opacity="0.03"/>`;
+m+=`<path d="${areaPath(fat,xMin,-th)}" fill="#c45a2d" opacity="0.15"/>`;
+m+=`<path d="${areaPath(fat,th,xMax)}" fill="#c45a2d" opacity="0.15"/>`;
+m+=`<path d="${curvePath(norm)}" fill="none" stroke="#444" stroke-width="1.2"/>`;
+m+=`<path d="${curvePath(fat)}" fill="none" stroke="#c45a2d" stroke-width="1.2"/>`;
+m+=`<text x="${px(0)}" y="${py(fat(0))-14}" text-anchor="middle" font-family="'Courier New',monospace" font-size="9.5" fill="#666">compressed centre</text>`;
+m+=`<text x="${px(3.2)}" y="${py(fat(3))-8}" text-anchor="middle" font-family="'Courier New',monospace" font-size="9.5" fill="#c45a2d" opacity="0.8">tail risk</text>`;
+m+=`<text x="${px(-3.2)}" y="${py(fat(-3))-8}" text-anchor="middle" font-family="'Courier New',monospace" font-size="9.5" fill="#c45a2d" opacity="0.8">tail risk</text>`;
+svg.innerHTML=m;
+</script>
+    </div>
+
+    <h3>Stability That Breeds Instability</h3>
+
+    <p>Put it together and the pattern is clear.</p>
+
+    <p>AI improves execution, pricing, and efficiency. But it also aligns behavior, compresses reaction time, and amplifies feedback loops.</p>
+
+    <p>So the system evolves toward a state that looks safe but isn't. Calm on the surface, pressure building underneath.</p>
+
+    <p>In normal times, volatility is suppressed. Markets appear stable. Risk looks manageable.</p>
+
+    <p>Under stress, positions unwind simultaneously. Liquidity disappears. Moves become discontinuous.</p>
+
+    <p>The system doesn't fail gradually. It fails collectively.</p>
+
+    <h3>The Real Trade-Off</h3>
+
+    <p>AI does not make markets safer or riskier in any simple sense. It changes the distribution of outcomes. Fewer small dislocations, higher probability of large ones.</p>
+
+    <p>That is the trade. And it is not new.</p>
+
+    <p>Every major financial innovation has followed the same path. Improved efficiency, increased interconnectedness, greater systemic exposure. Derivatives did it. Securitisation did it. High-frequency trading did it. AI just accelerates the cycle.</p>
+
+    <h3>Final Thought</h3>
+
+    <p>AI doesn't destabilise markets by making bad decisions.</p>
+
+    <p>It destabilises them by making the same decision, at scale, at speed.</p>
+
+    <p>That only shows up when the system is tested. Which is exactly when the models stop working.</p>
+
+</article>
+
+<div class="article-end">
+  <div>
+    <div class="article-end-label">Note</div>
+    <p class="article-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-research" href="../research.html">← All Research</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
