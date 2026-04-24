@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Term Structure: Contango and Backwardation — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+body > nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+}
+.nav-links a:hover { color: var(--grey); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 800px; margin: 0 auto;
+  padding: 148px 52px 80px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+  text-decoration: none; transition: color 0.35s ease;
+  margin-bottom: 64px;
+}
+.back-link:hover { color: var(--grey); }
+.back-arrow { transition: transform 0.35s ease; }
+.back-link:hover .back-arrow { transform: translateX(-3px); }
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  body > nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 120px 24px 60px; }
+  .back-link { margin-bottom: 40px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <a class="back-link reveal" href="../education.html">
+      <span class="back-arrow">←</span>
+      <span>All Lessons</span>
+    </a>
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track III · Volatility</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.13</span>
+    </div>
+    <h1 class="lesson-title reveal">Term Structure: Contango and Backwardation</h1>
+    <p class="lesson-tagline reveal">IV varies not just across strikes but across expiries. The shape of that curve tells you what regime the market thinks it is in.</p>
+    <div class="lesson-meta reveal">
+      <span>15 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 13 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>What term structure means</h2>
+    <p>The volatility term structure is the IV of at-the-money options plotted against time to expiry. A 7-day ATM might trade at 14% IV. A 30-day ATM at 16%. A 90-day ATM at 17%. Connect those points and you have the term structure for that underlying at that moment.</p>
+    <p>Two regimes dominate. <strong>Contango</strong> is the normal state: long-dated options have higher IV than short-dated options. The curve slopes upward. <strong>Backwardation</strong> is the stress state: short-dated options have higher IV than long-dated. The curve slopes downward.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="640" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="90.7" y1="300" x2="90.7" y2="305"/>
+          <text class="ticklabel" x="90.7" y="318" text-anchor="middle">7d</text>
+          <line class="tick" x1="126.0" y1="300" x2="126.0" y2="305"/>
+          <text class="ticklabel" x="126.0" y="318" text-anchor="middle">30d</text>
+          <line class="tick" x1="218.1" y1="300" x2="218.1" y2="305"/>
+          <text class="ticklabel" x="218.1" y="318" text-anchor="middle">90d</text>
+          <line class="tick" x1="356.2" y1="300" x2="356.2" y2="305"/>
+          <text class="ticklabel" x="356.2" y="318" text-anchor="middle">180d</text>
+          <line class="tick" x1="640.0" y1="300" x2="640.0" y2="305"/>
+          <text class="ticklabel" x="640.0" y="318" text-anchor="middle">1yr</text>
+          <line class="tick" x1="75" y1="272.1" x2="80" y2="272.1"/>
+          <text class="ticklabel" x="70" y="275.1" text-anchor="end">15%</text>
+          <line class="tick" x1="75" y1="225.7" x2="80" y2="225.7"/>
+          <text class="ticklabel" x="70" y="228.7" text-anchor="end">20%</text>
+          <line class="tick" x1="75" y1="179.3" x2="80" y2="179.3"/>
+          <text class="ticklabel" x="70" y="182.3" text-anchor="end">25%</text>
+          <line class="tick" x1="75" y1="132.9" x2="80" y2="132.9"/>
+          <text class="ticklabel" x="70" y="135.9" text-anchor="end">30%</text>
+          <line class="tick" x1="75" y1="86.4" x2="80" y2="86.4"/>
+          <text class="ticklabel" x="70" y="89.4" text-anchor="end">35%</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">40%</text>
+          <text class="axislabel" x="360" y="342" text-anchor="middle">Days to Expiry</text>
+          <text class="axislabel" x="22" y="170" text-anchor="middle" transform="rotate(-90 22 170)">Implied Volatility</text>
+          <polyline class="primary" points="81.5,281.4 90.7,248.9 101.5,237.3 126.0,224.6 172.1,213.0 218.1,206.2 356.2,194.6 494.2,187.9 640.0,182.8"/>
+          <polyline class="secondary" points="81.5,77.1 90.7,135.0 101.5,155.6 126.0,178.2 172.1,198.8 218.1,210.9 356.2,231.4 494.2,243.5 640.0,244.3"/>
+          <text class="annotation" x="264.1" y="160.7" style="fill:#E0E0E0;">Contango · Calm Regime</text>
+          <text class="annotation" x="103.0" y="67.9" style="fill:#AAA;">Backwardation · Stress Regime</text>
+          <text class="annotation" x="80" y="26">VIX Term Structure · Two Regimes</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 13.1</span>
+        <span class="figdesc">Contango (normal) and backwardation (stress). Contango is the steady state. Backwardation appears during sharp selloffs and earnings windows.</span>
+      </figcaption>
+    </figure>
+    <h2>Why contango is the default</h2>
+    <p>Three forces push long-dated IV above short-dated IV under normal conditions:</p>
+    <ol>
+      <li><strong>More time, more uncertainty.</strong> A 90-day forward path has more chances to encounter a shock than a 7-day path. Pricing reflects that.</li>
+      <li><strong>Mean reversion of vol.</strong> If current short-term vol is below the long-term mean, the term structure prices in the eventual reversion higher.</li>
+      <li><strong>Risk premium grows with horizon.</strong> Sellers of long-dated options demand more compensation for locking up risk capital across longer windows.</li>
+    </ol>
+    <p>In quiet markets, the SPX term structure typically slopes upward by 2-4 vol points from the front to the 6-month tenor. This is contango.</p>
+    <h2>Why backwardation appears in stress</h2>
+    <p>During selloffs and crisis windows, short-dated IV spikes faster than long-dated IV. The market believes the immediate next two weeks are dangerous, but expects vol to mean-revert lower over time. The result is a downward-sloping curve.</p>
+    <p>Backwardation is rare. SPX term structure spends roughly 80% of the time in contango, 20% in backwardation. The 20% lines up almost exactly with periods of market stress: 2008, 2011 (debt ceiling), 2015 (yuan devaluation), 2018 (volmageddon), 2020 (COVID), 2022 (inflation/Fed).</p>
+<div class="key-point">
+      <div class="key-point-label">A simple regime classifier</div>
+      <div class="key-point-body">VIX (30-day SPX IV) divided by VIX3M (90-day SPX IV) is a useful term-structure signal. <strong>Below 1</strong>: contango, calm regime. <strong>Above 1</strong>: backwardation, stress regime. The transition between regimes is often the most informative moment, more than the absolute level of the VIX itself.</div>
+    </div>
+    <h2>The roll cost</h2>
+    <p>If the term structure is in contango and you sell front-month options, the next month's options will (on average) be at a higher IV. As time passes and the front-month option rolls to become the back-month option of yesterday, its IV will drift down toward the lower front-month level.</p>
+    <p>This is called the <strong>roll yield</strong> or <strong>roll cost</strong> depending on which side you are on. Selling the front month and rolling forward through a contango term structure generates a small structural return on top of the variance risk premium itself. This is the entire premise of long-running short-vol products like SVXY.</p>
+    <p>In backwardation, the roll works in the opposite direction. Front-month options sold today will (on average) roll into months at lower IV, but you are starting from a much higher IV that may not be sustainable. Short-vol strategies that work in contango can fail catastrophically when the term structure flips.</p>
+    <h2>Calendar spreads as term-structure trades</h2>
+    <p>A calendar spread (sell front month, buy back month at the same strike) is a direct play on term structure. If the spread between the two IVs widens (more contango), the position profits. If it narrows or flips into backwardation, the position loses.</p>
+    <p>Calendar spreads also have other moving parts (delta, vega, theta), but their dominant exposure is to the shape of the term structure between the two expiries used. Lesson L.17 covers the construction in detail.</p>
+    <h2>Term structure and event windows</h2>
+    <p>Earnings, FOMC meetings, CPI prints, and other scheduled events create local bumps in the term structure. The IV of options expiring just after the event is higher than options expiring before. After the event passes (and the result is known), the post-event IV collapses (called <strong>vol crush</strong>).</p>
+    <p>This creates predictable patterns. The day before earnings, the front-week call IV on the stock might be 80%. The day after, it can drop to 35%. Anyone who bought that vol expecting the move to be large enough to overcome the crush has a tight margin for being right. Lesson L.23 covers event volatility in detail.</p>
+    <h2>Term structure of skew</h2>
+    <p>Skew itself varies across the term structure. Long-dated SPX skew is typically steeper than short-dated SPX skew. Why? Because long-dated puts are bought by structural hedgers (pensions, insurance companies) who do not need to hedge the next two weeks specifically. Short-dated skew is more dynamic and responds faster to market moves.</p>
+    <p>This is one of the more subtle features of the surface and matters most for traders running long-dated structured exposures.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Term structure is the IV of ATM options across different expiries.</li>
+      <li>Contango (upward slope) is the normal state. Backwardation (downward slope) signals stress.</li>
+      <li>VIX/VIX3M is a useful regime indicator. Above 1 = stress.</li>
+      <li>Selling front-month options in contango generates a structural roll yield.</li>
+      <li>Term structure flips during crises and unwinds short-vol strategies if not actively managed.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l12-skew-and-the-smirk.html">
+      <div class="lesson-nav-lbl">← Previous · L.12</div>
+      <div class="lesson-nav-name">Skew and the Smirk</div>
+    </a>
+    <a class="lesson-nav-card next" href="l14-the-vix-complex.html">
+      <div class="lesson-nav-lbl">Next · L.14 →</div>
+      <div class="lesson-nav-name">The VIX Complex</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

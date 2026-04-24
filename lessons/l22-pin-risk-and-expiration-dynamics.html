@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pin Risk and Expiration Dynamics — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+body > nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+}
+.nav-links a:hover { color: var(--grey); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 800px; margin: 0 auto;
+  padding: 148px 52px 80px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+  text-decoration: none; transition: color 0.35s ease;
+  margin-bottom: 64px;
+}
+.back-link:hover { color: var(--grey); }
+.back-arrow { transition: transform 0.35s ease; }
+.back-link:hover .back-arrow { transform: translateX(-3px); }
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  body > nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 120px 24px 60px; }
+  .back-link { margin-bottom: 40px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <a class="back-link reveal" href="../education.html">
+      <span class="back-arrow">←</span>
+      <span>All Lessons</span>
+    </a>
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track V · Microstructure</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.22</span>
+    </div>
+    <h1 class="lesson-title reveal">Pin Risk and Expiration Dynamics</h1>
+    <p class="lesson-tagline reveal">On expiration day, options stop being abstract derivatives and become deliverable contracts. The hours leading up to the close create their own microstructure.</p>
+    <div class="lesson-meta reveal">
+      <span>12 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 22 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>What pin risk is</h2>
+    <p>Pin risk is the risk that the underlying closes very close to a strike price on expiry day. For an option holder, this creates an exercise dilemma: the option is barely in the money, but exercising means taking a stock position that may move against you the following Monday. For an option seller, it creates an assignment ambiguity: you may or may not be assigned, and you cannot know until after the close.</p>
+    <p>The risk is most acute for short-position holders. If you are short a $100 call and the stock closes at $100.05, you might or might not be assigned. If you assume you will be and you cover by buying 100 shares, but the buyer chooses not to exercise, you wake up Monday long 100 shares with no offsetting short. If you assume you will not be and you do nothing, but the buyer does exercise, you wake up Monday short 100 shares with no offsetting long.</p>
+    <h2>Why prices pin</h2>
+    <p>As covered in L.20, dealer gamma rises sharply near expiry for options at strikes near the spot price. Dealer hedging at high-OI strikes mechanically pulls the spot toward those strikes.</p>
+    <p>The mechanism: as spot drifts above a high-OI strike, dealers (typically short the calls) become longer delta. They sell stock to hedge. The selling pulls spot back toward the strike. As spot drifts below the strike, dealers become shorter delta. They buy stock to hedge. The buying pulls spot back up toward the strike.</p>
+    <p>The result is a stock that gets visibly attracted to the strike as expiry approaches. Empirical studies have documented this for decades. Options-heavy stocks pin at major strikes more often than chance would predict.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="640" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="80.0" y1="300" x2="80.0" y2="305"/>
+          <text class="ticklabel" x="80.0" y="318" text-anchor="middle">9:30</text>
+          <line class="tick" x1="173.3" y1="300" x2="173.3" y2="305"/>
+          <text class="ticklabel" x="173.3" y="318" text-anchor="middle">10:30</text>
+          <line class="tick" x1="266.7" y1="300" x2="266.7" y2="305"/>
+          <text class="ticklabel" x="266.7" y="318" text-anchor="middle">11:30</text>
+          <line class="tick" x1="360.0" y1="300" x2="360.0" y2="305"/>
+          <text class="ticklabel" x="360.0" y="318" text-anchor="middle">12:30</text>
+          <line class="tick" x1="453.3" y1="300" x2="453.3" y2="305"/>
+          <text class="ticklabel" x="453.3" y="318" text-anchor="middle">1:30</text>
+          <line class="tick" x1="546.7" y1="300" x2="546.7" y2="305"/>
+          <text class="ticklabel" x="546.7" y="318" text-anchor="middle">2:30</text>
+          <line class="tick" x1="640.0" y1="300" x2="640.0" y2="305"/>
+          <text class="ticklabel" x="640.0" y="318" text-anchor="middle">3:30 close</text>
+          <line class="tick" x1="75" y1="280.0" x2="80" y2="280.0"/>
+          <text class="ticklabel" x="70" y="283.0" text-anchor="end">$98</text>
+          <line class="tick" x1="75" y1="240.0" x2="80" y2="240.0"/>
+          <text class="ticklabel" x="70" y="243.0" text-anchor="end">$99</text>
+          <line class="tick" x1="75" y1="200.0" x2="80" y2="200.0"/>
+          <text class="ticklabel" x="70" y="203.0" text-anchor="end">$100 · Strike</text>
+          <line class="tick" x1="75" y1="160.0" x2="80" y2="160.0"/>
+          <text class="ticklabel" x="70" y="163.0" text-anchor="end">$101</text>
+          <line class="tick" x1="75" y1="120.0" x2="80" y2="120.0"/>
+          <text class="ticklabel" x="70" y="123.0" text-anchor="end">$102</text>
+          <line class="tick" x1="75" y1="80.0" x2="80" y2="80.0"/>
+          <text class="ticklabel" x="70" y="83.0" text-anchor="end">$103</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">$104</text>
+          <line x1="80" y1="200.0" x2="640" y2="200.0" stroke="#666" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <polyline class="primary" points="80.0,152.7 86.2,172.0 92.4,68.0 98.7,153.3 104.9,162.6 111.1,155.8 117.3,182.0 123.6,187.3 129.8,154.3 136.0,179.7 142.2,147.9 148.4,173.7 154.7,211.9 160.9,200.0 167.1,188.8 173.3,214.6 179.6,170.8 185.8,175.5 192.0,149.1 198.2,187.7 204.4,174.4 210.7,158.1 216.9,155.2 223.1,189.9 229.3,141.4 235.6,182.0 241.8,149.0 248.0,176.1 254.2,178.3 260.4,192.3 266.7,173.6 272.9,133.5 279.1,182.0 285.3,148.9 291.6,152.9 297.8,178.5 304.0,157.5 310.2,154.5 316.4,177.7 322.7,180.8 328.9,160.3 335.1,170.3 341.3,150.0 347.6,170.3 353.8,188.3 360.0,176.5 366.2,188.6 372.4,169.2 378.7,170.3 384.9,181.3 391.1,185.8 397.3,170.5 403.6,181.8 409.8,169.3 416.0,187.0 422.2,181.9 428.4,184.2 434.7,187.8 440.9,163.8 447.1,171.5 453.3,185.9 459.6,178.3 465.8,192.6 472.0,177.4 478.2,179.1 484.4,186.2 490.7,186.7 496.9,184.8 503.1,184.6 509.3,188.0 515.6,190.0 521.8,188.7 528.0,189.6 534.2,187.1 540.4,189.4 546.7,189.7 552.9,193.9 559.1,192.0 565.3,192.6 571.6,193.3 577.8,193.4 584.0,194.2 590.2,195.8 596.4,194.6 602.7,195.4 608.9,196.7 615.1,197.4 621.3,198.7 627.6,199.4 633.8,199.8 640.0,200.0"/>
+          <text class="axislabel" x="360" y="342" text-anchor="middle">Time of Day</text>
+          <text class="axislabel" x="22" y="170" text-anchor="middle" transform="rotate(-90 22 170)">Stock Price</text>
+          <circle cx="640.0" cy="200.0" r="3.5" fill="#FFF"/>
+          <text class="annotation" x="627.6" y="188.0" text-anchor="end" style="fill:#FFF;">Pinned at close</text>
+          <text class="annotation" x="154.7" y="68.0" style="fill:#888;">Morning drift</text>
+          <text class="annotation" x="391.1" y="136.0" style="fill:#888;">Range compresses</text>
+          <text class="annotation" x="80" y="26">Single-Name Stock · Expiry Day · Strike $100</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 22.1</span>
+        <span class="figdesc">Stylized expiry-day price action. Stock drifts in the morning, then converges to the high-OI strike in the afternoon as gamma intensifies.</span>
+      </figcaption>
+    </figure>
+    <h2>Where pinning matters</h2>
+    <p>Three categories of stocks show clear pinning behavior:</p>
+    <ul>
+      <li><strong>Liquid single-names with concentrated OI.</strong> Stocks where one or two strikes near spot dominate the open interest landscape (Apple, Tesla, Nvidia in their popular ranges).</li>
+      <li><strong>Indices with major round-number levels.</strong> SPX often pins at 5000, 4500, 5500. The round numbers attract OI which then attracts hedging flows.</li>
+      <li><strong>Stocks with weekly options.</strong> Friday afternoon pinning is most visible on names with active weekly options.</li>
+    </ul>
+    <p>ETFs and broad indices show less single-strike pinning because the OI distribution is more diffuse. SPY tends to drift toward, but rarely sits exactly on, a single strike.</p>
+<div class="key-point">
+      <div class="key-point-label">How to avoid pin risk</div>
+      <div class="key-point-body"><strong>Close in-the-money short positions before expiry</strong> if the stock is anywhere near the strike. Do not rely on the buyer to behave rationally. The cost of closing (paying a small bid-ask spread) is much smaller than the cost of being uncertain about your overnight position.</div>
+    </div>
+    <h2>Expiration day microstructure</h2>
+    <p>Several patterns recur on expiration days, especially monthly opex (third Friday) and quarterly opex (third Friday of March, June, September, December):</p>
+    <ol>
+      <li><strong>Morning drift.</strong> Stocks often move freely in the first hour or two as gamma is still moderate.</li>
+      <li><strong>Midday compression.</strong> Ranges tighten from mid-morning through early afternoon as gamma intensifies.</li>
+      <li><strong>Afternoon convergence.</strong> In the last hour, stocks often converge sharply toward high-OI strikes.</li>
+      <li><strong>Closing imbalance.</strong> The final 15 minutes can see surprising moves as final hedging is forced and large institutional orders cross.</li>
+      <li><strong>Charm and vanna into the close.</strong> As covered in L.20, OTM put delta decay (charm) and post-event vol crush (vanna) often produce buying pressure into the close.</li>
+    </ol>
+    <h2>Settlement timing risk</h2>
+    <p>Options stop trading at 4:00 PM ET on the third Friday. The buyer has until 5:30 PM ET to submit exercise instructions. Between 4:00 and 5:30, the underlying continues to trade in extended hours. A stock that closes at $100.05 but trades down to $99.95 in extended hours becomes a non-exercise. A stock that closes at $99.95 but trades up to $100.05 in extended hours can become an exercise.</p>
+    <p>This 90-minute window is the most concentrated source of overnight position uncertainty in equity options. Most professional traders close all near-the-money positions before the 4:00 close to eliminate the risk entirely.</p>
+    <h2>Exercise by exception revisited</h2>
+    <p>As covered in L.04: in-the-money options are automatically exercised by the OCC unless the holder explicitly opts out. The threshold is one cent. An option that closes one cent in the money will be exercised. An option that closes one cent out of the money will not.</p>
+    <p>This means the difference between $99.99 and $100.01 on a $100-strike call is not 2 cents of P&L. It is the difference between a worthless option and a $0 expiry on the call holder, vs delivery of 100 shares to the call holder. For the seller, it is the difference between keeping the entire premium and being short 100 shares.</p>
+    <h2>Friday 0DTE expirations</h2>
+    <p>Daily expirations on SPX (called 0DTE for zero days to expiry) have made expiry-day microstructure a daily phenomenon for the index. Pinning behavior, dealer hedging waves, and end-of-day flows now happen every trading day at the index level rather than once a month.</p>
+    <p>This has changed intraday SPX dynamics meaningfully. Studies suggest realized volatility patterns within the day have shifted, with more concentrated late-afternoon activity. Whether this is fundamentally a different market or just a faster version of the old monthly pattern is debated.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Pin risk is the danger of the underlying closing very close to a strike at expiry.</li>
+      <li>Stocks with concentrated open interest at near-spot strikes pin more reliably.</li>
+      <li>Dealer gamma hedging is the mechanism that produces pinning.</li>
+      <li>Close ITM short positions before expiry to avoid assignment ambiguity.</li>
+      <li>0DTE SPX options have made expiry-day microstructure a daily event.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l21-25-delta-skew.html">
+      <div class="lesson-nav-lbl">← Previous · L.21</div>
+      <div class="lesson-nav-name">25-Delta Skew as a Positioning Signal</div>
+    </a>
+    <a class="lesson-nav-card next" href="l23-event-volatility.html">
+      <div class="lesson-nav-lbl">Next · L.23 →</div>
+      <div class="lesson-nav-name">Event Volatility: FOMC, CPI, NFP</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
