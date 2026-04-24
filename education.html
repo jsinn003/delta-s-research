@@ -73,6 +73,19 @@
     text-align: center;
     position: relative;
   }
+  .edu-back-link {
+    position: absolute;
+    top: 96px; left: 52px;
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--faint);
+    text-decoration: none;
+    transition: color 0.35s ease;
+  }
+  .edu-back-link:hover { color: var(--grey); }
+  .edu-back-arrow { font-size: 13px; transition: transform 0.35s ease; }
+  .edu-back-link:hover .edu-back-arrow { transform: translateX(-3px); }
+
   .edu-hero-label {
     font-size: 10px; font-weight: 400; letter-spacing: 0.32em;
     text-transform: uppercase; color: var(--faint);
@@ -306,6 +319,7 @@
     .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
     section, .track-section { padding: 80px 24px; }
     .edu-hero { padding: 140px 24px 80px; }
+    .edu-back-link { top: 84px; left: 24px; font-size: 10px; }
     .lesson-row { grid-template-columns: 50px 1fr; gap: 16px; }
     .lesson-meta { grid-column: 2; padding-top: 4px; }
     footer { padding: 72px 24px 56px; }
@@ -315,7 +329,7 @@
 <body>
 
 <nav id="nav">
-  <div class="nav-wordmark">Delta S Research</div>
+  <a class="nav-wordmark" href="index.html" style="text-decoration:none;">Delta S Research</a>
   <ul class="nav-links">
     <li><a href="index.html#philosophy">Philosophy</a></li>
     <li><a href="index.html#methodology">Methodology</a></li>
@@ -329,6 +343,10 @@
 
 <!-- ═══ HERO ═══ -->
 <section class="edu-hero">
+  <a class="edu-back-link" href="index.html">
+    <span class="edu-back-arrow">←</span>
+    <span>Delta S Research</span>
+  </a>
   <div class="edu-hero-label reveal">Education / Options</div>
   <h1 class="edu-hero-title reveal">
     Options.<br><span class="accent">From the inside out.</span>
