@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Variance Risk Premium — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+body > nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+}
+.nav-links a:hover { color: var(--grey); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 800px; margin: 0 auto;
+  padding: 148px 52px 80px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+  text-decoration: none; transition: color 0.35s ease;
+  margin-bottom: 64px;
+}
+.back-link:hover { color: var(--grey); }
+.back-arrow { transition: transform 0.35s ease; }
+.back-link:hover .back-arrow { transform: translateX(-3px); }
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  body > nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 120px 24px 60px; }
+  .back-link { margin-bottom: 40px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <a class="back-link reveal" href="../education.html">
+      <span class="back-arrow">←</span>
+      <span>All Lessons</span>
+    </a>
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track III · Volatility</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.11</span>
+    </div>
+    <h1 class="lesson-title reveal">The Variance Risk Premium</h1>
+    <p class="lesson-tagline reveal">Implied vol exceeds realized vol on average. That gap is the variance risk premium, and it is the structural edge that pays short-vol traders for taking on the risk that buyers want to hedge.</p>
+    <div class="lesson-meta reveal">
+      <span>18 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 11 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>The empirical fact</h2>
+    <p>If you compute the IV of SPY 30-day options today, and compare it to the RV that SPY actually delivers over the next 30 days, on average the IV will be higher. Across decades of data, on hundreds of underlyings, the same pattern holds. Implied volatility runs structurally above realized volatility.</p>
+    <p>The gap is not a small one. For SPY, the long-run average IV is roughly 16-17%, while the long-run average 30-day RV is roughly 13-14%. The wedge of 3-4 vol points is the <strong>variance risk premium (VRP)</strong>.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300" stroke="#777" stroke-width="0.6"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300" stroke="#777" stroke-width="0.6"/>
+          <rect x="82.0" y="288.7" width="32.2" height="11.3" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="118.2" y="277.4" width="32.2" height="22.6" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="136.4" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">-8</text>
+          <rect x="154.5" y="260.4" width="32.2" height="39.6" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="190.8" y="237.8" width="32.2" height="62.2" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="208.9" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">-4</text>
+          <rect x="227.0" y="192.6" width="32.2" height="107.4" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="263.2" y="141.7" width="32.2" height="158.3" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="281.4" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">0</text>
+          <rect x="299.5" y="79.6" width="32.2" height="220.4" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="335.8" y="40.0" width="32.2" height="260.0" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="353.9" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">4</text>
+          <rect x="372.0" y="62.6" width="32.2" height="237.4" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="408.2" y="119.1" width="32.2" height="180.9" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="426.4" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">8</text>
+          <rect x="444.5" y="164.3" width="32.2" height="135.7" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="480.8" y="209.6" width="32.2" height="90.4" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="498.9" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">12</text>
+          <rect x="517.0" y="237.8" width="32.2" height="62.2" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="553.2" y="260.4" width="32.2" height="39.6" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="571.4" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">16</text>
+          <rect x="589.5" y="277.4" width="32.2" height="22.6" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <rect x="625.8" y="288.7" width="32.2" height="11.3" fill="rgba(255,255,255,0.12)" stroke="#AAA" stroke-width="0.5"/>
+          <text class="ticklabel" x="643.9" y="318" text-anchor="middle" style="font-size:10px; fill:#777;">20</text>
+          <line x1="261.2" y1="40" x2="261.2" y2="300" stroke="#FFF" stroke-width="0.8" stroke-dasharray="3 3"/>
+          <text class="annotation" x="267.2" y="52" style="fill:#FFF;">IV = RV</text>
+          <line x1="351.9" y1="40" x2="351.9" y2="300" stroke="#E0E0E0" stroke-width="1" stroke-dasharray="2 2"/>
+          <text class="annotation" x="357.9" y="70" style="fill:#E0E0E0;">Mean ≈ +4 vol pts</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">IV − RV (volatility points)</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">Frequency</text>
+          <text class="annotation" x="80" y="28">Distribution of IV − RV · SPY · 30-day rolling · Illustrative</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 11.1</span>
+        <span class="figdesc">Distribution of (IV − RV) for SPY 30-day options. The center of the distribution sits clearly to the right of zero. Negative observations exist (IV undershoots) but they are the minority.</span>
+      </figcaption>
+    </figure>
+    <h2>Why the gap exists</h2>
+    <p>Two main forces produce the VRP. Both are about who wants what.</p>
+    <p>First, <strong>insurance demand</strong>. Investors who hold long stock want to hedge tail risk. They buy puts. They are willing to overpay for that insurance, the way people overpay for car insurance or home insurance. The expected payout is less than the premium, but the buyer values the protection more than the actuarial cost.</p>
+    <p>Second, <strong>risk aversion among option sellers</strong>. The other side of the trade is the option seller, who takes on a position with bounded gain and unbounded loss (in the case of a short call) or bounded gain and large bounded loss (in the case of a short put). Sellers require compensation for taking on this asymmetric risk. They charge a premium above the fair statistical price.</p>
+    <p>These two forces compound. The result is a persistent wedge between what options cost and what the underlying actually delivers.</p>
+    <h2>VRP is a return, not a free lunch</h2>
+    <p>It would be tempting to read the VRP as a guaranteed profit for option sellers. It is not. The premium exists precisely because short volatility is a risky position. On average it pays. In the worst weeks, it pays brutally negative.</p>
+    <p>Selling vol is structurally similar to writing insurance. You collect steady small premiums for years, and then a hurricane hits and you pay out far more than you ever collected on a single event. Long-term, the math works. Short-term, the path can wipe you out.</p>
+    <div class="pull-quote">The variance risk premium is real. It pays you for being there in the bad weeks, not in the good ones.</div>
+    <h2>How the VRP is captured</h2>
+    <p>Several approaches exist to harvest the VRP. They differ in mechanics but share the same underlying logic: be short premium when the premium is rich, manage the tail risk on the way.</p>
+    <ul>
+      <li><strong>Short straddles or strangles.</strong> Sell ATM or OTM options on both sides. Maximally exposed to spot but pure short-vol exposure.</li>
+      <li><strong>Iron condors.</strong> Short strangle with long wings. Capped tail risk in exchange for lower premium captured.</li>
+      <li><strong>Variance swaps.</strong> Direct OTC instrument that pays the spread between IV and RV. Used by institutional players.</li>
+      <li><strong>VIX futures roll.</strong> Sell front-month VIX futures and roll them as they expire. Captures the term-structure premium that often coexists with the VRP.</li>
+    </ul>
+    <h2>When the VRP fails</h2>
+    <p>The VRP is an average. The distribution has a left tail. In specific weeks (October 1987, August 2015, February 2018, March 2020), realized volatility blew through implied volatility by orders of magnitude. Short-premium positions held through those weeks suffered enormous losses, sometimes 100% of capital.</p>
+    <p>This means VRP harvesting is not a buy-and-hold strategy. It requires regime detection and risk management. Periods when the VRP is negative (IV cheap relative to RV) are usually the periods immediately preceding a vol spike. Selling premium in those periods is approximately the worst possible time to do it.</p>
+<div class="key-point">
+      <div class="key-point-label">The Delta S framing</div>
+      <div class="key-point-body">The VRP is what makes our entire research program coherent. We build systematic signals to detect <strong>when the premium is rich enough to harvest</strong> and <strong>when the regime suggests we should not be in the trade</strong>. The Z-score on (IV − RV) is the entry signal. Event dates and structural breaks define the exits. The VRP itself is the source of return; everything else is risk management.</div>
+    </div>
+    <h2>Cross-sectional VRP</h2>
+    <p>The VRP is not uniform across underlyings. SPY and QQQ tend to have richer premiums than individual stocks. Indices that experience occasional crashes carry more premium than indices that move smoothly. Single-name VRP can be dominated by event risk (earnings, M&A) rather than ambient demand for hedging.</p>
+    <p>This creates opportunities and traps. Some single-name options carry inflated premiums driven by retail speculation rather than rational hedging demand. The premium can stay rich indefinitely if the underlying is meme-driven. Others are persistently underpriced because no one is hedging them.</p>
+    <h2>Term-structure VRP</h2>
+    <p>The VRP varies across expiries. 30-day VRP is the most studied and most consistently positive. Very-short-dated options (0-3 days) sometimes carry negative VRP because the realized volatility includes specific intraday moves that the IV did not anticipate. Longer-dated options (90+ days) carry stable but smaller VRP per unit of time.</p>
+    <p>The richest part of the curve, on a per-day basis, is usually 30-45 days. This is where systematic short-premium programs concentrate.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Implied vol exceeds realized vol on average. The gap is the variance risk premium.</li>
+      <li>The VRP exists because of insurance demand and risk aversion among sellers.</li>
+      <li>It is a real return, not a free lunch. The path includes severe drawdowns.</li>
+      <li>Capturing the VRP requires regime detection and risk management.</li>
+      <li>The richest VRP per unit of time tends to live in 30-45 day options on liquid indices.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l10-implied-vs-realized-volatility.html">
+      <div class="lesson-nav-lbl">← Previous · L.10</div>
+      <div class="lesson-nav-name">Implied vs Realized Volatility</div>
+    </a>
+    <a class="lesson-nav-card next" href="l12-skew-and-the-smirk.html">
+      <div class="lesson-nav-lbl">Next · L.12 →</div>
+      <div class="lesson-nav-name">Skew and the Smirk</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

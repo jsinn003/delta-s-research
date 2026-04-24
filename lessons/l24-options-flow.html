@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options Flow and Order Internalization — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+body > nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+}
+.nav-links a:hover { color: var(--grey); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 800px; margin: 0 auto;
+  padding: 148px 52px 80px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+  text-decoration: none; transition: color 0.35s ease;
+  margin-bottom: 64px;
+}
+.back-link:hover { color: var(--grey); }
+.back-arrow { transition: transform 0.35s ease; }
+.back-link:hover .back-arrow { transform: translateX(-3px); }
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  body > nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 120px 24px 60px; }
+  .back-link { margin-bottom: 40px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <a class="back-link reveal" href="../education.html">
+      <span class="back-arrow">←</span>
+      <span>All Lessons</span>
+    </a>
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track V · Microstructure</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.24</span>
+    </div>
+    <h1 class="lesson-title reveal">Options Flow and Order Internalization</h1>
+    <p class="lesson-tagline reveal">Volume and open interest tell you what is held. Flow tells you what is being bought and sold right now. The two are different stories.</p>
+    <div class="lesson-meta reveal">
+      <span>14 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 24 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>What flow means</h2>
+    <p>Options flow is the stream of orders hitting the market in real time. Each trade is tagged by strike, expiry, type (call or put), size, and (most importantly) whether it executed at the bid or the ask.</p>
+    <p>A trade at the ask is an aggressive buy: someone wanted the option enough to pay the seller's price. A trade at the bid is an aggressive sell: someone wanted out enough to accept the buyer's price. The aggregate of these tags, across all strikes and expiries, paints a picture of who is doing what.</p>
+    <h2>Volume vs flow vs open interest</h2>
+    <p>Three related but distinct measures:</p>
+    <ul>
+      <li><strong>Volume</strong>: total contracts traded today. A single trade contributes one count regardless of who initiated it.</li>
+      <li><strong>Flow</strong>: volume tagged by initiator. Bid-side volume vs ask-side volume.</li>
+      <li><strong>Open interest</strong>: contracts outstanding overnight. Today's volume that opens new positions adds to OI; volume that closes existing positions reduces it.</li>
+    </ul>
+    <p>Flow shows you what is being added or removed today. Open interest shows you the cumulative state of positioning. They can disagree: a day of heavy ask-side flow that all closes existing short positions actually reduces open interest even as it shows aggressive buying.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300" stroke="#777" stroke-width="0.6"/>
+          <line x1="80" y1="170.0" x2="660" y2="170.0" stroke="#888" stroke-width="0.6" stroke-dasharray="2 4"/>
+          <rect x="88.0" y="170.0" width="40.3" height="43.3" fill="rgba(255,255,255,0.06)" stroke="#777" stroke-width="0.5"/>
+          <text class="ticklabel" x="108.2" y="318" text-anchor="middle" style="fill:#777;">490</text>
+          <rect x="136.3" y="170.0" width="40.3" height="21.7" fill="rgba(255,255,255,0.06)" stroke="#777" stroke-width="0.5"/>
+          <text class="ticklabel" x="156.5" y="318" text-anchor="middle" style="fill:#777;">492</text>
+          <rect x="184.7" y="105.0" width="40.3" height="65.0" fill="rgba(255,255,255,0.18)" stroke="#E0E0E0" stroke-width="0.5"/>
+          <text class="ticklabel" x="204.8" y="318" text-anchor="middle" style="fill:#777;">495</text>
+          <rect x="233.0" y="137.5" width="40.3" height="32.5" fill="rgba(255,255,255,0.18)" stroke="#E0E0E0" stroke-width="0.5"/>
+          <text class="ticklabel" x="253.2" y="318" text-anchor="middle" style="fill:#777;">497</text>
+          <rect x="281.3" y="40.0" width="40.3" height="130.0" fill="rgba(255,255,255,0.18)" stroke="#E0E0E0" stroke-width="0.5"/>
+          <text class="ticklabel" x="301.5" y="318" text-anchor="middle" style="fill:#777;">500</text>
+          <rect x="329.7" y="72.5" width="40.3" height="97.5" fill="rgba(255,255,255,0.18)" stroke="#E0E0E0" stroke-width="0.5"/>
+          <text class="ticklabel" x="349.8" y="318" text-anchor="middle" style="fill:#777;">502</text>
+          <rect x="378.0" y="170.0" width="40.3" height="10.8" fill="rgba(255,255,255,0.06)" stroke="#777" stroke-width="0.5"/>
+          <text class="ticklabel" x="398.2" y="318" text-anchor="middle" style="fill:#777;">505</text>
+          <rect x="426.3" y="170.0" width="40.3" height="75.8" fill="rgba(255,255,255,0.06)" stroke="#777" stroke-width="0.5"/>
+          <text class="ticklabel" x="446.5" y="318" text-anchor="middle" style="fill:#777;">507</text>
+          <rect x="474.7" y="126.7" width="40.3" height="43.3" fill="rgba(255,255,255,0.18)" stroke="#E0E0E0" stroke-width="0.5"/>
+          <text class="ticklabel" x="494.8" y="318" text-anchor="middle" style="fill:#777;">510</text>
+          <rect x="523.0" y="170.0" width="40.3" height="32.5" fill="rgba(255,255,255,0.06)" stroke="#777" stroke-width="0.5"/>
+          <text class="ticklabel" x="543.2" y="318" text-anchor="middle" style="fill:#777;">512</text>
+          <rect x="571.3" y="170.0" width="40.3" height="65.0" fill="rgba(255,255,255,0.06)" stroke="#777" stroke-width="0.5"/>
+          <text class="ticklabel" x="591.5" y="318" text-anchor="middle" style="fill:#777;">515</text>
+          <rect x="619.7" y="170.0" width="40.3" height="108.3" fill="rgba(255,255,255,0.06)" stroke="#777" stroke-width="0.5"/>
+          <text class="ticklabel" x="639.8" y="318" text-anchor="middle" style="fill:#777;">520</text>
+          <line x1="301.5" y1="40" x2="301.5" y2="300" stroke="#FFF" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <text class="annotation" x="307.5" y="52" style="fill:#FFF;">Spot $500</text>
+          <text class="annotation" x="656" y="120.0" text-anchor="end" style="fill:#AAA;">Net call buying</text>
+          <text class="annotation" x="656" y="230.0" text-anchor="end" style="fill:#AAA;">Net put buying</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Strike</text>
+          <text class="annotation" x="80" y="28">SPY · 5-day net options flow · Illustrative</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 24.1</span>
+        <span class="figdesc">Net options flow across strikes for a single underlying. Positive bars indicate ask-side (aggressive buying) bias. Negative bars indicate bid-side (aggressive selling) bias.</span>
+      </figcaption>
+    </figure>
+    <h2>What flow signals can tell you</h2>
+    <p>Flow analysis tries to separate informed flow (institutions positioning ahead of moves) from uninformed flow (retail noise, random hedging). Several heuristics get applied:</p>
+    <ul>
+      <li><strong>Block trades.</strong> Large size (1000+ contracts) executed in single prints. Often institutional. Worth noting individually.</li>
+      <li><strong>Sweeps.</strong> Single buyers crossing multiple exchanges to hit liquidity simultaneously. Suggests urgency, often informed.</li>
+      <li><strong>Repeated flow at a strike.</strong> The same direction of aggressive flow building over hours or days. Suggests an intentional position.</li>
+      <li><strong>Unusual options activity (UOA).</strong> Volume that vastly exceeds historical norms. Sometimes informational, often noise.</li>
+    </ul>
+    <p>None of these are reliable signals on their own. The hit rate on flow-based prediction is uncomfortable for anyone who has actually backtested it. Flow is one input among many, and it is most useful as a corroborating data point rather than a primary signal.</p>
+    <h2>Order internalization</h2>
+    <p>Most retail options orders never reach the public exchanges. They are routed to wholesalers (Citadel Securities, Susquehanna, others) who pay the broker for the order flow (PFOF) and execute the order internally against their own book.</p>
+    <p>This is called <strong>order internalization</strong>. The wholesaler offers the customer a fill at or better than the National Best Bid and Offer (NBBO), and pockets the spread. For the retail customer, the execution is usually fine. For the public market, the consequence is that retail flow is mostly invisible to the visible volume tape.</p>
+    <p>This matters for flow analysis. The volume you see on public exchanges is dominated by institutional and market maker activity. Retail flow exists but is largely off-tape. When flow analysis platforms claim to track retail vs institutional flow, they are using inferences (size, time of day, contract characteristics) rather than direct identification.</p>
+<div class="key-point">
+      <div class="key-point-label">What flow analysis is good at and what it is not</div>
+      <div class="key-point-body">Flow analysis is <strong>good at</strong> identifying large positioning shifts, surprising premium increases at specific strikes, and corroborating other signals. It is <strong>not good at</strong> reliably predicting single-name moves, identifying "smart money" with consistent edge, or replacing fundamental or systematic analysis. Treat it as ambient information, not a trading signal.</div>
+    </div>
+    <h2>Flow vs price action</h2>
+    <p>When flow and price diverge, traders pay attention. Heavy call buying with the stock falling (bullish positioning into weakness) can signal an attempted bottom. Heavy put buying with the stock rising (defensive positioning into strength) can signal an attempted top.</p>
+    <p>Both patterns have weak statistical edges and high false-positive rates. They are most useful as confirmation rather than initiation. A trader who has a bullish setup from technical or systematic analysis can use call flow as a corroborating data point. A trader who buys solely because flow looks bullish will be wrong often.</p>
+    <h2>Dark pools and SIP</h2>
+    <p>Equity markets have dark pools (private exchanges where orders are not displayed publicly) that handle a meaningful fraction of total volume. Options markets have less dark trading because the OCC requires all options trades to be cleared centrally and reported. But there is still a lag between execution and public reporting, and large institutional trades can be partially obscured.</p>
+    <p>The Securities Information Processor (SIP) consolidates options trade data and publishes it with a small delay. Most retail flow tools work from the SIP. High-frequency proprietary flow tools work from direct exchange feeds and see trades milliseconds earlier.</p>
+    <h2>0DTE flow</h2>
+    <p>The rise of zero-day-to-expiry (0DTE) options on SPX has changed the flow landscape dramatically. 0DTE volume now exceeds longer-dated options by a wide margin most days. The flow patterns are different: shorter holding periods, more retail participation, more momentum-driven activity.</p>
+    <p>This has shifted some of the daily microstructure of SPX. The afternoon flow patterns covered in L.20 (charm flows, vanna flows, end-of-day hedging) interact differently with 0DTE volume. The space is still being studied. The patterns are not fully stable.</p>
+    <h2>Where to actually use flow</h2>
+    <p>Practical applications for systematic and discretionary traders:</p>
+    <ol>
+      <li><strong>Confirmation.</strong> If your other signals say long, and call flow is heavy, that is a small additional confidence point.</li>
+      <li><strong>Risk awareness.</strong> If your position is short premium at a strike and you see heavy buying flow at that strike, your gamma risk just got worse.</li>
+      <li><strong>Macro positioning gauge.</strong> Aggregate index flow can signal regime shifts (large protective put buying ahead of a known event window).</li>
+      <li><strong>Single-name idea generation.</strong> Unusual flow can flag stocks worth investigating further. It is a starting point, not an answer.</li>
+    </ol>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Flow is volume tagged by initiator (bid-side vs ask-side).</li>
+      <li>Volume, flow, and open interest answer different questions about positioning.</li>
+      <li>Most retail options flow is internalized by wholesalers and invisible to the public tape.</li>
+      <li>Flow analysis is corroborating information, not a primary trading signal.</li>
+      <li>0DTE volume has reshaped intraday flow dynamics in the index complex.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l23-event-volatility.html">
+      <div class="lesson-nav-lbl">← Previous · L.23</div>
+      <div class="lesson-nav-name">Event Volatility: FOMC, CPI, NFP</div>
+    </a>
+    <div class="lesson-nav-card disabled"></div>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

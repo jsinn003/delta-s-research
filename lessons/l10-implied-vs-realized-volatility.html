@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implied vs Realized Volatility — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+body > nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+}
+.nav-links a:hover { color: var(--grey); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 800px; margin: 0 auto;
+  padding: 148px 52px 80px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+  text-decoration: none; transition: color 0.35s ease;
+  margin-bottom: 64px;
+}
+.back-link:hover { color: var(--grey); }
+.back-arrow { transition: transform 0.35s ease; }
+.back-link:hover .back-arrow { transform: translateX(-3px); }
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  body > nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 120px 24px 60px; }
+  .back-link { margin-bottom: 40px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <a class="back-link reveal" href="../education.html">
+      <span class="back-arrow">←</span>
+      <span>All Lessons</span>
+    </a>
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track III · Volatility</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.10</span>
+    </div>
+    <h1 class="lesson-title reveal">Implied vs Realized Volatility</h1>
+    <p class="lesson-tagline reveal">Implied is what you pay. Realized is what you get. The gap between them is where every options trader lives.</p>
+    <div class="lesson-meta reveal">
+      <span>13 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 10 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>Two different things</h2>
+    <p><strong>Realized volatility (RV)</strong> is what the underlying actually did. It is computed from price history. You take a window of past returns, compute their standard deviation, and annualize. It is a backward-looking measurement of how much the stock moved.</p>
+    <p><strong>Implied volatility (IV)</strong> is what the options market expects the underlying to do. It is extracted from option prices. You take the market price of an option, run it through Black-Scholes in reverse, and solve for the volatility input that would make the model output match the market price.</p>
+    <p>Both are quoted in annualized percentage terms. They look identical on a chart. They are not the same thing.</p>
+    <h2>How the two relate</h2>
+    <p>Over time, IV and RV track each other loosely. They share the same underlying reality. When the market becomes more volatile, both numbers tend to rise. When it calms down, both tend to fall.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="80.0" y1="300" x2="80.0" y2="305"/>
+          <text class="ticklabel" x="80.0" y="318" text-anchor="middle">Day 0</text>
+          <line class="tick" x1="225.0" y1="300" x2="225.0" y2="305"/>
+          <text class="ticklabel" x="225.0" y="318" text-anchor="middle">30</text>
+          <line class="tick" x1="370.0" y1="300" x2="370.0" y2="305"/>
+          <text class="ticklabel" x="370.0" y="318" text-anchor="middle">60</text>
+          <line class="tick" x1="515.0" y1="300" x2="515.0" y2="305"/>
+          <text class="ticklabel" x="515.0" y="318" text-anchor="middle">90</text>
+          <line class="tick" x1="660.0" y1="300" x2="660.0" y2="305"/>
+          <text class="ticklabel" x="660.0" y="318" text-anchor="middle">120</text>
+          <line class="tick" x1="75" y1="300.0" x2="80" y2="300.0"/>
+          <text class="ticklabel" x="70" y="303.0" text-anchor="end">0%</text>
+          <line class="tick" x1="75" y1="248.0" x2="80" y2="248.0"/>
+          <text class="ticklabel" x="70" y="251.0" text-anchor="end">10%</text>
+          <line class="tick" x1="75" y1="196.0" x2="80" y2="196.0"/>
+          <text class="ticklabel" x="70" y="199.0" text-anchor="end">20%</text>
+          <line class="tick" x1="75" y1="144.0" x2="80" y2="144.0"/>
+          <text class="ticklabel" x="70" y="147.0" text-anchor="end">30%</text>
+          <line class="tick" x1="75" y1="92.0" x2="80" y2="92.0"/>
+          <text class="ticklabel" x="70" y="95.0" text-anchor="end">40%</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">50%</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Trading Days</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">Annualized Vol</text>
+          <polyline class="primary" points="80.0,217.5983464999565 84.83333333333333,218.26384920908197 89.66666666666667,221.09231350243493 94.5,217.40851559863583 99.33333333333333,214.1430270925683 104.16666666666666,213.04419447794498 109.0,218.430099833021 113.83333333333334,216.76867412217842 118.66666666666666,222.04729781783658 123.5,224.56053280274236 128.33333333333331,223.219514668088 133.16666666666666,221.2730972516104 138.0,220.08628856349193 142.83333333333334,221.9847226596176 147.66666666666669,219.98886533633026 152.5,221.76486076270024 157.33333333333331,222.59004336355432 162.16666666666669,220.3284555108763 167.0,221.54778000845684 171.83333333333331,222.9346327754416 176.66666666666666,225.14869399298993 181.5,223.40052009235706 186.33333333333331,222.91925409138463 191.16666666666669,228.8981065199114 196.0,228.62435540002798 200.83333333333334,226.4812807950849 205.66666666666669,230.5669455256513 210.5,227.79027089712721 215.33333333333334,222.74609342310993 220.16666666666666,222.07665340286206 225.0,180.37263790904825 229.83333333333334,183.60643594040658 234.66666666666666,188.28507084428406 239.5,185.68964416767278 244.33333333333334,191.7932032864552 249.16666666666669,188.54029188916417 254.0,195.88110031873367 258.83333333333337,195.81196598977857 263.66666666666663,200.35510179969413 268.5,197.73977375266657 273.3333333333333,197.925962352962 278.16666666666663,193.8963715776883 283.0,193.4233664371995 287.83333333333337,199.485326945711 292.66666666666663,197.37114209791753 297.5,204.5010763518959 302.33333333333337,202.48803532149697 307.16666666666663,203.77778291091937 312.0,208.5198022379692 316.83333333333337,207.21168453407074 321.6666666666667,206.6775158258325 326.5,206.80801160878582 331.33333333333337,209.37163007349403 336.1666666666667,206.4929927642297 341.0,209.75539105911088 345.8333333333333,205.53526907433076 350.6666666666667,210.40408436455493 355.5,211.18881881368475 360.3333333333333,207.08649452583853 365.16666666666663,203.63913946765103 370.0,206.7527456318786 374.8333333333333,203.73359459697053 379.6666666666667,203.30981365900288 384.5,203.50857978982737 389.3333333333333,204.72288686853565 394.16666666666663,203.53983574017397 399.0,201.81921890092696 403.8333333333333,196.29508550322163 408.6666666666667,198.6544212381234 413.5,199.6025896412462 418.33333333333337,201.51253886729688 423.1666666666667,196.5445319376657 428.0,201.0639001270402 432.8333333333333,200.60789869010569 437.6666666666667,202.76269643268245 442.5,177.88431580527413 447.3333333333333,172.24833192449015 452.1666666666667,176.20510971699588 457.0,178.9387115360242 461.8333333333333,189.3434022229876 466.66666666666663,187.56949524672092 471.5,189.2391250798317 476.3333333333333,187.94589731635753 481.1666666666667,194.69701208521712 486.0,196.86592544538598 490.83333333333337,194.45625216104207 495.6666666666667,192.17676016734816 500.5,191.27649454554157 505.3333333333333,192.00400929006548 510.1666666666667,193.7096860115264 515.0,192.37717593903523 519.8333333333333,193.87437905346337 524.6666666666667,191.7494314360569 529.5,184.43654516938943 534.3333333333333,183.2011374699776 539.1666666666666,184.46809955977966 544.0,185.39136152934577 548.8333333333333,191.72704858438905 553.6666666666667,191.06207527545723 558.5,195.55211404455736 563.3333333333334,192.66340258299186 568.1666666666667,189.27423932021452 573.0,190.6473875073334 577.8333333333333,189.56498149020737 582.6666666666667,193.70422194080277 587.5,191.7763588236707 592.3333333333334,199.18008942258814 597.1666666666667,200.36141768602 602.0,199.93660921460668 606.8333333333334,196.1057222325462 611.6666666666666,193.5953756808513 616.5,190.2246305459154 621.3333333333334,193.87476810060645 626.1666666666666,194.66165152023206 631.0,191.3250193013381 635.8333333333334,199.76455099399547 640.6666666666666,206.40056377247618 645.5,205.9313870479008 650.3333333333333,206.50476750446643 655.1666666666666,206.7732204462868 660.0,207.46576804834945"/>
+          <text class="annotation" x="666.0" y="210.46576804834945">IV</text>
+          <polyline class="secondary" points="80.0,235.7383892944399 84.83333333333333,237.0341672081702 89.66666666666667,237.8558529201298 94.5,236.291490756301 99.33333333333333,235.49016556709597 104.16666666666666,234.98436327776892 109.0,232.08050068924376 113.83333333333334,230.7063629751948 118.66666666666666,237.60560668406242 123.5,239.3093671130064 128.33333333333331,239.3397364430317 133.16666666666666,241.5382920171323 138.0,239.78850635999422 142.83333333333334,233.36161549609983 147.66666666666669,229.34358719016825 152.5,232.695938077213 157.33333333333331,233.47563667783623 162.16666666666669,232.90131054061567 167.0,236.76036651909743 171.83333333333331,232.383383611334 176.66666666666666,231.90979108219676 181.5,237.78767280651547 186.33333333333331,233.0179322786965 191.16666666666669,234.55509931427983 196.0,237.77351887000816 200.83333333333334,237.98633617796347 205.66666666666669,234.942070286018 210.5,231.71184053877357 215.33333333333334,230.86432633560372 220.16666666666666,236.13215205717717 225.0,171.5003823599848 229.83333333333334,152.68817926964283 234.66666666666666,161.41440570519316 239.5,174.90497630149088 244.33333333333334,179.04934020656844 249.16666666666669,181.62766409067865 254.0,195.27182574473804 258.83333333333337,201.33807314579968 263.66666666666663,200.6813959753685 268.5,203.06248745254294 273.3333333333333,204.24440782855055 278.16666666666663,204.65959108641687 283.0,205.30105903148586 287.83333333333337,203.2194643019761 292.66666666666663,204.0420768104671 297.5,209.03330595876403 302.33333333333337,217.91146136124053 307.16666666666663,215.77546372679893 312.0,211.66064006657047 316.83333333333337,214.28229391590327 321.6666666666667,213.78232559377065 326.5,211.51753628774603 331.33333333333337,215.1137729921781 336.1666666666667,216.81512300557176 341.0,215.0328159987307 345.8333333333333,218.4573576687992 350.6666666666667,220.47925250945818 355.5,222.93363103336776 360.3333333333333,227.84498931575183 365.16666666666663,233.24208217431965 370.0,231.29197814518471 374.8333333333333,228.66985133864705 379.6666666666667,228.86608616140728 384.5,227.4707790826588 389.3333333333333,227.27124972752193 394.16666666666663,228.09449405495576 399.0,226.7951381404884 403.8333333333333,226.47673589139663 408.6666666666667,228.72268344600775 413.5,226.07029281022068 418.33333333333337,225.5882627743149 423.1666666666667,235.8846350385084 428.0,235.13407909389974 432.8333333333333,234.46294584933347 437.6666666666667,232.3291780376687 442.5,191.59511066597037 447.3333333333333,193.9828181936117 452.1666666666667,197.83418546804666 457.0,201.24382986025466 461.8333333333333,205.9246359401884 466.66666666666663,212.71223170760763 471.5,211.23249361043565 476.3333333333333,207.9144648538507 481.1666666666667,211.57559633016314 486.0,211.38877358452052 490.83333333333337,223.25117133540653 495.6666666666667,229.66813568561005 500.5,235.73406861903158 505.3333333333333,231.53480034786233 510.1666666666667,231.32440106825274 515.0,231.31183599245668 519.8333333333333,226.23383705662303 524.6666666666667,228.21261690863687 529.5,233.13810167726214 534.3333333333333,234.46225460449597 539.1666666666666,232.1470537860124 544.0,230.25862056324144 548.8333333333333,236.3405512571049 553.6666666666667,239.94720408003278 558.5,245.11073512329898 563.3333333333334,241.7924051611151 568.1666666666667,244.87037794945667 573.0,248.43946483811604 577.8333333333333,241.78680831913542 582.6666666666667,235.77225618233058 587.5,236.56579387556118 592.3333333333334,231.52839084307004 597.1666666666667,234.2084143884856 602.0,232.98747105994232 606.8333333333334,237.06978592619186 611.6666666666666,231.6982112637731 616.5,232.82782780924381 621.3333333333334,229.5019968669181 626.1666666666666,229.69778738901914 631.0,231.28887313815932 635.8333333333334,233.203139281192 640.6666666666666,230.57451681418473 645.5,233.36134949988804 650.3333333333333,230.6696901323219 655.1666666666666,226.39557661734472 660.0,223.50511193687174"/>
+          <text class="annotation" x="666.0" y="226.50511193687174">RV</text>
+          <text class="annotation" x="229.83333333333334" y="112.80000000000001">Event spike</text>
+          <text class="annotation" x="80" y="28">SPX 30-Day Implied vs Realized Volatility · Illustrative</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 10.1</span>
+        <span class="figdesc">IV and RV move together but they are not the same. Notice that IV usually sits above RV. The gap is the variance risk premium, covered in the next lesson.</span>
+      </figcaption>
+    </figure>
+    <p>Two patterns are visible in the chart. First, IV and RV move together. Major moves in one usually show up in the other. Second, IV usually sits above RV. This is not random. It reflects a structural premium that options buyers pay for protection. The gap is the subject of the next lesson.</p>
+    <h2>How realized volatility is computed</h2>
+    <p>The standard formula is the annualized standard deviation of log returns over a rolling window. For a 30-day RV calculation:</p>
+    <ol>
+      <li>Compute daily log returns: <code>r_t = ln(P_t / P_{t-1})</code></li>
+      <li>Compute the standard deviation over the last 30 daily returns</li>
+      <li>Annualize by multiplying by the square root of 252 (trading days per year)</li>
+    </ol>
+    <p>Different windows give different RV numbers. A 5-day RV captures very recent behavior. A 60-day RV captures the medium-term backdrop. Both are correct; they just answer different questions.</p>
+    <h2>How implied volatility is computed</h2>
+    <p>There is no closed-form solution. You take the option's market price, plug it into a pricing model along with strike, time to expiry, spot, and the risk-free rate, and solve numerically for the volatility input that reproduces the market price. The result is the IV for that specific option.</p>
+    <p>Different strikes have different IVs. Different expiries have different IVs. The full set of IVs across strikes and expiries is called the <strong>volatility surface</strong>. Lessons L.12 and L.13 cover its shape.</p>
+<div class="key-point">
+      <div class="key-point-label">The single most useful question</div>
+      <div class="key-point-body">Before opening any options trade, ask: <strong>where is current IV relative to recent RV?</strong> If IV is well above recent RV, options are expensive. If IV is below recent RV, options are cheap. This single comparison frames almost every options decision.</div>
+    </div>
+    <h2>Why the relationship matters</h2>
+    <p>If you buy an option, you have paid for IV. You make money if RV ends up higher than what you paid for, plus enough to cover decay. If you sell an option, you have received IV. You make money if RV comes in lower than what you sold.</p>
+    <p>This is why long options is sometimes called "long volatility" and short options is sometimes called "short volatility." The position is, mechanically, a bet on the spread between IV (what you paid or received) and RV (what actually plays out).</p>
+    <h2>Realized vs implied at the index vs single-name level</h2>
+    <p>Index IV (VIX) is usually higher than single-name average IV. This sounds backward (a basket should be less volatile than its components) and it is. The reason is correlation risk: the VIX prices in the chance that all the components fall together. In normal markets, components diversify each other and the index moves less than its parts. In a crash, correlation spikes to 1 and the index moves with the worst components.</p>
+    <p>Index options are pricing the crash scenario. Single-name options are not. This matters when comparing IVs across different underlyings.</p>
+    <h2>Where this lesson points</h2>
+    <p>The next lesson, on the variance risk premium, builds directly on the IV-RV gap. The two lessons after that (skew and term structure) explore how IV varies across the options surface. The Greek that connects all of this to your P&L is vega, which you saw in L.08.</p>
+    <p>Once you internalize that options are priced in IV and your P&L depends on RV, the rest of the curriculum starts to assemble itself. Every strategy is, at root, a position on the IV-RV relationship at some specific part of the surface.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Realized volatility is what actually happened. Implied volatility is what the market expects.</li>
+      <li>IV is extracted from option prices. RV is computed from price history.</li>
+      <li>IV usually sits above RV by a structural margin (the variance risk premium).</li>
+      <li>Long options profits when RV exceeds IV. Short options profits when IV exceeds RV.</li>
+      <li>Always check IV vs recent RV before opening a position.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l09-rho-and-the-quiet-greeks.html">
+      <div class="lesson-nav-lbl">← Previous · L.09</div>
+      <div class="lesson-nav-name">Rho and the Quiet Greeks</div>
+    </a>
+    <a class="lesson-nav-card next" href="l11-the-variance-risk-premium.html">
+      <div class="lesson-nav-lbl">Next · L.11 →</div>
+      <div class="lesson-nav-name">The Variance Risk Premium</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

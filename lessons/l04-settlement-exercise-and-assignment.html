@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settlement, Exercise, and Assignment — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+body > nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+}
+.nav-links a:hover { color: var(--grey); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 800px; margin: 0 auto;
+  padding: 148px 52px 80px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+  text-decoration: none; transition: color 0.35s ease;
+  margin-bottom: 64px;
+}
+.back-link:hover { color: var(--grey); }
+.back-arrow { transition: transform 0.35s ease; }
+.back-link:hover .back-arrow { transform: translateX(-3px); }
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  body > nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 120px 24px 60px; }
+  .back-link { margin-bottom: 40px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <a class="back-link reveal" href="../education.html">
+      <span class="back-arrow">←</span>
+      <span>All Lessons</span>
+    </a>
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track I · Foundations</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.04</span>
+    </div>
+    <h1 class="lesson-title reveal">Settlement, Exercise, and Assignment</h1>
+    <p class="lesson-tagline reveal">Most options are never exercised. Of those that are, most do not surprise anyone. The mechanics matter precisely because they handle the few that do.</p>
+    <div class="lesson-meta reveal">
+      <span>11 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 4 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>Three things that can happen at expiry</h2>
+    <p>An option contract has three possible endings:</p>
+    <ol>
+      <li>It is closed before expiry. The buyer sells it back to the market. The seller buys it back.</li>
+      <li>It expires worthless. Out-of-the-money options simply disappear at expiry. The buyer loses the premium. The seller keeps it.</li>
+      <li>It is exercised. The right is used. Stock changes hands at the strike price.</li>
+    </ol>
+    <p>The vast majority of options end in case one or two. Industry estimates put the share of options that get exercised somewhere between 7% and 12%. Most positions are closed or allowed to expire worthless. But understanding case three is what keeps you out of trouble when it happens.</p>
+    <h2>The lifecycle of an equity option</h2>
+    <p>US equity options follow a fixed schedule. Monthly options expire on the third Friday of the month. Weekly options expire every Friday. The lifecycle from open to settlement looks like this:</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 240" width="700" height="240" xmlns="http://www.w3.org/2000/svg">
+          <!-- Timeline -->
+          <line x1="60" y1="120" x2="640" y2="120" stroke="#777" stroke-width="0.6"/>
+    
+          <!-- Trade open -->
+          <circle cx="80" cy="120" r="4" fill="#E0E0E0"/>
+          <text x="80" y="100" text-anchor="middle" style="font-size:11px; letter-spacing:0.04em; fill:#E0E0E0;">Trade open</text>
+          <text x="80" y="148" text-anchor="middle" style="font-size:10px; fill:#777;">T+0</text>
+    
+          <!-- Holding period -->
+          <text x="240" y="100" text-anchor="middle" style="font-size:10px; letter-spacing:0.14em; text-transform:uppercase; fill:#888;">Holding period</text>
+          <line x1="100" y1="120" x2="380" y2="120" stroke="#888" stroke-width="0.6" stroke-dasharray="2 4"/>
+    
+          <!-- Last trading day -->
+          <circle cx="400" cy="120" r="4" fill="#E0E0E0"/>
+          <text x="400" y="100" text-anchor="middle" style="font-size:11px; fill:#E0E0E0;">Last trading day</text>
+          <text x="400" y="148" text-anchor="middle" style="font-size:10px; fill:#777;">3rd Friday</text>
+          <text x="400" y="164" text-anchor="middle" style="font-size:10px; fill:#777;">close 4:00 PM ET</text>
+    
+          <!-- Decision window -->
+          <line x1="420" y1="120" x2="500" y2="120" stroke="#888" stroke-width="0.8"/>
+          <text x="460" y="100" text-anchor="middle" style="font-size:10px; letter-spacing:0.14em; text-transform:uppercase; fill:#888;">Decision window</text>
+          <text x="460" y="178" text-anchor="middle" style="font-size:9px; fill:#777;">5:30 PM ET cutoff</text>
+    
+          <!-- Expiry -->
+          <circle cx="520" cy="120" r="4" fill="#FFF"/>
+          <text x="520" y="100" text-anchor="middle" style="font-size:11px; fill:#FFF;">Expiry</text>
+          <text x="520" y="148" text-anchor="middle" style="font-size:10px; fill:#777;">Saturday</text>
+    
+          <!-- Settlement -->
+          <line x1="540" y1="120" x2="620" y2="120" stroke="#888" stroke-width="0.6" stroke-dasharray="2 4"/>
+          <circle cx="620" cy="120" r="4" fill="#888"/>
+          <text x="620" y="100" text-anchor="middle" style="font-size:11px; fill:#AAA;">Settlement</text>
+          <text x="620" y="148" text-anchor="middle" style="font-size:10px; fill:#777;">T+1 / T+2</text>
+    
+          <!-- Bottom labels -->
+          <text x="350" y="220" text-anchor="middle" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; fill:#777;">Equity option lifecycle</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 04.1</span>
+        <span class="figdesc">Equity option lifecycle. The decision window between market close and the cutoff is where automatic exercise happens.</span>
+      </figcaption>
+    </figure>
+    <h2>Exercise: the buyer's choice</h2>
+    <p>Only the buyer of an option can exercise it. They have until 5:30 PM ET on the day of expiry to submit an exercise instruction to their broker. After that, the option is gone.</p>
+    <p>In practice, almost no one submits manual instructions. Brokers exercise in-the-money options automatically. The OCC (Options Clearing Corporation) automatically exercises any option that is at least one cent in the money at expiry. This is called <strong>exercise by exception</strong>. You have to opt out, in writing, before the cutoff if you do not want it to happen.</p>
+    <p>This means: if you are long a call that closes one cent in the money on Friday and you forget to act, you will own 100 shares of the underlying on Monday. For SPY at $500, that is a $50,000 position appearing in your account whether you can afford it or not.</p>
+    <h2>Assignment: what happens to the seller</h2>
+    <p>When the buyer exercises, somebody on the other side has to deliver. That somebody is called the <strong>assignee</strong>. The OCC selects an assignee from the pool of open short positions, usually at random or via a defined allocation method. The assigned trader has no choice. They have to fulfill the contract.</p>
+    <p>If you are short a call and get assigned, you must deliver 100 shares of the underlying at the strike price. If you do not own those shares, you have to buy them in the market (potentially at a much higher price) or your broker will buy them for you, sometimes at a punitive price. If you are short a put and get assigned, you must buy 100 shares at the strike, regardless of where the stock is actually trading.</p>
+<div class="key-point">
+      <div class="key-point-label">The assignment risk that catches people</div>
+      <div class="key-point-body"><strong>American-style options can be assigned at any time before expiry</strong>, not just at the close. Early assignment is rare but real, especially around dividend dates. If you are short a call on a dividend-paying stock, the day before the ex-dividend date is a high-risk window. Anyone long that call who is in the money has a financial incentive to exercise early to capture the dividend.</div>
+    </div>
+    <h2>Cash settlement vs physical settlement</h2>
+    <p>Two flavors of settlement exist:</p>
+    <ul>
+      <li><strong>Physical settlement</strong>: stock changes hands. Equity options (single-name stocks, ETFs like SPY and QQQ) are physically settled. If you exercise a SPY call, 100 shares of SPY actually move into your account.</li>
+      <li><strong>Cash settlement</strong>: only the difference is paid. Index options (SPX, NDX, RUT, VIX) are cash settled. There is no underlying you can hold. The seller of an in-the-money option simply pays the buyer the intrinsic value in cash.</li>
+    </ul>
+    <p>This distinction is not academic. SPY and SPX track almost the same thing, but SPY options can stick you with 100 shares you did not want, and SPX options cannot. For trading the index without inventory risk, SPX is the cleaner instrument.</p>
+    <h2>American vs European exercise style</h2>
+    <p><strong>American-style</strong> options can be exercised at any time before expiry. Almost all single-name equity options and most ETF options are American style. <strong>European-style</strong> options can only be exercised at expiry. SPX, NDX, and most other index options are European style.</p>
+    <p>This matters because European options eliminate early-assignment risk entirely. If you are short an SPX put and the index drops 10% on Tuesday afternoon, you cannot be assigned that night. The assignment can only happen at expiry. American options give you no such guarantee.</p>
+    <h2>Practical rules</h2>
+    <ul>
+      <li>Close in-the-money short positions before expiry unless you actually want to take the assignment.</li>
+      <li>On dividend stocks, close in-the-money short calls on the day before ex-dividend to avoid early assignment.</li>
+      <li>Know whether your option is American or European. SPY is American. SPX is European. They are not interchangeable.</li>
+      <li>Know whether your option is cash or physically settled. The difference shows up the Monday after expiry.</li>
+      <li>Never let an option you do not want to be assigned drift into expiry. The exercise-by-exception cutoff is unforgiving.</li>
+    </ul>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Most options are never exercised. The mechanics still matter for the ones that are.</li>
+      <li>Exercise is the buyer's choice. Assignment is the seller's obligation.</li>
+      <li>American options can be assigned early. European options cannot.</li>
+      <li>Equity options are physically settled. Index options are cash settled.</li>
+      <li>Always know your exercise style and settlement type before opening a position.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l03-reading-the-options-chain.html">
+      <div class="lesson-nav-lbl">← Previous · L.03</div>
+      <div class="lesson-nav-name">Reading the Options Chain</div>
+    </a>
+    <a class="lesson-nav-card next" href="l05-delta-directional-exposure.html">
+      <div class="lesson-nav-lbl">Next · L.05 →</div>
+      <div class="lesson-nav-name">Delta: Directional Exposure</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

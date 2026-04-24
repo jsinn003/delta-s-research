@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Covered Calls and Cash-Secured Puts — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+body > nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white); text-decoration: none;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--dim); transition: width 0.35s ease;
+}
+.nav-links a:hover { color: var(--grey); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 800px; margin: 0 auto;
+  padding: 148px 52px 80px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+  text-decoration: none; transition: color 0.35s ease;
+  margin-bottom: 64px;
+}
+.back-link:hover { color: var(--grey); }
+.back-arrow { transition: transform 0.35s ease; }
+.back-link:hover .back-arrow { transform: translateX(-3px); }
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  body > nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 120px 24px 60px; }
+  .back-link { margin-bottom: 40px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <a class="back-link reveal" href="../education.html">
+      <span class="back-arrow">←</span>
+      <span>All Lessons</span>
+    </a>
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track IV · Strategy Construction</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.19</span>
+    </div>
+    <h1 class="lesson-title reveal">Covered Calls and Cash-Secured Puts</h1>
+    <p class="lesson-tagline reveal">Covered calls and cash-secured puts are the entry-level short-premium strategies. They are also the most misunderstood. Run carelessly, they amount to selling your upside cheap.</p>
+    <div class="lesson-meta reveal">
+      <span>13 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 19 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>Covered call: stock plus short call</h2>
+    <p>A covered call is a position consisting of long stock plus a short call against it. The call is "covered" because if it gets assigned, you have the underlying shares to deliver. There is no naked-short-call risk.</p>
+    <p>The position generates income (the call premium) in exchange for capping your upside at the call's strike price. If the stock stays below the strike, you keep the premium and your shares. If it rises above the strike, your shares get called away at the strike, and you keep the premium plus the appreciation up to the strike.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="370.0" y1="300" x2="370.0" y2="305"/>
+          <text class="ticklabel" x="370.0" y="318" text-anchor="middle">$105</text>
+          <line class="tick" x1="75" y1="126.66666666666669" x2="80" y2="126.66666666666669"/>
+          <text class="ticklabel" x="70" y="129.66666666666669" text-anchor="end">0</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">+$15</text>
+          <line class="tick" x1="75" y1="300.0" x2="80" y2="300.0"/>
+          <text class="ticklabel" x="70" y="303.0" text-anchor="end">−$30</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Underlying Price at Expiry</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">P&L per Contract</text>
+          <line class="grid" x1="80" y1="126.66666666666669" x2="660" y2="126.66666666666669" stroke-dasharray="2 4"/>
+          <polygon class="fill-up" points="303.7142857142857,126.66666666666669 303.7142857142857,126.66666666666669 312.0,120.88888888888889 320.28571428571433,115.11111111111111 328.57142857142856,109.33333333333334 336.85714285714283,103.55555555555557 345.1428571428571,97.77777777777777 353.42857142857144,92.0 361.7142857142857,86.22222222222223 370.0,80.44444444444446 378.2857142857143,80.44444444444446 386.57142857142856,80.44444444444446 394.85714285714283,80.44444444444446 403.14285714285717,80.44444444444446 411.4285714285714,80.44444444444446 419.7142857142857,80.44444444444446 428.0,80.44444444444446 436.28571428571433,80.44444444444446 444.57142857142856,80.44444444444446 452.8571428571429,80.44444444444446 461.14285714285717,80.44444444444446 469.4285714285714,80.44444444444446 477.7142857142857,80.44444444444446 486.0,80.44444444444446 494.2857142857143,80.44444444444446 502.57142857142856,80.44444444444446 510.8571428571429,80.44444444444446 519.1428571428571,80.44444444444446 527.4285714285714,80.44444444444446 535.7142857142858,80.44444444444446 544.0,80.44444444444446 552.2857142857142,80.44444444444446 560.5714285714287,80.44444444444446 568.8571428571429,80.44444444444446 577.1428571428571,80.44444444444446 585.4285714285714,80.44444444444446 593.7142857142857,80.44444444444446 602.0,80.44444444444446 610.2857142857142,80.44444444444446 618.5714285714286,80.44444444444446 626.8571428571429,80.44444444444446 635.1428571428571,80.44444444444446 643.4285714285714,80.44444444444446 651.7142857142858,80.44444444444446 660.0,80.44444444444446 660.0,126.66666666666669"/>
+          <polygon class="fill-down" points="80.0,126.66666666666669 80.0,282.6666666666667 88.28571428571428,276.8888888888889 96.57142857142857,271.1111111111111 104.85714285714286,265.3333333333333 113.14285714285714,259.55555555555554 121.42857142857142,253.77777777777777 129.71428571428572,248.0 138.0,242.22222222222223 146.28571428571428,236.44444444444446 154.57142857142856,230.66666666666669 162.85714285714283,224.8888888888889 171.14285714285714,219.11111111111111 179.42857142857144,213.33333333333334 187.71428571428572,207.55555555555554 196.0,201.77777777777777 204.28571428571428,196.0 212.57142857142856,190.22222222222223 220.85714285714286,184.44444444444446 229.14285714285714,178.66666666666669 237.42857142857142,172.8888888888889 245.7142857142857,167.11111111111111 254.0,161.33333333333334 262.2857142857143,155.55555555555554 270.57142857142856,149.7777777777778 278.8571428571429,144.0 287.1428571428571,138.22222222222223 295.42857142857144,132.44444444444443 303.7142857142857,126.66666666666669 303.7142857142857,126.66666666666669"/>
+          <line class="secondary" x1="370.0" y1="40" x2="370.0" y2="300"/>
+          <text class="annotation" x="374.0" y="52">Strike $105</text>
+          <polyline class="primary" points="80.0,282.6666666666667 88.28571428571428,276.8888888888889 96.57142857142857,271.1111111111111 104.85714285714286,265.3333333333333 113.14285714285714,259.55555555555554 121.42857142857142,253.77777777777777 129.71428571428572,248.0 138.0,242.22222222222223 146.28571428571428,236.44444444444446 154.57142857142856,230.66666666666669 162.85714285714283,224.8888888888889 171.14285714285714,219.11111111111111 179.42857142857144,213.33333333333334 187.71428571428572,207.55555555555554 196.0,201.77777777777777 204.28571428571428,196.0 212.57142857142856,190.22222222222223 220.85714285714286,184.44444444444446 229.14285714285714,178.66666666666669 237.42857142857142,172.8888888888889 245.7142857142857,167.11111111111111 254.0,161.33333333333334 262.2857142857143,155.55555555555554 270.57142857142856,149.7777777777778 278.8571428571429,144.0 287.1428571428571,138.22222222222223 295.42857142857144,132.44444444444443 303.7142857142857,126.66666666666669 312.0,120.88888888888889 320.28571428571433,115.11111111111111 328.57142857142856,109.33333333333334 336.85714285714283,103.55555555555557 345.1428571428571,97.77777777777777 353.42857142857144,92.0 361.7142857142857,86.22222222222223 370.0,80.44444444444446 378.2857142857143,80.44444444444446 386.57142857142856,80.44444444444446 394.85714285714283,80.44444444444446 403.14285714285717,80.44444444444446 411.4285714285714,80.44444444444446 419.7142857142857,80.44444444444446 428.0,80.44444444444446 436.28571428571433,80.44444444444446 444.57142857142856,80.44444444444446 452.8571428571429,80.44444444444446 461.14285714285717,80.44444444444446 469.4285714285714,80.44444444444446 477.7142857142857,80.44444444444446 486.0,80.44444444444446 494.2857142857143,80.44444444444446 502.57142857142856,80.44444444444446 510.8571428571429,80.44444444444446 519.1428571428571,80.44444444444446 527.4285714285714,80.44444444444446 535.7142857142858,80.44444444444446 544.0,80.44444444444446 552.2857142857142,80.44444444444446 560.5714285714287,80.44444444444446 568.8571428571429,80.44444444444446 577.1428571428571,80.44444444444446 585.4285714285714,80.44444444444446 593.7142857142857,80.44444444444446 602.0,80.44444444444446 610.2857142857142,80.44444444444446 618.5714285714286,80.44444444444446 626.8571428571429,80.44444444444446 635.1428571428571,80.44444444444446 643.4285714285714,80.44444444444446 651.7142857142858,80.44444444444446 660.0,80.44444444444446"/>
+          <circle cx="303.7142857142857" cy="126.66666666666669" r="3" class="marker"/>
+          <text class="annotation" x="309.7142857142857" y="120.66666666666669">BE $97</text>
+          <text class="annotation" x="80" y="28">Covered Call · Stock at $100 · Sell $105 Call · Premium $3</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 19.1</span>
+        <span class="figdesc">Covered call. Stock owned at $100 cost, $105 call sold for $3 premium. Profit capped at $8 per share. Loss is the stock's downside minus the premium.</span>
+      </figcaption>
+    </figure>
+    <h2>The hidden bargain</h2>
+    <p>Covered calls are often pitched as low-risk income strategies. They are not low-risk. They have exactly the same downside as long stock (minus a small premium cushion) and they cap the upside. The risk profile is identical to a short put with cash collateral, because of put-call parity.</p>
+    <p>Selling a $105 call against $100 stock is the same risk as selling a $105 put naked, except for some second-order effects (dividends, early-exercise risk on the call). Both positions profit if the stock ends between $97 and $105, both make capped profit if it ends above $105, and both eat the full downside if it ends below $97.</p>
+<div class="key-point">
+      <div class="key-point-label">Covered calls are short volatility</div>
+      <div class="key-point-body">Selling a call against stock is selling volatility on that stock. You are betting that the stock will not rise far enough to make the call worth more than the premium you collected. This is a position view, not a free income stream. Treat it like any other short-premium trade: <strong>only sell when IV is rich, not as a default income strategy</strong>.</div>
+    </div>
+    <h2>When covered calls actually make sense</h2>
+    <p>Three setups where covered calls add value:</p>
+    <ol>
+      <li><strong>You already own the stock and have a price target.</strong> Selling a call at your target price monetizes the upside in advance. If you would sell at $105 anyway, why not get paid $3 to commit to it?</li>
+      <li><strong>IV is elevated.</strong> Rich premium means you are getting paid more for the upside cap. Selling calls during high-vol periods extracts more value than selling them during low-vol periods.</li>
+      <li><strong>You expect range-bound behavior.</strong> Covered calls work in flat markets and lose to upside in trending markets. If your view is sideways drift, the strategy fits.</li>
+    </ol>
+    <p>They do not make sense if you are bullish on the stock and want to ride it higher. The opportunity cost of capped upside often exceeds the premium collected. They also do not make sense as a way to "recover" losses on a position. The premium is small relative to most losses worth recovering.</p>
+    <h2>Cash-secured put: paid to wait</h2>
+    <p>A cash-secured put (CSP) is a short put with cash set aside to buy the stock at the strike if assigned. You are agreeing to buy the stock at the strike, and you are getting paid (the put premium) to make that commitment. The position profits if the stock stays above the strike.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="370.0" y1="300" x2="370.0" y2="305"/>
+          <text class="ticklabel" x="370.0" y="318" text-anchor="middle">$95</text>
+          <line class="tick" x1="75" y1="105.0" x2="80" y2="105.0"/>
+          <text class="ticklabel" x="70" y="108.0" text-anchor="end">0</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">+$10</text>
+          <line class="tick" x1="75" y1="300.0" x2="80" y2="300.0"/>
+          <text class="ticklabel" x="70" y="303.0" text-anchor="end">−$30</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Underlying Price at Expiry</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">P&L per Contract</text>
+          <line class="grid" x1="80" y1="105.0" x2="660" y2="105.0" stroke-dasharray="2 4"/>
+          <polygon class="fill-up" points="349.2857142857143,105.0 353.42857142857144,101.75 361.7142857142857,95.25 370.0,88.75 378.2857142857143,88.75 386.57142857142856,88.75 394.85714285714283,88.75 403.14285714285717,88.75 411.4285714285714,88.75 419.7142857142857,88.75 428.0,88.75 436.28571428571433,88.75 444.57142857142856,88.75 452.8571428571429,88.75 461.14285714285717,88.75 469.4285714285714,88.75 477.7142857142857,88.75 486.0,88.75 494.2857142857143,88.75 502.57142857142856,88.75 510.8571428571429,88.75 519.1428571428571,88.75 527.4285714285714,88.75 535.7142857142858,88.75 544.0,88.75 552.2857142857142,88.75 560.5714285714287,88.75 568.8571428571429,88.75 577.1428571428571,88.75 585.4285714285714,88.75 593.7142857142857,88.75 602.0,88.75 610.2857142857142,88.75 618.5714285714286,88.75 626.8571428571429,88.75 635.1428571428571,88.75 643.4285714285714,88.75 651.7142857142858,88.75 660.0,88.75 660.0,105.0"/>
+          <polygon class="fill-down" points="80.0,105.0 80.0,316.25 88.28571428571428,309.75 96.57142857142857,303.25 104.85714285714286,296.75 113.14285714285714,290.25 121.42857142857142,283.75 129.71428571428572,277.25 138.0,270.75 146.28571428571428,264.25 154.57142857142856,257.75 162.85714285714283,251.25 171.14285714285714,244.75 179.42857142857144,238.25 187.71428571428572,231.75 196.0,225.25 204.28571428571428,218.75 212.57142857142856,212.25 220.85714285714286,205.75 229.14285714285714,199.25 237.42857142857142,192.75 245.7142857142857,186.25 254.0,179.75 262.2857142857143,173.25 270.57142857142856,166.75 278.8571428571429,160.25 287.1428571428571,153.75 295.42857142857144,147.25 303.7142857142857,140.75 312.0,134.25 320.28571428571433,127.75 328.57142857142856,121.25 336.85714285714283,114.75 345.1428571428571,108.25 349.2857142857143,105.0"/>
+          <line class="secondary" x1="370.0" y1="40" x2="370.0" y2="300"/>
+          <text class="annotation" x="374.0" y="52">Strike $95</text>
+          <polyline class="primary" points="80.0,316.25 88.28571428571428,309.75 96.57142857142857,303.25 104.85714285714286,296.75 113.14285714285714,290.25 121.42857142857142,283.75 129.71428571428572,277.25 138.0,270.75 146.28571428571428,264.25 154.57142857142856,257.75 162.85714285714283,251.25 171.14285714285714,244.75 179.42857142857144,238.25 187.71428571428572,231.75 196.0,225.25 204.28571428571428,218.75 212.57142857142856,212.25 220.85714285714286,205.75 229.14285714285714,199.25 237.42857142857142,192.75 245.7142857142857,186.25 254.0,179.75 262.2857142857143,173.25 270.57142857142856,166.75 278.8571428571429,160.25 287.1428571428571,153.75 295.42857142857144,147.25 303.7142857142857,140.75 312.0,134.25 320.28571428571433,127.75 328.57142857142856,121.25 336.85714285714283,114.75 345.1428571428571,108.25 353.42857142857144,101.75 361.7142857142857,95.25 370.0,88.75 378.2857142857143,88.75 386.57142857142856,88.75 394.85714285714283,88.75 403.14285714285717,88.75 411.4285714285714,88.75 419.7142857142857,88.75 428.0,88.75 436.28571428571433,88.75 444.57142857142856,88.75 452.8571428571429,88.75 461.14285714285717,88.75 469.4285714285714,88.75 477.7142857142857,88.75 486.0,88.75 494.2857142857143,88.75 502.57142857142856,88.75 510.8571428571429,88.75 519.1428571428571,88.75 527.4285714285714,88.75 535.7142857142858,88.75 544.0,88.75 552.2857142857142,88.75 560.5714285714287,88.75 568.8571428571429,88.75 577.1428571428571,88.75 585.4285714285714,88.75 593.7142857142857,88.75 602.0,88.75 610.2857142857142,88.75 618.5714285714286,88.75 626.8571428571429,88.75 635.1428571428571,88.75 643.4285714285714,88.75 651.7142857142858,88.75 660.0,88.75"/>
+          <circle cx="349.2857142857143" cy="105.0" r="3" class="marker"/>
+          <text class="annotation" x="355.2857142857143" y="99.0">BE $92</text>
+          <text class="annotation" x="80" y="28">Cash-Secured Put · Strike $95 · Premium $2.50</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 19.2</span>
+        <span class="figdesc">Cash-secured put. Sell $95 put for $2.50. Maximum profit is the premium ($2.50). Loss begins below $92.50 and grows as the stock falls.</span>
+      </figcaption>
+    </figure>
+    <p>This is the strategy used by long-term investors who want to own the stock at a discount. If you would buy at $95 anyway, getting paid $2.50 to wait is a clean structure. If the stock dips and you get assigned, you own the shares at an effective basis of $92.50 ($95 strike minus $2.50 premium). If the stock stays above $95, you keep the $2.50 and can sell another put.</p>
+    <h2>The wheel</h2>
+    <p>Combining cash-secured puts and covered calls produces a strategy called "the wheel." The mechanics:</p>
+    <ol>
+      <li>Sell a cash-secured put on a stock you would not mind owning.</li>
+      <li>If it expires OTM, keep the premium and sell another.</li>
+      <li>If you get assigned, you now own the stock. Sell a covered call against it.</li>
+      <li>If the call expires OTM, keep the premium and sell another.</li>
+      <li>If the call gets assigned, you sell the stock and start over.</li>
+    </ol>
+    <p>The wheel is popular in retail communities. It works well in range-bound markets on stocks you genuinely want to own. It produces inferior returns to buy-and-hold in trending markets, because every time the stock rallies past your covered call strike, you get called away and lose the rest of the upside.</p>
+    <h2>Strike selection</h2>
+    <p>Standard practice: sell the 30-delta call against stock for covered calls. Sell the 30-delta put for cash-secured puts. The 30-delta strike has approximately a 70% chance of finishing OTM, which is the favorable outcome for the seller.</p>
+    <p>Aggressive traders sometimes sell ATM (50-delta) options to maximize premium, accepting more frequent assignment. Conservative traders sell 15-20 delta to minimize assignment risk and accept smaller premium.</p>
+    <h2>Time to expiry</h2>
+    <p>Most retail wheel programs sell 30-45 day options. This balances theta extraction with the risk of being caught in a sudden move. Selling weekly options captures more theta per day but produces more frequent rolls and more transaction costs.</p>
+    <p>Selling further-dated options (60-90 days) reduces management overhead but ties up more capital and produces less theta per unit of time.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Covered calls are stock plus a short call. They cap upside in exchange for premium income.</li>
+      <li>They have the same risk as a naked short put. They are not a low-risk strategy.</li>
+      <li>Cash-secured puts agree to buy the stock at a target price and get paid to wait.</li>
+      <li>The wheel combines both into a continuous short-premium loop.</li>
+      <li>Both strategies do best in range-bound markets and on stocks you genuinely want to own.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l18-straddles-and-strangles.html">
+      <div class="lesson-nav-lbl">← Previous · L.18</div>
+      <div class="lesson-nav-name">Straddles and Strangles</div>
+    </a>
+    <a class="lesson-nav-card next" href="l20-dealer-gamma-exposure.html">
+      <div class="lesson-nav-lbl">Next · L.20 →</div>
+      <div class="lesson-nav-name">Dealer Gamma Exposure (GEX)</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
