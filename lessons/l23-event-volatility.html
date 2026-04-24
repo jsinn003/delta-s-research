@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Volatility: FOMC, CPI, NFP — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+nav.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-back {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-back:hover { color: var(--grey); }
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+}
+.nav-spacer { width: 120px; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 760px; margin: 0 auto;
+  padding: 100px 52px 72px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  nav.site-nav { padding: 0 20px; height: 56px; }
+  .nav-wordmark { font-size: 11px; letter-spacing: 0.12em; }
+  .nav-back { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 70px 24px 56px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="nav-back" href="../education.html"><span>←</span><span>Education</span></a>
+  <div class="nav-wordmark">Delta S Research</div>
+  <div class="nav-spacer"></div>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track V · Microstructure</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.23</span>
+    </div>
+    <h1 class="lesson-title reveal">Event Volatility: FOMC, CPI, NFP</h1>
+    <p class="lesson-tagline reveal">Scheduled events create predictable patterns in implied volatility. The pre-event premium and post-event crush are the most reliable patterns in the entire options market.</p>
+    <div class="lesson-meta reveal">
+      <span>14 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 23 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>What an event is</h2>
+    <p>In options trading, an "event" is a scheduled release of information that has historically produced large market moves. Three categories dominate:</p>
+    <ul>
+      <li><strong>Macro events.</strong> FOMC rate decisions (eight per year), CPI inflation prints (monthly), NFP employment data (monthly), GDP releases. Move broad indices.</li>
+      <li><strong>Earnings events.</strong> Quarterly company-level reports. Move single names dramatically.</li>
+      <li><strong>Binary events.</strong> FDA decisions, M&A votes, court rulings, election outcomes. Often produce one-sided large moves.</li>
+    </ul>
+    <p>Each event has a predictable timing and an unpredictable outcome. Options markets price the event in advance by raising the IV of contracts that span the event date.</p>
+    <h2>The event premium</h2>
+    <p>In the days leading up to a known event, IV rises. The increase is concentrated in expiries that include the event date. Expiries before the event do not move much. Expiries well after the event do not move much. The bump is local to the event.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="86.10526315789474" y1="300" x2="86.10526315789474" y2="305"/>
+          <text class="ticklabel" x="86.10526315789474" y="318" text-anchor="middle">1d</text>
+          <line class="tick" x1="122.73684210526315" y1="300" x2="122.73684210526315" y2="305"/>
+          <text class="ticklabel" x="122.73684210526315" y="318" text-anchor="middle">7d</text>
+          <line class="tick" x1="165.4736842105263" y1="300" x2="165.4736842105263" y2="305"/>
+          <text class="ticklabel" x="165.4736842105263" y="318" text-anchor="middle">14d</text>
+          <line class="tick" x1="263.1578947368421" y1="300" x2="263.1578947368421" y2="305"/>
+          <text class="ticklabel" x="263.1578947368421" y="318" text-anchor="middle">30d</text>
+          <line class="tick" x1="446.31578947368416" y1="300" x2="446.31578947368416" y2="305"/>
+          <text class="ticklabel" x="446.31578947368416" y="318" text-anchor="middle">60d</text>
+          <line class="tick" x1="629.4736842105262" y1="300" x2="629.4736842105262" y2="305"/>
+          <text class="ticklabel" x="629.4736842105262" y="318" text-anchor="middle">90d</text>
+          <line class="tick" x1="75" y1="253.57142857142856" x2="80" y2="253.57142857142856"/>
+          <text class="ticklabel" x="70" y="256.57142857142856" text-anchor="end">15%</text>
+          <line class="tick" x1="75" y1="207.14285714285714" x2="80" y2="207.14285714285714"/>
+          <text class="ticklabel" x="70" y="210.14285714285714" text-anchor="end">20%</text>
+          <line class="tick" x1="75" y1="160.71428571428572" x2="80" y2="160.71428571428572"/>
+          <text class="ticklabel" x="70" y="163.71428571428572" text-anchor="end">25%</text>
+          <line class="tick" x1="75" y1="114.28571428571428" x2="80" y2="114.28571428571428"/>
+          <text class="ticklabel" x="70" y="117.28571428571428" text-anchor="end">30%</text>
+          <line class="tick" x1="75" y1="67.85714285714283" x2="80" y2="67.85714285714283"/>
+          <text class="ticklabel" x="70" y="70.85714285714283" text-anchor="end">35%</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Days to Expiry</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">Implied Volatility</text>
+          <polyline class="primary" points="86.10526315789474,67.85714285714283 98.31578947368422,114.28571428571428 122.73684210526315,170.0 165.4736842105263,207.14285714285714 263.1578947368421,235.0 446.31578947368416,244.28571428571428 629.4736842105262,248.92857142857144"/>
+          <text class="annotation" x="635.4736842105262" y="251.92857142857144">Pre-event</text>
+          <polyline class="secondary" points="86.10526315789474,262.8571428571429 98.31578947368422,258.2142857142857 122.73684210526315,253.57142857142856 165.4736842105263,248.92857142857144 263.1578947368421,244.28571428571428 446.31578947368416,244.28571428571428 629.4736842105262,248.92857142857144"/>
+          <text class="annotation" x="635.4736842105262" y="251.92857142857144">Post-event</text>
+          <text class="annotation" x="128.8421052631579" y="114.28571428571428">Vol crush zone</text>
+          <text class="annotation" x="80" y="28">Term Structure · Pre-Event vs Post-Event · Stylized</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 23.1</span>
+        <span class="figdesc">Term structure pre-event and post-event. Front-end IV is dramatically elevated before the event. After the event passes, the front collapses to baseline levels.</span>
+      </figcaption>
+    </figure>
+    <p>This is why the term structure can briefly invert into backwardation around major events. The 7-day IV captures the event; the 90-day does not. The front-end premium is the cost of the event uncertainty.</p>
+    <h2>Vol crush</h2>
+    <p>After the event passes, the IV that was pricing the uncertainty collapses. The collapse is fast (often within minutes of the data release) and severe. A 30-vol-point IV on the day before earnings can drop to 18 vol points within an hour after the report.</p>
+    <p>This <strong>vol crush</strong> is the central risk for anyone holding long options through an event. Even if the underlying moves significantly, the lost vol can wipe out the directional gain. Long straddles and strangles bought in the days before earnings are statistically losing trades on average, primarily because of vol crush.</p>
+<div class="key-point">
+      <div class="key-point-label">The implied move calculation</div>
+      <div class="key-point-body">Before any event, you can compute the market's expected move. <strong>Implied move ≈ ATM straddle price as % of spot</strong>. If SPY is at $500 and the straddle expiring after the FOMC costs $7.50, the implied move is 1.5%. If the actual move is less than 1.5%, the long straddle loses. If it is more, the long straddle wins. This is the breakeven you are trading against.</div>
+    </div>
+    <h2>FOMC dynamics</h2>
+    <p>Federal Open Market Committee meetings happen eight times per year, on a published schedule. The FOMC statement is released at 2:00 PM ET on the second day of the two-day meeting. The Fed Chair's press conference begins at 2:30 PM ET.</p>
+    <p>SPX IV typically rises in the days before the meeting and peaks on the morning of the announcement. The largest move usually happens during the press conference rather than at the statement release. By 3:30 PM ET, IV has often fully crushed for the front expiries.</p>
+    <p>Trading FOMC days requires either a strong directional view (and willingness to absorb the vol crush against you) or a vol-crush-harvesting strategy that deliberately sells the front-end premium beforehand.</p>
+    <h2>CPI dynamics</h2>
+    <p>CPI is released monthly at 8:30 AM ET. The reaction window is shorter and more intense than FOMC. The largest move often happens in the first 15-30 minutes after the release.</p>
+    <p>CPI has become more market-moving since 2022 because inflation became the dominant macro concern. Pre-CPI IV in SPY can be 30-40% higher than the comparable expiry not spanning the event. Post-release crush is correspondingly severe.</p>
+    <h2>Earnings dynamics</h2>
+    <p>Single-name earnings produce the most dramatic vol-crush patterns. A liquid name like NVDA might trade with 40-60 vol-point IV in the front week before earnings, then crush to 30-35 vol points within an hour of the report.</p>
+    <p>The implied move on earnings is usually 5-10% for a typical large-cap stock, much higher for high-beta or volatile names. Stocks that consistently move less than their implied move are good candidates for systematic short-vol earnings programs. Stocks that consistently exceed their implied move are not.</p>
+    <h2>Trading around events</h2>
+    <p>Three approaches to event vol:</p>
+    <ol>
+      <li><strong>Avoid.</strong> Close all options positions before the event. Reopen after the crush. Sacrifice some opportunity for safety.</li>
+      <li><strong>Sell the premium.</strong> Sell calendars, iron condors, or directional spreads that benefit from the vol crush. Profit if the move is contained.</li>
+      <li><strong>Buy the move.</strong> Long straddles or directional bets based on a view of how the market will react. Profitable only if the actual move exceeds the implied.</li>
+    </ol>
+    <p>Most systematic short-vol programs explicitly avoid event windows. The variance risk premium that makes short-vol profitable assumes a roughly normal distribution of outcomes. Events introduce fat-tailed binary outcomes that the standard model does not handle well.</p>
+    <h2>Earnings filter for short-vol programs</h2>
+    <p>In our internal VRP system, the BUY_VOL regime activation depends partly on event proximity. The signal logic explicitly accounts for FOMC, CPI, and NFP dates because the variance risk premium behaves differently in event-adjacent windows. This is not a refinement; it is structural.</p>
+    <p>Any short-vol program that does not adjust for events is implicitly betting that the event vol will mean-revert to historical patterns. Sometimes it does. Sometimes the event delivers a 4-sigma surprise and the position never recovers.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Scheduled events create local bumps in the IV term structure.</li>
+      <li>Vol crush after events is fast, severe, and historically the most reliable pattern in options markets.</li>
+      <li>Implied move = ATM straddle price as % of spot. It is the breakeven for long event vol.</li>
+      <li>Most systematic short-vol programs avoid event windows.</li>
+      <li>Earnings, FOMC, CPI, and NFP are the canonical event categories to track.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l22-pin-risk-and-expiration-dynamics.html">
+      <div class="lesson-nav-lbl">← Previous · L.22</div>
+      <div class="lesson-nav-name">Pin Risk and Expiration Dynamics</div>
+    </a>
+    <a class="lesson-nav-card next" href="l24-options-flow.html">
+      <div class="lesson-nav-lbl">Next · L.24 →</div>
+      <div class="lesson-nav-name">Options Flow and Order Internalization</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

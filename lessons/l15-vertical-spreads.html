@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertical Spreads — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+nav.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-back {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-back:hover { color: var(--grey); }
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+}
+.nav-spacer { width: 120px; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 760px; margin: 0 auto;
+  padding: 100px 52px 72px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  nav.site-nav { padding: 0 20px; height: 56px; }
+  .nav-wordmark { font-size: 11px; letter-spacing: 0.12em; }
+  .nav-back { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 70px 24px 56px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="nav-back" href="../education.html"><span>←</span><span>Education</span></a>
+  <div class="nav-wordmark">Delta S Research</div>
+  <div class="nav-spacer"></div>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track IV · Strategy Construction</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.15</span>
+    </div>
+    <h1 class="lesson-title reveal">Vertical Spreads</h1>
+    <p class="lesson-tagline reveal">A vertical spread is the cleanest expression of a directional view with bounded risk. It is the first multi-leg structure most traders learn, and it remains useful long after fancier structures have been tried and abandoned.</p>
+    <div class="lesson-meta reveal">
+      <span>14 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 15 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>What a vertical spread is</h2>
+    <p>A vertical spread is two options of the same type (both calls or both puts) on the same underlying with the same expiry, but at different strikes. One leg is long; the other is short. The structure is named "vertical" because the two strikes line up vertically on the same expiry on the options chain.</p>
+    <p>There are four basic vertical spreads, formed by combining call/put with bullish/bearish:</p>
+    <ul>
+      <li><strong>Bull call spread</strong>: long lower-strike call, short higher-strike call. Net debit. Profits if stock rises.</li>
+      <li><strong>Bear put spread</strong>: long higher-strike put, short lower-strike put. Net debit. Profits if stock falls.</li>
+      <li><strong>Bear call spread</strong>: short lower-strike call, long higher-strike call. Net credit. Profits if stock stays flat or falls.</li>
+      <li><strong>Bull put spread</strong>: short higher-strike put, long lower-strike put. Net credit. Profits if stock stays flat or rises.</li>
+    </ul>
+    <h2>Bull call spread</h2>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="321.6666666666667" y1="300" x2="321.6666666666667" y2="305"/>
+          <text class="ticklabel" x="321.6666666666667" y="318" text-anchor="middle">$95</text>
+          <line class="tick" x1="418.33333333333337" y1="300" x2="418.33333333333337" y2="305"/>
+          <text class="ticklabel" x="418.33333333333337" y="318" text-anchor="middle">$105</text>
+          <line class="tick" x1="75" y1="170.0" x2="80" y2="170.0"/>
+          <text class="ticklabel" x="70" y="173.0" text-anchor="end">0</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">+$10</text>
+          <line class="tick" x1="75" y1="300.0" x2="80" y2="300.0"/>
+          <text class="ticklabel" x="70" y="303.0" text-anchor="end">−$10</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Underlying Price at Expiry</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">P&L per Contract</text>
+          <line class="grid" x1="80" y1="170.0" x2="660" y2="170.0" stroke-dasharray="2 4"/>
+          <polygon class="fill-up" points="360.3333333333333,170.0 360.3333333333333,170.0 370.0,157.0 379.6666666666667,144.0 389.3333333333333,131.0 399.0,118.0 408.6666666666667,105.0 418.33333333333337,92.0 428.0,92.0 437.6666666666667,92.0 447.3333333333333,92.0 457.0,92.0 466.66666666666663,92.0 476.3333333333333,92.0 486.0,92.0 495.6666666666667,92.0 505.3333333333333,92.0 515.0,92.0 524.6666666666667,92.0 534.3333333333333,92.0 544.0,92.0 553.6666666666667,92.0 563.3333333333334,92.0 573.0,92.0 582.6666666666667,92.0 592.3333333333334,92.0 602.0,92.0 611.6666666666666,92.0 621.3333333333334,92.0 631.0,92.0 640.6666666666666,92.0 650.3333333333333,92.0 660.0,92.0 660.0,170.0"/>
+          <polygon class="fill-down" points="80.0,170.0 80.0,222.0 89.66666666666667,222.0 99.33333333333333,222.0 109.0,222.0 118.66666666666666,222.0 128.33333333333331,222.0 138.0,222.0 147.66666666666669,222.0 157.33333333333331,222.0 167.0,222.0 176.66666666666666,222.0 186.33333333333331,222.0 196.0,222.0 205.66666666666669,222.0 215.33333333333334,222.0 225.0,222.0 234.66666666666666,222.0 244.33333333333334,222.0 254.0,222.0 263.66666666666663,222.0 273.3333333333333,222.0 283.0,222.0 292.66666666666663,222.0 302.33333333333337,222.0 312.0,222.0 321.6666666666667,222.0 331.33333333333337,209.0 341.0,196.0 350.6666666666667,183.0 360.3333333333333,170.0 360.3333333333333,170.0"/>
+          <line class="secondary" x1="321.6666666666667" y1="40" x2="321.6666666666667" y2="300"/>
+          <text class="annotation" x="325.6666666666667" y="52">Long $95</text>
+          <line class="secondary" x1="418.33333333333337" y1="40" x2="418.33333333333337" y2="300"/>
+          <text class="annotation" x="422.33333333333337" y="52">Short $105</text>
+          <polyline class="primary" points="80.0,222.0 89.66666666666667,222.0 99.33333333333333,222.0 109.0,222.0 118.66666666666666,222.0 128.33333333333331,222.0 138.0,222.0 147.66666666666669,222.0 157.33333333333331,222.0 167.0,222.0 176.66666666666666,222.0 186.33333333333331,222.0 196.0,222.0 205.66666666666669,222.0 215.33333333333334,222.0 225.0,222.0 234.66666666666666,222.0 244.33333333333334,222.0 254.0,222.0 263.66666666666663,222.0 273.3333333333333,222.0 283.0,222.0 292.66666666666663,222.0 302.33333333333337,222.0 312.0,222.0 321.6666666666667,222.0 331.33333333333337,209.0 341.0,196.0 350.6666666666667,183.0 360.3333333333333,170.0 370.0,157.0 379.6666666666667,144.0 389.3333333333333,131.0 399.0,118.0 408.6666666666667,105.0 418.33333333333337,92.0 428.0,92.0 437.6666666666667,92.0 447.3333333333333,92.0 457.0,92.0 466.66666666666663,92.0 476.3333333333333,92.0 486.0,92.0 495.6666666666667,92.0 505.3333333333333,92.0 515.0,92.0 524.6666666666667,92.0 534.3333333333333,92.0 544.0,92.0 553.6666666666667,92.0 563.3333333333334,92.0 573.0,92.0 582.6666666666667,92.0 592.3333333333334,92.0 602.0,92.0 611.6666666666666,92.0 621.3333333333334,92.0 631.0,92.0 640.6666666666666,92.0 650.3333333333333,92.0 660.0,92.0"/>
+          <circle cx="360.3333333333333" cy="170.0" r="3" class="marker"/>
+          <text class="annotation" x="366.3333333333333" y="164.0">BE $99</text>
+          <text class="annotation" x="80" y="28">Bull Call Spread · Long $95 / Short $105 · Debit $4</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 15.1</span>
+        <span class="figdesc">Bull call spread. Long $95 call, short $105 call, $4 net debit. Maximum profit at $105 or above. Maximum loss at $95 or below.</span>
+      </figcaption>
+    </figure>
+    <p>Suppose SPY is at $100. You think it will rise modestly over the next month. You buy the $95 call for $7 and sell the $105 call for $3. Net cost is $4. The position is bullish but capped on both sides.</p>
+    <p>If SPY closes above $105 at expiry, you make $6 (the $10 spread minus the $4 debit). If SPY closes below $95, both calls expire worthless and you lose the $4 debit. Your breakeven is $99 (the lower strike plus the debit).</p>
+    <p>Compared to buying the $95 call alone, you have given up unlimited upside in exchange for paying $3 less. If your view is "SPY will rise modestly," the spread is more capital-efficient. If your view is "SPY will rip," the naked call is better.</p>
+    <h2>Bear put spread</h2>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="321.6666666666667" y1="300" x2="321.6666666666667" y2="305"/>
+          <text class="ticklabel" x="321.6666666666667" y="318" text-anchor="middle">$95</text>
+          <line class="tick" x1="418.33333333333337" y1="300" x2="418.33333333333337" y2="305"/>
+          <text class="ticklabel" x="418.33333333333337" y="318" text-anchor="middle">$105</text>
+          <line class="tick" x1="75" y1="170.0" x2="80" y2="170.0"/>
+          <text class="ticklabel" x="70" y="173.0" text-anchor="end">0</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">+$10</text>
+          <line class="tick" x1="75" y1="300.0" x2="80" y2="300.0"/>
+          <text class="ticklabel" x="70" y="303.0" text-anchor="end">−$10</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Underlying Price at Expiry</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">P&L per Contract</text>
+          <line class="grid" x1="80" y1="170.0" x2="660" y2="170.0" stroke-dasharray="2 4"/>
+          <polygon class="fill-up" points="80.0,170.0 80.0,92.0 89.66666666666667,92.0 99.33333333333333,92.0 109.0,92.0 118.66666666666666,92.0 128.33333333333331,92.0 138.0,92.0 147.66666666666669,92.0 157.33333333333331,92.0 167.0,92.0 176.66666666666666,92.0 186.33333333333331,92.0 196.0,92.0 205.66666666666669,92.0 215.33333333333334,92.0 225.0,92.0 234.66666666666666,92.0 244.33333333333334,92.0 254.0,92.0 263.66666666666663,92.0 273.3333333333333,92.0 283.0,92.0 292.66666666666663,92.0 302.33333333333337,92.0 312.0,92.0 321.6666666666667,92.0 331.33333333333337,105.0 341.0,118.0 350.6666666666667,131.0 360.3333333333333,144.0 370.0,157.0 379.6666666666667,170.0 379.6666666666667,170.0"/>
+          <polygon class="fill-down" points="379.6666666666667,170.0 379.6666666666667,170.0 389.3333333333333,183.0 399.0,196.0 408.6666666666667,209.0 418.33333333333337,222.0 428.0,222.0 437.6666666666667,222.0 447.3333333333333,222.0 457.0,222.0 466.66666666666663,222.0 476.3333333333333,222.0 486.0,222.0 495.6666666666667,222.0 505.3333333333333,222.0 515.0,222.0 524.6666666666667,222.0 534.3333333333333,222.0 544.0,222.0 553.6666666666667,222.0 563.3333333333334,222.0 573.0,222.0 582.6666666666667,222.0 592.3333333333334,222.0 602.0,222.0 611.6666666666666,222.0 621.3333333333334,222.0 631.0,222.0 640.6666666666666,222.0 650.3333333333333,222.0 660.0,222.0 660.0,170.0"/>
+          <line class="secondary" x1="321.6666666666667" y1="40" x2="321.6666666666667" y2="300"/>
+          <text class="annotation" x="325.6666666666667" y="52">Short $95</text>
+          <line class="secondary" x1="418.33333333333337" y1="40" x2="418.33333333333337" y2="300"/>
+          <text class="annotation" x="422.33333333333337" y="52">Long $105</text>
+          <polyline class="primary" points="80.0,92.0 89.66666666666667,92.0 99.33333333333333,92.0 109.0,92.0 118.66666666666666,92.0 128.33333333333331,92.0 138.0,92.0 147.66666666666669,92.0 157.33333333333331,92.0 167.0,92.0 176.66666666666666,92.0 186.33333333333331,92.0 196.0,92.0 205.66666666666669,92.0 215.33333333333334,92.0 225.0,92.0 234.66666666666666,92.0 244.33333333333334,92.0 254.0,92.0 263.66666666666663,92.0 273.3333333333333,92.0 283.0,92.0 292.66666666666663,92.0 302.33333333333337,92.0 312.0,92.0 321.6666666666667,92.0 331.33333333333337,105.0 341.0,118.0 350.6666666666667,131.0 360.3333333333333,144.0 370.0,157.0 379.6666666666667,170.0 389.3333333333333,183.0 399.0,196.0 408.6666666666667,209.0 418.33333333333337,222.0 428.0,222.0 437.6666666666667,222.0 447.3333333333333,222.0 457.0,222.0 466.66666666666663,222.0 476.3333333333333,222.0 486.0,222.0 495.6666666666667,222.0 505.3333333333333,222.0 515.0,222.0 524.6666666666667,222.0 534.3333333333333,222.0 544.0,222.0 553.6666666666667,222.0 563.3333333333334,222.0 573.0,222.0 582.6666666666667,222.0 592.3333333333334,222.0 602.0,222.0 611.6666666666666,222.0 621.3333333333334,222.0 631.0,222.0 640.6666666666666,222.0 650.3333333333333,222.0 660.0,222.0"/>
+          <circle cx="379.6666666666667" cy="170.0" r="3" class="marker"/>
+          <text class="annotation" x="385.6666666666667" y="164.0">BE $101</text>
+          <text class="annotation" x="80" y="28">Bear Put Spread · Long $105 / Short $95 · Debit $4</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 15.2</span>
+        <span class="figdesc">Bear put spread. Long $105 put, short $95 put, $4 net debit. Mirror image of the bull call spread.</span>
+      </figcaption>
+    </figure>
+    <p>Same idea, opposite direction. You buy the higher-strike put and sell the lower-strike put. Maximum profit when the underlying falls below the lower strike. Maximum loss when it rises above the higher strike. Used to express moderate bearish views.</p>
+    <h2>Credit spreads (the other two)</h2>
+    <p>The bear call spread and bull put spread are credit spreads. Instead of paying a debit and waiting for movement, you collect a credit and hope the underlying stays in or moves into the favorable range.</p>
+    <p>A bull put spread example: SPY at $100. Sell the $95 put for $2, buy the $90 put for $0.50. You collect $1.50 credit. If SPY stays above $95, both puts expire worthless and you keep the credit. Maximum loss is $3.50 (the $5 spread minus the $1.50 credit) if SPY closes at or below $90.</p>
+    <p>Credit spreads are the workhorse of short-premium strategies. They generate income when the underlying behaves as expected, with capped risk if it does not.</p>
+<div class="key-point">
+      <div class="key-point-label">Debit vs credit framing</div>
+      <div class="key-point-body"><strong>Debit spread</strong>: pay now, profit if a specific move happens. <strong>Credit spread</strong>: get paid now, profit if a specific move <em>does not</em> happen. Both are bounded-risk, but the former bets on movement and the latter bets on non-movement (or movement only in the favorable direction).</div>
+    </div>
+    <h2>Why use spreads instead of single options</h2>
+    <p>Three main reasons:</p>
+    <ol>
+      <li><strong>Capital efficiency.</strong> The premium paid (or margin required) is much smaller than for the equivalent single option.</li>
+      <li><strong>Defined risk.</strong> Maximum loss is known up front. No surprises if the underlying moves violently.</li>
+      <li><strong>Reduced vega and theta.</strong> The long and short legs partially offset each other on the Greeks. The spread is less sensitive to IV changes than a single option.</li>
+    </ol>
+    <p>The cost is upside cap. You give up the open-ended profit of a single long option in exchange for these benefits.</p>
+    <h2>Width and ratios</h2>
+    <p>The distance between the two strikes (the <strong>width</strong>) determines the maximum payoff and the maximum loss. A $5-wide spread on SPY can pay at most $5 ($500 per contract). A $20-wide spread can pay at most $20. Wider spreads pay more but cost more (or generate less credit) and have more capital at risk.</p>
+    <p>Asymmetric ratios (long 1 / short 2, etc.) turn vertical spreads into ratio spreads, which have very different risk profiles. They reintroduce the unbounded risk that the simple spread eliminated. Beginners should stick to one-to-one verticals until comfortable with the Greeks of the resulting position.</p>
+    <h2>Strike selection by delta</h2>
+    <p>Most experienced traders pick spread strikes by delta, not by dollar distance. A common credit spread uses the 30-delta short strike and the 15-delta long strike. This produces a spread with roughly 70% probability of finishing OTM (favorable) and a defined risk of the 15-delta strike's distance.</p>
+    <p>Choosing strikes this way scales across underlyings. A 30-delta credit spread on SPY and a 30-delta credit spread on AMZN have similar statistical profiles even though the absolute strikes are wildly different.</p>
+    <h2>When to take profit and when to close</h2>
+    <p>Vertical spreads have natural exit points. Many systematic traders close winning credit spreads at 50% of maximum profit. The remaining 50% takes much longer to capture and exposes the position to assignment risk near expiry. A 50% rule is mechanical, easy to follow, and historically improves risk-adjusted returns on credit-spread strategies.</p>
+    <p>For losing positions, closing at 1x or 2x credit received caps the damage. Letting losers run to expiry on hope of recovery is the most common way short-premium traders blow up small accounts.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>A vertical spread is two same-type, same-expiry options at different strikes.</li>
+      <li>Debit spreads bet on movement. Credit spreads bet on non-movement.</li>
+      <li>All vertical spreads have defined maximum gain and defined maximum loss.</li>
+      <li>Spread width controls the max P&L. Strike selection by delta is more useful than by dollar.</li>
+      <li>Mechanical exit rules (close at 50% profit, close at 1x loss) outperform discretion.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l14-the-vix-complex.html">
+      <div class="lesson-nav-lbl">← Previous · L.14</div>
+      <div class="lesson-nav-name">The VIX Complex</div>
+    </a>
+    <a class="lesson-nav-card next" href="l16-iron-condors-and-iron-butterflies.html">
+      <div class="lesson-nav-lbl">Next · L.16 →</div>
+      <div class="lesson-nav-name">Iron Condors and Iron Butterflies</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

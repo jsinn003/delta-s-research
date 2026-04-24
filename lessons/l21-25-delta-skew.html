@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>25-Delta Skew as a Positioning Signal — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+nav.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-back {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-back:hover { color: var(--grey); }
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+}
+.nav-spacer { width: 120px; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 760px; margin: 0 auto;
+  padding: 100px 52px 72px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  nav.site-nav { padding: 0 20px; height: 56px; }
+  .nav-wordmark { font-size: 11px; letter-spacing: 0.12em; }
+  .nav-back { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 70px 24px 56px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="nav-back" href="../education.html"><span>←</span><span>Education</span></a>
+  <div class="nav-wordmark">Delta S Research</div>
+  <div class="nav-spacer"></div>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track V · Microstructure</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.21</span>
+    </div>
+    <h1 class="lesson-title reveal">25-Delta Skew as a Positioning Signal</h1>
+    <p class="lesson-tagline reveal">The shape of skew is set by who is hedging and who is selling. Reading it carefully tells you what positioning looks like before any survey or report would.</p>
+    <div class="lesson-meta reveal">
+      <span>15 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 21 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>The 25-delta risk reversal</h2>
+    <p>The 25-delta risk reversal is the IV of the 25-delta put minus the IV of the 25-delta call. Both options are equidistant in delta terms from at-the-money. If the put has higher IV than the call, the risk reversal is positive. If the call is more expensive (in IV terms) than the put, it is negative.</p>
+    <p>For SPX, the 25-delta risk reversal is almost always positive. Put protection is structurally bid relative to call exposure. The size of the positive number tells you how much.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="80.0" y1="300" x2="80.0" y2="305"/>
+          <text class="ticklabel" x="80.0" y="318" text-anchor="middle">Day 0</text>
+          <line class="tick" x1="225.0" y1="300" x2="225.0" y2="305"/>
+          <text class="ticklabel" x="225.0" y="318" text-anchor="middle">30</text>
+          <line class="tick" x1="370.0" y1="300" x2="370.0" y2="305"/>
+          <text class="ticklabel" x="370.0" y="318" text-anchor="middle">60</text>
+          <line class="tick" x1="515.0" y1="300" x2="515.0" y2="305"/>
+          <text class="ticklabel" x="515.0" y="318" text-anchor="middle">90</text>
+          <line class="tick" x1="660.0" y1="300" x2="660.0" y2="305"/>
+          <text class="ticklabel" x="660.0" y="318" text-anchor="middle">120</text>
+          <line class="tick" x1="75" y1="300.0" x2="80" y2="300.0"/>
+          <text class="ticklabel" x="70" y="303.0" text-anchor="end">0</text>
+          <line class="tick" x1="75" y1="235.0" x2="80" y2="235.0"/>
+          <text class="ticklabel" x="70" y="238.0" text-anchor="end">3</text>
+          <line class="tick" x1="75" y1="170.0" x2="80" y2="170.0"/>
+          <text class="ticklabel" x="70" y="173.0" text-anchor="end">6</text>
+          <line class="tick" x1="75" y1="105.0" x2="80" y2="105.0"/>
+          <text class="ticklabel" x="70" y="108.0" text-anchor="end">9</text>
+          <line class="tick" x1="75" y1="40.0" x2="80" y2="40.0"/>
+          <text class="ticklabel" x="70" y="43.0" text-anchor="end">12</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Trading Days</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">Risk Reversal (vol pts)</text>
+          <polyline class="primary" points="80.0,213.89245674376025 84.83333333333333,203.9968995426671 89.66666666666667,209.55311194817185 94.5,221.31932490367842 99.33333333333333,219.07070958357286 104.16666666666666,214.45640758298964 109.0,211.6046587848146 113.83333333333334,207.9842326132856 118.66666666666666,208.59576445058107 123.5,212.24877353032744 128.33333333333331,216.72570554517557 133.16666666666666,217.43768817550443 138.0,219.1456940257063 142.83333333333334,212.21630907312334 147.66666666666669,207.61415632804545 152.5,215.48453517739833 157.33333333333331,210.1762282737438 162.16666666666669,209.8611755576636 167.0,202.0799340563535 171.83333333333331,192.15650565703743 176.66666666666666,188.89951534929997 181.5,201.07407377297818 186.33333333333331,196.7284453889626 191.16666666666669,207.08749722693443 196.0,196.4302259467862 200.83333333333334,200.89123587112493 205.66666666666669,202.04676410149784 210.5,189.96246619127356 215.33333333333334,201.9953031569088 220.16666666666666,201.65807249689504 225.0,114.99140583022839 229.83333333333334,129.88418434986193 234.66666666666666,138.71930187198842 239.5,150.60349731389846 244.33333333333334,146.28506165093245 249.16666666666669,152.72948949380788 254.0,152.07829537396123 258.83333333333337,148.19765242960904 263.66666666666663,170.08850836504405 268.5,157.8877088686373 273.3333333333333,163.71260768275704 278.16666666666663,185.00880804261686 283.0,195.35616836380257 287.83333333333337,188.91025296842912 292.66666666666663,181.0395524539748 297.5,186.45318738653293 302.33333333333337,186.38618925069238 307.16666666666663,185.41504314773465 312.0,179.2531533351949 316.83333333333337,181.10717848945762 321.6666666666667,175.51011515860296 326.5,182.5441008289299 331.33333333333337,188.09862377131464 336.1666666666667,184.2174174635611 341.0,180.14239960423728 345.8333333333333,181.36679209642153 350.6666666666667,178.21944599820011 355.5,177.85204603335603 360.3333333333333,173.7901608839897 365.16666666666663,167.31530120766033 370.0,165.42439350249595 374.8333333333333,161.6321609609336 379.6666666666667,166.07128478848728 384.5,171.37035250592052 389.3333333333333,188.29283728519098 394.16666666666663,186.08258159017194 399.0,186.48135883003772 403.8333333333333,183.54175744228942 408.6666666666667,196.67358933339492 413.5,199.968687639457 418.33333333333337,203.57739618753294 423.1666666666667,215.26584691452013 428.0,208.40101150854497 432.8333333333333,199.7988240768658 437.6666666666667,208.15976344071765 442.5,240.65976344071765 447.3333333333333,235.58915805038492 452.1666666666667,222.28337900310902 457.0,229.12260849309763 461.8333333333333,221.0240584424601 466.66666666666663,209.34897400186674 471.5,196.41119378427746 476.3333333333333,205.54337050343295 481.1666666666667,212.23602546341382 486.0,210.14480503326214 490.83333333333337,201.5553025607054 495.6666666666667,209.74004871538656 500.5,214.15008287015502 505.3333333333333,220.75918046691075 510.1666666666667,212.2824411994126 515.0,215.2874267749741 519.8333333333333,210.6224832669563 524.6666666666667,205.7078847428333 529.5,197.6127461969395 534.3333333333333,194.86024990209927 539.1666666666666,192.7709273237653 544.0,185.33029709533 548.8333333333333,182.8008565767443 553.6666666666667,191.96424910411605 558.5,195.84476885720767 563.3333333333334,189.93112606364852 568.1666666666667,189.41156130458916 573.0,192.18982705380324 577.8333333333333,190.85670757395945 582.6666666666667,169.14667224229018 587.5,170.9291999522427 592.3333333333334,169.07148919767639 597.1666666666667,167.477108735888 602.0,170.81092624471333 606.8333333333334,164.23269181630127 611.6666666666666,160.21413612518327 616.5,159.44629373587793 621.3333333333334,170.3920034669059 626.1666666666666,163.37860722538716 631.0,160.01140525042314 635.8333333333334,162.4667745027891 640.6666666666666,182.2022223444432 645.5,183.38703145018266 650.3333333333333,192.21429437295188 655.1666666666666,194.04158004996142 660.0,197.64762578792687"/>
+          <text class="annotation" x="249.16666666666669" y="105.0">Skew steepening</text>
+          <text class="annotation" x="457.0" y="267.5">Complacency</text>
+          <text class="annotation" x="80" y="28">SPX 25-Delta Risk Reversal · 30 Day · Illustrative</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 21.1</span>
+        <span class="figdesc">SPX 25-delta risk reversal over time. Stable around 4 vol points in calm regimes. Spikes during stress events. Compressions ahead of complacency reversals.</span>
+      </figcaption>
+    </figure>
+    <h2>What changes the skew</h2>
+    <p>Skew steepens (risk reversal goes up) when demand for puts rises faster than demand for calls. This happens during selloffs, before known risk events, and when institutional hedging programs are active.</p>
+    <p>Skew flattens (risk reversal goes down) when call demand rises (often during melt-up rallies and squeeze conditions) or when put demand falls (often during long calm periods when complacency builds). A flattening skew can signal that positioning has rotated from defensive to offensive, which is itself a contrarian indicator.</p>
+    <h2>Skew as a positioning gauge</h2>
+    <p>Most positioning data (CFTC commitment of traders, prime broker reports, etc.) is published with a lag and incomplete coverage. Skew is calculated from live options markets and reflects positioning in real time.</p>
+    <p>When SPX skew is at the high end of its range, it usually means hedging programs are actively buying puts. This implies institutional positioning is defensive. When skew is at the low end, hedging demand has dried up, often coinciding with complacent positioning.</p>
+    <p>Both extremes have predictive content. Very steep skew often precedes mean reversion lower (the hedging demand is already in price; further panic is unlikely). Very flat skew often precedes a vol expansion (the lack of hedging means the next selloff finds nobody covered).</p>
+<div class="key-point">
+      <div class="key-point-label">Two extremes worth flagging</div>
+      <div class="key-point-body"><strong>Risk reversal at multi-month highs</strong>: hedging demand is already in price. Tail-risk premium is rich. Selling skew (selling OTM puts via spreads) can be productive. <strong>Risk reversal at multi-month lows</strong>: hedging demand has collapsed. The market is uninsured. Buying skew (or just OTM puts) gets cheaper than the actual tail risk warrants.</div>
+    </div>
+    <h2>Skew vs ATM IV</h2>
+    <p>Skew and ATM IV can move independently. ATM IV measures the level of the vol surface; skew measures its shape. Three combinations are common:</p>
+    <ul>
+      <li><strong>High IV, high skew</strong>: classic stress. Both hedging demand and overall vol expectations are elevated.</li>
+      <li><strong>Low IV, high skew</strong>: ambient calm with persistent tail-risk hedging. Often seen in late-cycle markets where overall vol is suppressed but smart money is paying for protection.</li>
+      <li><strong>High IV, low skew</strong>: vol expansion driven by realized chop, not by directional fear. Often seen in choppy ranges with no clear trend.</li>
+    </ul>
+    <p>The combinations matter. Selling vol when IV is high but skew is flat is a different trade than selling vol when both are high. The skew structure tells you what is driving the IV.</p>
+    <h2>Other skew measures</h2>
+    <p>Beyond the 25-delta risk reversal, traders watch:</p>
+    <ul>
+      <li><strong>10-delta vs 25-delta skew</strong>: the curvature of the wing. Steep wing skew indicates demand for far-OTM tail protection.</li>
+      <li><strong>SKEW Index (CBOE)</strong>: a single number that captures the slope of the SPX vol surface. Higher = more wing premium.</li>
+      <li><strong>Put-call IV ratio</strong>: a simpler version of the risk reversal that some platforms display directly.</li>
+    </ul>
+    <p>The 25-delta risk reversal remains the most-cited measure because it is liquid (25-delta options are commonly traded), interpretable (a single vol-point spread), and stable (the methodology has not changed in decades).</p>
+    <h2>Skew as a trade</h2>
+    <p>You can trade skew directly. Selling a put spread and using the proceeds to buy a call spread is a long-skew trade (you are short OTM puts, long OTM calls). Doing the opposite is a short-skew trade. Both are vega-neutral first-order but have meaningful skew exposure.</p>
+    <p>Skew trading is one of the more sophisticated areas of options strategy. The position depends on the second derivative of the vol surface (curvature) and exposes you to skew-of-skew dynamics. Most retail trading does not get here. Institutional vol funds spend a lot of time here.</p>
+    <h2>Vanna risk</h2>
+    <p>Skew positioning has hidden vanna risk. Vanna (L.09) is the change in delta when IV changes. Steep skew means high vanna. If IV drops sharply (often the case after a stress period passes), the vanna of dealer positioning can release substantial buying pressure into the market.</p>
+    <p>This is why post-stress SPX rallies are often more violent than the initial selloff. Once the storm passes, dealer covering of put hedges (released by vanna and charm) compounds with general buying interest. The mechanism is mostly mechanical, not sentiment-driven.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>The 25-delta risk reversal is the IV of 25-delta puts minus 25-delta calls.</li>
+      <li>For SPX it is structurally positive; the size of the number signals positioning.</li>
+      <li>Steep skew indicates active hedging; flat skew indicates complacency.</li>
+      <li>Both extremes have predictive content for vol direction.</li>
+      <li>Trading skew directly is a sophisticated area requiring careful Greek management.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l20-dealer-gamma-exposure.html">
+      <div class="lesson-nav-lbl">← Previous · L.20</div>
+      <div class="lesson-nav-name">Dealer Gamma Exposure (GEX)</div>
+    </a>
+    <a class="lesson-nav-card next" href="l22-pin-risk-and-expiration-dynamics.html">
+      <div class="lesson-nav-lbl">Next · L.22 →</div>
+      <div class="lesson-nav-name">Pin Risk and Expiration Dynamics</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

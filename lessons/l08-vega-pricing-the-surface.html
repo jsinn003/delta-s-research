@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vega: Pricing the Surface — Delta S Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --grey: #E0E0E0;
+  --mid: #BBBBBB;
+  --dim: #AAAAAA;
+  --faint: #777777;
+  --rule: rgba(255,255,255,0.06);
+  --rule-strong: rgba(255,255,255,0.12);
+  --grid: rgba(255,255,255,0.04);
+  --font: 'Inter', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { font-size: 16px; background: var(--black); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  letter-spacing: 0.025em;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255,255,255,0.1); color: var(--white); }
+
+a { color: inherit; }
+
+/* ═══ NAV ═══ */
+nav.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 52px; height: 64px;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-back {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  text-decoration: none; transition: color 0.35s ease;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-back:hover { color: var(--grey); }
+.nav-wordmark {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+}
+.nav-spacer { width: 120px; }
+
+/* ═══ LESSON ARTICLE ═══ */
+.lesson { padding-top: 64px; }
+
+.lesson-header {
+  max-width: 760px; margin: 0 auto;
+  padding: 100px 52px 72px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-breadcrumb {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.lesson-breadcrumb .sep { color: var(--rule-strong); }
+.lesson-breadcrumb .lesson-code { color: var(--dim); }
+
+.lesson-title {
+  font-size: clamp(34px, 5vw, 56px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.12;
+  color: var(--white);
+  margin-bottom: 28px;
+  max-width: 640px;
+}
+
+.lesson-tagline {
+  font-size: clamp(16px, 1.6vw, 19px); font-weight: 300;
+  font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 600px;
+}
+
+.lesson-meta {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-meta .sep { color: var(--rule-strong); }
+
+/* ═══ BODY ═══ */
+.lesson-body {
+  max-width: 720px; margin: 0 auto;
+  padding: 80px 52px 120px;
+}
+
+.lesson-body h2 {
+  font-size: clamp(22px, 2.2vw, 28px); font-weight: 300;
+  letter-spacing: 0.02em; line-height: 1.3;
+  color: var(--white);
+  margin: 72px 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.lesson-body h2:first-child { margin-top: 0; }
+
+.lesson-body h3 {
+  font-size: 16px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin: 48px 0 16px;
+}
+
+.lesson-body p {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.78;
+  margin-bottom: 22px;
+}
+
+.lesson-body p strong {
+  font-weight: 400; color: var(--white);
+}
+
+.lesson-body p em {
+  font-style: italic; color: var(--mid);
+}
+
+.lesson-body code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.88em;
+  color: var(--mid);
+  background: rgba(255,255,255,0.04);
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+
+.lesson-body ul, .lesson-body ol {
+  margin: 0 0 28px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.lesson-body li {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.018em; line-height: 1.7;
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.lesson-body ul li::before {
+  content: ''; position: absolute; left: 0; top: 18px;
+  width: 8px; height: 1px; background: var(--faint);
+}
+.lesson-body ol { counter-reset: olc; }
+.lesson-body ol li {
+  counter-increment: olc;
+  padding-left: 36px;
+}
+.lesson-body ol li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute; left: 0; top: 8px;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+/* ── KEY POINT BLOCK ── */
+.key-point {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: rgba(255,255,255,0.012);
+}
+.key-point-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 14px;
+}
+.key-point-body {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em; line-height: 1.75;
+}
+.key-point-body strong { color: var(--white); font-weight: 400; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 48px 0;
+  padding: 0 0 0 32px;
+  border-left: 1px solid var(--rule-strong);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 300; font-style: italic;
+  color: var(--mid); letter-spacing: 0.02em; line-height: 1.55;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  margin: 48px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.005);
+}
+.diagram-svg-wrap {
+  padding: 32px 24px 16px;
+  display: flex; justify-content: center;
+}
+.diagram svg {
+  max-width: 100%; height: auto;
+}
+.diagram-caption {
+  padding: 18px 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 16px;
+}
+.diagram-caption .figno {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.diagram-caption .figdesc {
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.02em; line-height: 1.55;
+  flex: 1; text-align: right;
+  font-style: italic;
+}
+
+/* SVG default text styling */
+.diagram svg text {
+  font-family: var(--font);
+  font-weight: 300;
+  fill: var(--dim);
+  letter-spacing: 0.04em;
+}
+.diagram svg .axis { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .grid { stroke: var(--grid); stroke-width: 0.5; }
+.diagram svg .tick { stroke: var(--faint); stroke-width: 0.6; }
+.diagram svg .ticklabel { font-size: 10px; fill: var(--faint); }
+.diagram svg .axislabel { font-size: 11px; fill: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
+.diagram svg .primary { stroke: var(--grey); stroke-width: 1.4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram svg .secondary { stroke: var(--faint); stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+.diagram svg .accent { stroke: var(--white); stroke-width: 1.4; fill: none; }
+.diagram svg .fill-up { fill: rgba(255,255,255,0.08); }
+.diagram svg .fill-down { fill: rgba(255,255,255,0.03); }
+.diagram svg .annotation { font-size: 10px; fill: var(--mid); letter-spacing: 0.06em; }
+.diagram svg .marker { fill: var(--white); }
+
+/* ── DATA TABLE ── */
+.data-table {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th, .data-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-size: 13px; font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--grey);
+  text-align: left;
+}
+.data-table th {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--faint);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table td.num { text-align: right; }
+.data-table th.num { text-align: right; }
+
+/* ═══ LESSON FOOTER NAV ═══ */
+.lesson-footer-nav {
+  max-width: 960px; margin: 0 auto;
+  padding: 60px 52px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--rule);
+}
+.lesson-nav-card {
+  border: 1px solid var(--rule);
+  padding: 28px 32px;
+  text-decoration: none;
+  transition: background 0.35s ease, border-color 0.35s ease;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.lesson-nav-card:hover {
+  background: rgba(255,255,255,0.014);
+  border-color: var(--rule-strong);
+}
+.lesson-nav-card.next { text-align: right; align-items: flex-end; }
+.lesson-nav-lbl {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--faint);
+}
+.lesson-nav-name {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey); letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.lesson-nav-card.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══ SITE FOOTER ═══ */
+footer.site-footer {
+  padding: 56px 52px 56px; text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.footer-mark {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+
+/* ═══ REVEAL ═══ */
+.reveal {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  nav.site-nav { padding: 0 20px; height: 56px; }
+  .nav-wordmark { font-size: 11px; letter-spacing: 0.12em; }
+  .nav-back { font-size: 10px; letter-spacing: 0.1em; }
+  .lesson-header { padding: 70px 24px 56px; }
+  .lesson-body { padding: 56px 24px 80px; }
+  .lesson-footer-nav { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+  .pull-quote { padding-left: 18px; }
+  .diagram-svg-wrap { padding: 20px 12px 8px; }
+  .diagram-caption { padding: 14px 18px; flex-direction: column; }
+  .diagram-caption .figdesc { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="nav-back" href="../education.html"><span>←</span><span>Education</span></a>
+  <div class="nav-wordmark">Delta S Research</div>
+  <div class="nav-spacer"></div>
+</nav>
+
+<article class="lesson">
+  <header class="lesson-header">
+    <div class="lesson-breadcrumb reveal">
+      <span>Education</span>
+      <span class="sep">/</span>
+      <span>Track II · The Greeks</span>
+      <span class="sep">/</span>
+      <span class="lesson-code">L.08</span>
+    </div>
+    <h1 class="lesson-title reveal">Vega: Pricing the Surface</h1>
+    <p class="lesson-tagline reveal">Vega is the Greek that connects every option to the broader volatility market. When VIX moves, vega is the channel through which it moves your portfolio.</p>
+    <div class="lesson-meta reveal">
+      <span>14 min read</span>
+      <span class="sep">·</span>
+      <span>Lesson 8 of 24</span>
+    </div>
+  </header>
+
+  <div class="lesson-body reveal">
+    <h2>What vega measures</h2>
+    <p>Vega is the change in an option's price for a one percentage point change in implied volatility. If a call has a vega of 0.20 and IV rises from 25% to 26%, the call's price will rise by approximately $0.20.</p>
+    <p>Vega is positive for both long calls and long puts. Long any option means long vega. Short any option means short vega. There is no "vega-bullish call" and "vega-bearish put" the way delta has direction. Vega just measures sensitivity to the implied volatility number, which is the market's expectation of how much the underlying will move going forward.</p>
+    <h2>Vega depends on time and moneyness</h2>
+    <p>Like the other Greeks, vega is not constant. It is highest at the money and decays as you move away. It is also higher for longer-dated options, because more time means more uncertainty, which means more sensitivity to the IV input.</p>
+<figure class="diagram">
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 700 360" width="700" height="360" xmlns="http://www.w3.org/2000/svg">
+          <line class="axis" x1="80" y1="300" x2="660" y2="300"/>
+          <line class="axis" x1="80" y1="40" x2="80" y2="300"/>
+          <line class="tick" x1="152.5" y1="300" x2="152.5" y2="305"/>
+          <text class="ticklabel" x="152.5" y="318" text-anchor="middle">$70</text>
+          <line class="tick" x1="261.25" y1="300" x2="261.25" y2="305"/>
+          <text class="ticklabel" x="261.25" y="318" text-anchor="middle">$85</text>
+          <line class="tick" x1="370.0" y1="300" x2="370.0" y2="305"/>
+          <text class="ticklabel" x="370.0" y="318" text-anchor="middle">$100</text>
+          <line class="tick" x1="478.75" y1="300" x2="478.75" y2="305"/>
+          <text class="ticklabel" x="478.75" y="318" text-anchor="middle">$115</text>
+          <line class="tick" x1="587.5" y1="300" x2="587.5" y2="305"/>
+          <text class="ticklabel" x="587.5" y="318" text-anchor="middle">$130</text>
+          <line class="tick" x1="75" y1="300.0" x2="80" y2="300.0"/>
+          <text class="ticklabel" x="70" y="303.0" text-anchor="end">0</text>
+          <line class="tick" x1="75" y1="217.66704421114258" x2="80" y2="217.66704421114258"/>
+          <text class="ticklabel" x="70" y="220.66704421114258" text-anchor="end">0.10</text>
+          <line class="tick" x1="75" y1="135.3340884222852" x2="80" y2="135.3340884222852"/>
+          <text class="ticklabel" x="70" y="138.3340884222852" text-anchor="end">0.20</text>
+          <line class="tick" x1="75" y1="53.00113263342777" x2="80" y2="53.00113263342777"/>
+          <text class="ticklabel" x="70" y="56.00113263342777" text-anchor="end">0.30</text>
+          <text class="axislabel" x="370.0" y="348" text-anchor="middle">Underlying Price</text>
+          <text class="axislabel" x="22" y="170.0" text-anchor="middle" transform="rotate(-90 22 170.0)">Vega</text>
+          <polyline class="secondary" points="7.5,300.0 14.75,300.0 22.0,300.0 29.25,300.0 36.5,300.0 43.75,299.99999999999994 51.0,299.9999999999994 58.25,299.9999999999955 65.5,299.999999999971 72.75,299.99999999982765 80.0,299.99999999906004 87.25,299.99999999527506 94.5,299.99999997803434 101.75,299.9999999052468 109.0,299.99999961953887 116.25,299.9999985737881 123.5,299.99999499462393 130.75,299.99998350981446 138.0,299.9999488733162 145.25,299.99985046468095 152.5,299.9995864746228 159.75,299.99891641852304 167.0,299.9973040334262 174.25,299.99361868755574 181.5,299.98560352003943 188.75,299.9689884646462 196.0,299.93610827940915 203.25,299.87389858276816 210.5,299.761209489084 217.75,299.56551650453883 225.0,299.2393278872435 232.25,298.7168671784619 239.5,297.9118962041286 246.75,296.7177530821748 254.0,295.0107110125589 261.25,292.65752850914515 268.5,289.527519227821 275.75,285.5086560644451 283.0,280.5262657441536 290.25,274.5619672986266 297.5,267.66989291105915 304.75,259.98710530876605 312.0,251.73560344860257 319.25,243.2143650336195 326.5,234.78134623265197 333.75,226.8269719147448 341.0,219.74208347841275 348.25,213.88427639486872 355.5,209.54686587477806 362.75,206.93431795074008 370.0,206.14697239831327 377.25,207.17647665277428 384.5,209.91182009579188 391.75,214.1544768485967 399.0,219.6401456968252 406.25,226.06403841523826 413.5,233.1066304919427 420.75,240.4571797982465 428.0,247.8330077194603 435.25,254.99336756672346 442.5,261.74754883701206 449.75,267.9575674589859 457.0,273.5363006603049 464.25,278.4422155565745 471.5,282.6719266088717 478.75,286.2517387023561 486.0,289.2291426757964 493.25,291.6649827201769 500.5,293.6267567893712 507.75,295.1832764841053 515.0,296.40072273980735 522.25,297.3399967451144 529.5,298.0551809538912 536.75,298.59288564618265 544.0,298.9922518569497 551.25,299.2854005278046 558.5,299.4981503477055 565.75,299.65086478793995 573.0,299.7593264435254 580.25,299.83557028549575 587.5,299.8886349441057 594.75,299.92521217542316 602.0,299.95018960196273 609.25,299.9670915515098 616.5,299.97842843663756 623.75,299.9859677058996 631.0,299.99093991688517 638.25,299.99419271162816 645.5,299.99630400556134 652.75,299.99766394671195 660.0,299.9985334313369 667.25,299.99908533316386 674.5,299.99943319323955 681.75,299.99965095016535 689.0,299.99978635777217 696.25,299.9998700132347 703.5,299.99992137024 710.75,299.9999527053234 718.0,299.9999717098555 725.25,299.99998316883455 732.5,299.99999003892214"/>
+          <text class="annotation" x="738.5" y="302.99999003892214">30d</text>
+          <polyline class="primary" points="7.5,299.99996976862826 14.75,299.99992746577004 22.0,299.9998330769789 29.25,299.9996307928826 36.5,299.9992136073366 43.75,299.998384129896 51.0,299.99679148292563 58.25,299.9938337440242 65.5,299.988513045664 72.75,299.9792287385098 80.0,299.9634936489302 87.25,299.9375601944462 94.5,299.8959477152626 101.75,299.8308703956664 109.0,299.7315767704236 116.25,299.58362667942947 123.5,299.36814863592826 130.75,299.0611382279966 138.0,298.6328741356877 145.25,298.04754004318255 152.5,297.26314558965584 159.75,296.2318353720673 167.0,294.9006605245759 174.25,293.2128623113506 181.5,291.1096825508434 188.75,288.5326739295296 196.0,285.4264378901922 203.25,281.74167310428385 210.5,277.43837816514 217.75,272.48902242121784 225.0,266.88148237342847 232.25,260.62154012887726 239.5,253.7347558583295 246.75,246.2675572477666 254.0,238.28743323486955 261.25,229.88217328253438 268.5,221.15815260133755 275.75,212.23772324177446 283.0,203.25582609326284 290.25,194.355985368665 297.5,185.68588186147372 304.75,177.3927220419937 312.0,169.61862608023634 319.25,162.49624955647025 326.5,156.14483244896383 333.75,150.6668373385131 341.0,146.14529958506822 348.25,142.64196873270376 355.5,140.19627579072977 362.75,138.82511826144074 370.0,138.52341632007577 377.25,139.26536129297062 384.5,141.00625276820966 391.75,143.68480390092145 399.0,147.22578573421526 406.25,151.54288012737277 413.5,156.54161624904347 420.75,162.12227636611277 428.0,168.1826715007781 435.25,174.6207050649074 442.5,181.3366614964761 449.75,188.23517603496725 457.0,195.22686008197203 464.25,202.22957331351915 471.5,209.16934827758737 478.75,215.98098527443767 486.0,222.60834472475045 493.25,229.00437099409282 500.5,235.13088590917835 507.75,240.95819221855925 515.0,246.4645273308736 522.25,251.63540615644894 529.5,256.4628891415577 536.75,260.94480796624777 544.0,265.08397719656534 551.25,268.887415722287 558.5,272.3655973097564 565.75,275.5317452470534 573.0,278.40118200028604 580.25,280.99074113684367 587.5,283.3182455668914 594.75,285.40205343805343 602.0,287.2606707928047 609.25,288.9124283451171 616.5,290.37521841839305 623.75,291.66628716620943 631.0,292.8020766203689 638.25,293.79811082422646 645.5,294.668920260688 652.75,295.42799892368816 660.0,296.08778866349587 667.25,296.6596858190635 674.5,297.1540655995816 681.75,297.5803201628506 689.0,297.94690683597946 696.25,298.2614034153489 703.5,298.5305679534872 710.75,298.7604008803168 718.0,298.9562077084541 725.25,299.12266093306835 732.5,299.26386005474876"/>
+          <text class="annotation" x="738.5" y="302.26386005474876">90d</text>
+          <polyline class="accent" points="7.5,299.8973115123483 14.75,299.84115910647853 22.0,299.7593650995477 29.25,299.64259843264284 36.5,299.47907776563335 43.75,299.25424089218086 51.0,298.95045818319016 58.25,298.54681714232714 65.5,298.0190057311719 72.75,297.33932072303645 80.0,296.4768238547278 87.25,295.39766302419855 94.5,294.065568470038 101.75,292.4425251724626 109.0,290.4896131738563 116.25,288.16799775588476 123.5,285.44004208914305 130.75,282.27050672766813 138.0,278.62779371825866 145.25,274.48518858020293 152.5,269.8220512831651 159.75,264.62490774232475 167.0,258.88839622443635 174.25,252.6160282222928 181.5,245.82073047814126 188.75,238.52514348350638 196.0,230.76166144863777 203.25,222.57220888246496 210.5,214.0077590211116 217.75,205.1276088943586 225.0,195.99843439357352 232.25,186.6931559538724 239.5,177.28965113599872 246.75,167.86935433882684 254.0,158.51578603974937 261.25,149.3130543871161 268.5,140.34437077533738 275.75,131.69061840248384 283.0,123.42900897294018 290.25,115.63185792495628 297.5,108.36550310964745 304.75,101.68938599784852 312.0,95.65530850398511 319.25,90.30687262734847 326.5,85.67910452462428 333.75,81.79825951037634 341.0,78.68179996255887 348.25,76.3385342769974 355.5,74.76890191968909 362.75,73.96538728596434 370.0,73.91304347826085 377.25,74.59010622151385 384.5,75.96867788909742 391.75,78.01546194023373 399.0,80.69252888951218 406.25,83.95809615317006 413.5,87.76730565652605 420.75,92.07298485618946 428.0,96.8263787481888 435.25,101.97784242490738 442.5,107.47748574418992 449.75,113.27576362715044 457.0,119.32400736085975 464.25,125.57489401177887 471.5,131.98285262846005 478.75,138.5044073093048 486.0,145.09845842253978 493.25,151.72650428741963 500.5,158.35280646021153 507.75,164.94450242276582 515.0,171.47166995622047 522.25,177.90734781121904 529.5,184.227517474477 536.75,190.41105089630236 544.0,196.43962900193054 551.25,202.29763567835732 558.5,207.97203172428712 565.75,213.45221298948834 573.0,218.72985662573097 580.25,223.7987590376796 587.5,228.65466877028192 594.75,233.29511720946311 602.0,237.7192496139504 609.25,241.92765864498304 616.5,245.92222222331498 623.75,249.70594722380244 631.0,253.2828202203479 638.25,256.6576662203655 645.5,259.83601607965153 652.75,262.8239830662268 660.0,265.6281488453433 667.25,268.25545898687 674.5,270.71312794970083 681.75,273.0085533743661 689.0,275.14923941312344 696.25,277.14272874474784 703.5,278.9965428572311 710.75,280.7181301337926 718.0,282.3148212441624 725.25,283.793791322232 732.5,285.16202840115966"/>
+          <text class="annotation" x="738.5" y="288.16202840115966">180d</text>
+          <text class="annotation" x="80" y="28">Vega vs Underlying Price · Strike $100 · IV 25%</text>
+        </svg>
+      </div>
+      <figcaption class="diagram-caption">
+        <span class="figno">Fig. 08.1</span>
+        <span class="figdesc">Vega across strikes at three different expiries. Longer-dated options have substantially more vega. Vega peaks at the money for every expiry.</span>
+      </figcaption>
+    </figure>
+    <p>A 180-day ATM option has roughly four times the vega of a 30-day ATM option on the same underlying. This is why long-dated options are the standard vehicle for expressing pure volatility views. They give you the most vega per dollar spent.</p>
+    <h2>Vega is the link to the broader vol market</h2>
+    <p>Implied volatility is set by the market, the same way prices are. Supply and demand for options moves IV up and down independently of the spot price. When buying interest dominates (often during market stress), IV rises. When selling interest dominates (often during calm periods), IV falls.</p>
+    <p>If you are long vega, you make money when IV rises. If you are short vega, you make money when IV falls. This is structurally separate from delta. You can have a delta-neutral position that swings dramatically based on IV alone.</p>
+<div class="key-point">
+      <div class="key-point-label">Vega vs gamma</div>
+      <div class="key-point-body">Both are volatility exposures. Gamma cares about <strong>realized</strong> volatility (what the stock actually does). Vega cares about <strong>implied</strong> volatility (what the market expects). They often move together but they can also diverge: IV can drop while realized stays elevated, or IV can spike while realized stays calm. The two are not the same thing.</div>
+    </div>
+    <h2>How vega shows up in practice</h2>
+    <p>Suppose you sell a 60-day SPY straddle for $15 of premium. Your initial delta is roughly zero. Your gamma is moderate. Your theta is positive. Your vega is highly negative. If IV rises overnight from 14% to 17%, your straddle might mark to $18 or $19 even if SPY has not moved a penny. You are losing money on a position whose underlying is unchanged.</p>
+    <p>This is the most common surprise for new short-premium traders. They look at the price action in the underlying, see no movement, and assume their position should be profitable from theta. But IV expanded, and their large vega exposure overwhelmed the small theta gain.</p>
+    <h2>VIX as the vega benchmark</h2>
+    <p>VIX measures the 30-day implied volatility of SPX options. A VIX move from 14 to 17 is a 3-point increase, which represents a 3 percentage point increase in 30-day SPX IV. If you are short SPX options worth $1,000 of total vega, that move costs you roughly $3,000.</p>
+    <p>Index option traders often quote their book in "VIX equivalent vega" because it makes the dollar consequences of a VIX move legible. Lesson L.14 covers the VIX complex in detail.</p>
+    <h2>Term-structure vega and skew vega</h2>
+    <p>As you go deeper into options trading, you discover that there is not one IV but a whole surface. Different strikes have different IVs (skew). Different expiries have different IVs (term structure). A complex options book has different vega exposures across this surface, and different parts can move independently.</p>
+    <p>A trader can be long vega in 30-day options and short vega in 90-day options. If the term structure flattens, both legs can lose money simultaneously. Skew vega and term-structure vega are real risks for any non-trivial book. Lessons L.12 and L.13 develop these in detail.</p>
+    <h2>How traders think about vega</h2>
+    <p>Professional vol traders think about vega in dollar terms, not contract terms. "I am short $5,000 of vega in March SPX" means a 1-point IV change in March SPX is worth $5,000 of P&L. This is the only way to compare positions across different strikes, expiries, and underlyings.</p>
+    <p>Most retail platforms show vega per contract. To convert to dollar vega, multiply by the contract multiplier (100 for equity options) and the position size.</p>
+    <h2>What you carry forward</h2>
+    <ul>
+      <li>Vega is the price change per 1% change in implied volatility.</li>
+      <li>Long any option is long vega. Short any option is short vega.</li>
+      <li>Vega is highest at the money and grows with time to expiry.</li>
+      <li>Vega and gamma are different things. Implied vs realized.</li>
+      <li>Most short-premium losses on quiet days come from vega expansion, not from spot movement.</li>
+    </ul>
+  </div>
+
+  <nav class="lesson-footer-nav">
+    <a class="lesson-nav-card prev" href="l07-theta-the-cost-of-carrying-time.html">
+      <div class="lesson-nav-lbl">← Previous · L.07</div>
+      <div class="lesson-nav-name">Theta: The Cost of Carrying Time</div>
+    </a>
+    <a class="lesson-nav-card next" href="l09-rho-and-the-quiet-greeks.html">
+      <div class="lesson-nav-lbl">Next · L.09 →</div>
+      <div class="lesson-nav-name">Rho and the Quiet Greeks</div>
+    </a>
+  </nav>
+</article>
+
+<footer class="site-footer">
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
