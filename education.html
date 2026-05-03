@@ -48,7 +48,7 @@
   }
   .nav-wordmark {
     font-size: 13px; font-weight: 400; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--white);
+    text-transform: uppercase; color: var(--white); text-decoration: none;
   }
   .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
@@ -68,7 +68,7 @@
   /* ═══ HERO ═══ */
   .edu-hero {
     min-height: 88vh;
-    padding: 180px 52px 120px;
+    padding: 240px 52px 120px;
     display: flex; flex-direction: column; align-items: center;
     justify-content: center;
     text-align: center;
@@ -76,7 +76,7 @@
   }
   .edu-back-link {
     position: absolute;
-    top: 96px; left: 52px;
+    top: 164px; left: 52px;
     display: inline-flex; align-items: center; gap: 10px;
     font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--faint);
@@ -368,8 +368,8 @@
     .nav-links { gap: 18px; }
     .nav-links a { font-size: 10px; letter-spacing: 0.1em; }
     section, .track-section { padding: 80px 24px; }
-    .edu-hero { padding: 140px 24px 80px; }
-    .edu-back-link { top: 84px; left: 24px; font-size: 10px; }
+    .edu-hero { padding: 200px 24px 80px; }
+    .edu-back-link { top: 144px; left: 24px; font-size: 10px; }
     .lesson-row { grid-template-columns: 50px 1fr; gap: 16px; }
     .lesson-meta { grid-column: 2; padding-top: 4px; }
     footer { padding: 72px 24px 56px; }
@@ -379,7 +379,7 @@
 <body>
 
 <nav id="nav">
-  <div class="nav-wordmark">Delta S Research</div>
+  <a class="nav-wordmark" href="index.html">Delta S Research</a>
   <ul class="nav-links">
     <li><a href="index.html#philosophy">Philosophy</a></li>
     <li><a href="index.html#methodology">Methodology</a></li>
