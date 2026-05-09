@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Market Recap | May 4 - May 8, 2026: AI Bottlenecks Become the Trade — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .embed-block{margin:56px 0;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .insight-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .insight-meta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .meta-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .meta-week{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);}
+  .meta-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .meta-tag{font-size:10px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--rule);padding:3px 10px;}
+  .insight-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .insight-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .snapshot-bar{max-width:800px;margin:0 auto;padding:0 52px;border-bottom:1px solid var(--rule);}
+  .snapshot-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;}
+  .snapshot-cell{background:var(--black);padding:24px;display:flex;flex-direction:column;gap:6px;}
+  .snapshot-asset{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+  .snapshot-value{font-size:18px;font-weight:300;color:var(--grey);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .snapshot-change{font-size:11px;font-weight:300;letter-spacing:.08em;color:var(--dim);}
+  .snapshot-change.up{color:rgba(180,220,180,0.7);}.snapshot-change.down{color:rgba(220,150,150,0.6);}
+  .insight-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .insight-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .insight-body p:last-child{margin-bottom:0;}.insight-body strong{font-weight:400;color:var(--white);}.insight-body em{font-style:italic;color:var(--mid);}
+  .insight-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .insight-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .watch-list{margin:56px 0;border:1px solid var(--rule);}
+  .watch-list-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:20px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item:last-child{border-bottom:none;}
+  .watch-item-name{font-size:14px;font-weight:300;color:var(--grey);letter-spacing:.03em;}
+  .watch-item-note{font-size:12px;font-weight:300;color:var(--faint);letter-spacing:.06em;text-align:right;max-width:55%;}
+  .insight-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .insight-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .insight-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-insights{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-insights:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.insight-header{padding:120px 24px 60px;}.snapshot-bar{padding:0 24px;}.snapshot-inner{grid-template-columns:repeat(2,1fr);}.insight-body{padding:56px 24px 100px;}.insight-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}.watch-item{flex-direction:column;gap:6px;}.watch-item-note{text-align:left;max-width:100%;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>    
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="insight-header">
+  <a class="back-link" href="../market-insights.html">
+    <span class="back-arrow">←</span>
+    <span>All Weekly Insights</span>
+  </a>
+  <div class="insight-meta-row">
+      <span class="meta-label">Weekly Insight</span>
+      <div class="meta-divider"></div>
+      <span class="meta-week">Week of 2026.05.04</span>
+      <div class="meta-tags"><span class="meta-tag">Options</span><span class="meta-tag">Dollar</span><span class="meta-tag">Fed</span></div>
+    </div>
+  <h1 class="insight-title">Weekly Market Recap | May 4 - May 8, 2026: AI Bottlenecks Become the Trade</h1>
+  <p class="insight-abstract">Risk assets extended the rally, but the macro setup was not as clean as the index move suggested. SPX gained 2.3%, NDX rose 4.5% and closed above 26,000 for the first time, while the Dow was flat. This was the market’s sixth straight weekly gain, but breadth stayed narrow. Tech and semis carried the tape, while energy and materials lagged.</p>
+</header>
+
+
+<article class="insight-body">
+
+    <figure class="article-figure">
+      <img src="../images/cross_asset_may4_may8_2026.jpg" alt="cross_asset_may4_may8_2026.jpg" loading="lazy">
+    </figure>
+
+    <h3>Global Macro</h3>
+
+    <p>Risk assets extended the rally, but the macro setup was not as clean as the index move suggested. SPX gained 2.3%, NDX rose 4.5% and closed above 26,000 for the first time, while the Dow was flat. This was the market’s sixth straight weekly gain, but breadth stayed narrow. Tech and semis carried the tape, while energy and materials lagged.</p>
+
+    <ul class="bullet-list">
+      <li>The jobs report landed in the market’s comfort zone.</li>
+      <li class="bullet-list-sub">April NFP came in at +115K vs +55K consensus, while wage growth stayed contained at +0.2% m/m and +3.6% y/y. That is close to the Fed’s ideal setup for now: labor is not breaking, but wages are not re-accelerating either. It gave the market room to rally without immediately forcing a more hawkish rates response.</li>
+      <li>The inflation data underneath the surface was less comfortable.</li>
+      <li class="bullet-list-sub">ISM Services stayed expansionary at 53.6, but Prices Paid hit 70.7, the highest level since 2022. ISM Manufacturing also improved, with prices rising at the fastest pace since April 2022. The concern is simple: if oil-driven inflation keeps feeding into price surveys, the Fed has less room to sound dovish.</li>
+      <li>The Fed setup is more hawkish than the market wants to admit.</li>
+      <li class="bullet-list-sub">Last week’s FOMC hold at 3.50-3.75% came with four dissents, the most since 1992. Markets are treating the coming Warsh vote as a dovish reset, but that is not obvious. A divided committee, sticky price indicators, and oil-driven inflation pressure make it hard for a new chair to justify cutting too quickly.</li>
+      <li>Long-end rates remain the key pressure point.</li>
+      <li class="bullet-list-sub">VIX ended the week at 17.08, the 10Y yield at 4.38%, and the 30Y retraced to 4.95% after briefly breaking above 5% on Monday’s oil shock. That retracement mattered. The equity rally needed the 30Y to calm down. If the long end pushes back above 5%, long-duration tech becomes much more vulnerable.</li>
+    </ul>
+
+    <h3>Semiconductors</h3>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-09 at 22.06.44 (2).jpeg" alt="WhatsApp Image 2026-05-09 at 22.06.44 (2).jpeg" loading="lazy">
+    </figure>
+
+    <p>Capital continued to rotate beyond the NVDA-only AI trade and into the rest of the AI infrastructure stack. Memory, CPUs, optical components, and high-density battery names all caught a bid, while SOXX’s record 17-day win streak in April gave the sector a strong technical backdrop. The main takeaway is that dispersion inside semis is now the trade: investors are looking for the next bottleneck, not just the biggest GPU winner.</p>
+
+    <ul class="bullet-list">
+      <li>Memory was the clear leader.</li>
+      <li class="bullet-list-sub">MU closed at $746.81, up 27% on the week and above $800B market cap. HBM4 is sold out for 2026, and the company’s Q3 guide of $33.5B revenue at roughly 81% gross margin was far ahead of what sell-side models had been pricing. The stock is now stretched, but the risk looks more like profit-taking than a fundamental break.</li>
+      <li>CPU exposure is getting re-rated.</li>
+      <li class="bullet-list-sub">AMD closed at $341.57, up 66% YTD, after a Q1 beat and strong data-center growth. The market is starting to price AI as more than just GPUs. Inference, orchestration, and agentic workloads all increase the importance of CPUs, which helped AMD and even older second-source compute names catch a bid this week.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-09 at 22.06.44 (4).jpeg" alt="WhatsApp Image 2026-05-09 at 22.06.44 (4).jpeg" loading="lazy">
+    </figure>
+
+    <ul class="bullet-list">
+      <li>NVDA still matters, but it was not the whole story.</li>
+      <li class="bullet-list-sub">NVDA closed at $215.20, up 8% on the week and near its April high. Earnings on May 20 remain the key event for the AI complex. But the more important point this week was that NVDA lagged parts of the broader chip rally, showing that capital is now moving into the supply-constrained inputs that NVDA’s growth depends on.</li>
+      <li>Optical and smaller infrastructure names also worked.</li>
+      <li class="bullet-list-sub">LITE’s latest quarter reinforced the view that optical capacity is becoming a strategic AI bottleneck, with revenue up 90% Y/Y and orders booked through 2028. AMPX also fit the same broader theme from a different angle, with record Q1 revenue and a cleaner high-density battery story tied to drones, defense, and performance applications rather than commodity storage.</li>
+    </ul>
+
+    <h3>Trading This Week</h3>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-09 at 22.06.44 (1).jpeg" alt="WhatsApp Image 2026-05-09 at 22.06.44 (1).jpeg" loading="lazy">
+    </figure>
+
+    <p>This week’s book stayed focused on AI infrastructure. The market was rewarding more than just the mega-cap GPU names: memory, optical, CPU exposure, and smaller infrastructure names all started to trade better. That was the main backdrop for our trades.</p>
+
+    <h2>Premium Harvesting and Short-Dated Trades</h2>
+
+    <ul class="bullet-list">
+      <li>Lumentum (LITE): closed last week’s position and reopened May 22 bull put spreads.</li>
+      <li class="bullet-list-sub">We closed the LITE position from last week and collected premium. The stock has already moved a lot, so the risk is not low, but the trend still looks constructive and the optical infrastructure story remains strong. We opened another May 22 bull put spread because we still like the setup, but prefer defined-risk premium selling instead of chasing the stock outright. A 15-20% pullback would not be shocking after this move, but as long as LITE holds above its short-term moving averages, we are comfortable staying involved.</li>
+      <li>The LITE thesis is still optical capacity.</li>
+      <li class="bullet-list-sub">GPUs get most of the attention, but AI data centers also need faster and more efficient optical connections between chips, racks, and data centers. As AI clusters scale, bandwidth and power become real constraints. LITE remains one of the cleaner ways to express that theme.</li>
+      <li>Micron (MU): closed and harvested premium after a major move.</li>
+      <li class="bullet-list-sub">MU was one of the most important trades this week. The stock had an exceptional run, and the tape finally caught up to the HBM thesis. The market is treating high-bandwidth memory as a real AI bottleneck, not just another part of the old memory cycle. We took the win and closed the position.</li>
+      <li>MU also confirmed that the AI trade is spreading out.</li>
+      <li class="bullet-list-sub">Earlier in the cycle, the market mostly wanted NVDA. This week looked different. Capital moved into memory, CPUs, optical, and other upstream AI suppliers. The move is not risk-free, but it shows investors are now looking for the next layer of AI winners.</li>
+      <li>NVIDIA (NVDA): opened on Tuesday’s pullback and closed by Friday.</li>
+      <li class="bullet-list-sub">This was one of the cleaner premium trades of the week. We opened the position on Tuesday when NVDA pulled back to around $195, using a 190 strike. The original plan was not necessarily to close it that quickly, but NVDA ripped much harder than we expected and finished the week around $215. Once the stock moved that far away from our strike, the option value collapsed. At that point, there was no reason to wait until next week, so we closed early and took the premium.</li>
+      <li>The NVDA move showed buyers are still aggressive on dips.</li>
+      <li class="bullet-list-sub">NVDA was not the only leader this week, but the speed of the rebound mattered. The trade moved in our favor faster than expected, the short put became almost worthless, and we took it off. Sometimes the right decision is just to take the trade when the market gives it to you.</li>
+    </ul>
+
+    <h2>Longer-Term Upside Structures</h2>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-09 at 22.06.44 (3).jpeg" alt="WhatsApp Image 2026-05-09 at 22.06.44 (3).jpeg" loading="lazy">
+    </figure>
+
+    <ul class="bullet-list">
+      <li>LWLG and AMPX: bought 2028 LEAP calls and sold calls against them.</li>
+      <li class="bullet-list-sub">These were not short-term trades. We bought 2028 LEAP calls to get long-term upside exposure, then sold calls against those positions to reduce the premium cost. That structure fits these names better because both can move violently. We want exposure to the upside story, but we do not want to pay full premium and just sit with decay.</li>
+      <li>Lightwave Logic (LWLG): speculative optical exposure.</li>
+      <li class="bullet-list-sub">LWLG is working on electro-optic polymer technology designed to improve data transmission speed and reduce power consumption. The reason we care is simple: AI infrastructure is running into bandwidth and power constraints. If the market keeps rewarding optical bottleneck names, LWLG gives us a higher-beta version of that trade.</li>
+      <li>Amprius (AMPX): high-density battery exposure.</li>
+      <li class="bullet-list-sub">AMPX is focused on silicon-anode batteries with high energy density and high power output. We like the name because the use case is not just generic battery storage. The cleaner angle is drones, aviation, defense, and other weight-sensitive applications where performance matters. That makes the story more interesting than the usual commodity battery trade.</li>
+    </ul>
+
+    <h2>Earnings Volatility Trade</h2>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-09 at 22.06.44.jpeg" alt="WhatsApp Image 2026-05-09 at 22.06.44.jpeg" loading="lazy">
+    </figure>
+
+    <ul class="bullet-list">
+      <li>AMD: opened Monday, closed Wednesday, and captured IV crush.</li>
+      <li class="bullet-list-sub">AMD was our earnings volatility trade. Implied volatility was elevated into earnings, and we liked the fundamental setup enough to sell premium. After the event passed, IV came in and we closed the position. The trade was about capturing the gap between expensive pre-earnings premium and cheaper post-earnings premium.</li>
+      <li>Why AMD made sense.</li>
+      <li class="bullet-list-sub">AMD is getting more attention because the market is starting to care about both sides of its AI exposure: GPUs and CPUs. The GPU story is obvious, but the CPU side is becoming more important as AI shifts toward inference, orchestration, and agentic workflows.</li>
+      <li>The CPU angle matters more now.</li>
+      <li class="bullet-list-sub">In the first phase of AI, the trade was mostly about training clusters, which meant GPUs. Now more workloads are moving toward inference and agentic AI, where systems need to coordinate tasks, manage memory, route requests, and execute complex logic. That brings CPUs back into the discussion.</li>
+      <li>That is why AMD is relevant beyond a simple GPU catch-up trade.</li>
+      <li class="bullet-list-sub">In older AI server setups, one CPU might coordinate eight GPUs. As inference and agentic workloads grow, that ratio can move closer to one CPU for four GPUs, and in some cases potentially toward one-to-one. If that happens, CPU demand can grow even if GPU demand stays strong. AMD benefits because it has both EPYC CPUs and Instinct GPUs.</li>
+    </ul>
+
+    <h3>Takeaway</h3>
+
+    <ul class="bullet-list">
+      <li>Overall, this was a strong week for our style of trading.</li>
+      <li class="bullet-list-sub">We harvested premium in LITE, MU, NVDA, and AMD, while keeping longer-term upside exposure through 2028 LEAP calls in LWLG and AMPX. The thesis is still intact, but many of these names have moved quickly. From here, the key is to avoid chasing and stay disciplined with spreads, rolls, and premium selling.</li>
+    </ul>
+
+</article>
+
+<div class="insight-end">
+  <div>
+    <div class="insight-end-label">Note</div>
+    <p class="insight-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-insights" href="../market-insights.html">← All Insights</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
