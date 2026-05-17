@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Market Recap | May 11-15, 2026: The Handoff — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .embed-block{margin:56px 0;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .insight-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .insight-meta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .meta-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .meta-week{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);}
+  .meta-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .meta-tag{font-size:10px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--rule);padding:3px 10px;}
+  .insight-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .insight-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .snapshot-bar{max-width:800px;margin:0 auto;padding:0 52px;border-bottom:1px solid var(--rule);}
+  .snapshot-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;}
+  .snapshot-cell{background:var(--black);padding:24px;display:flex;flex-direction:column;gap:6px;}
+  .snapshot-asset{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+  .snapshot-value{font-size:18px;font-weight:300;color:var(--grey);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .snapshot-change{font-size:11px;font-weight:300;letter-spacing:.08em;color:var(--dim);}
+  .snapshot-change.up{color:rgba(180,220,180,0.7);}.snapshot-change.down{color:rgba(220,150,150,0.6);}
+  .insight-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .insight-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .insight-body p:last-child{margin-bottom:0;}.insight-body strong{font-weight:400;color:var(--white);}.insight-body em{font-style:italic;color:var(--mid);}
+  .insight-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .insight-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .watch-list{margin:56px 0;border:1px solid var(--rule);}
+  .watch-list-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:20px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item:last-child{border-bottom:none;}
+  .watch-item-name{font-size:14px;font-weight:300;color:var(--grey);letter-spacing:.03em;}
+  .watch-item-note{font-size:12px;font-weight:300;color:var(--faint);letter-spacing:.06em;text-align:right;max-width:55%;}
+  .insight-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .insight-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .insight-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-insights{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-insights:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.insight-header{padding:120px 24px 60px;}.snapshot-bar{padding:0 24px;}.snapshot-inner{grid-template-columns:repeat(2,1fr);}.insight-body{padding:56px 24px 100px;}.insight-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}.watch-item{flex-direction:column;gap:6px;}.watch-item-note{text-align:left;max-width:100%;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>    
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="insight-header">
+  <a class="back-link" href="../market-insights.html">
+    <span class="back-arrow">←</span>
+    <span>All Weekly Insights</span>
+  </a>
+  <div class="insight-meta-row">
+      <span class="meta-label">Weekly Insight</span>
+      <div class="meta-divider"></div>
+      <span class="meta-week">Week of 2026.05.11</span>
+      <div class="meta-tags"><span class="meta-tag">Volatility</span><span class="meta-tag">Options</span><span class="meta-tag">Fed</span><span class="meta-tag">CTA</span></div>
+    </div>
+  <h1 class="insight-title">Weekly Market Recap | May 11-15, 2026: The Handoff</h1>
+  <p class="insight-abstract">Equities printed fresh records into Thursday. Friday gave it all back. Powell handed the Fed to Warsh on the worst inflation print in three years, the 30Y broke 5% at auction for the first time since 2007, and the 10Y closed at a one-year high. Weekly net was deceptively quiet. The week's story was the bond market.</p>
+</header>
+
+<div class="snapshot-bar">
+  <div class="snapshot-inner">
+    <div class="snapshot-cell"><span class="snapshot-asset">SPX</span><span class="snapshot-value">7,408.50</span><span class="snapshot-change down">-1.24%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">VIX</span><span class="snapshot-value">18.43</span><span class="snapshot-change up">+6.78%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">GLD</span><span class="snapshot-value">417.29</span><span class="snapshot-change down">-2.32%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">BRENT OIL</span><span class="snapshot-value">109.26</span><span class="snapshot-change up">+3.35%</span></div>
+  </div>
+</div>
+
+<article class="insight-body">
+
+    <p>Equities printed fresh records into Thursday. Friday gave it all back. Powell handed the Fed to Warsh on the worst inflation print in three years, the 30Y broke 5% at auction for the first time since 2007, and the 10Y closed at a one-year high. Weekly net was deceptively quiet. The week's story was the bond market.</p>
+
+    <figure class="article-figure">
+      <img src="../images/cross_asset_may_11_15_2026.png" alt="cross_asset_may_11_15_2026.png" loading="lazy">
+    </figure>
+
+    <h3>The Stagflation Print</h3>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-17 at 19.11.37.jpeg" alt="WhatsApp Image 2026-05-17 at 19.11.37.jpeg" loading="lazy">
+    </figure>
+
+    <ul class="bullet-list">
+      <li>April CPI 0.6% m/m, 3.8% y/y, the highest annual print since May 2023. Released Tuesday.</li>
+      <li>Energy contributed more than 40% of the headline gain. Gasoline +28.4% y/y. Food at home +0.7% m/m, the biggest monthly gain since August 2022.</li>
+      <li>Core CPI 0.4% m/m, 2.8% y/y, holding 0.8 points above the Fed's target.</li>
+      <li>April PPI 1.4% m/m, 6% y/y, the largest monthly gain since March 2022 and the largest annual gain since December 2022. Released Wednesday.</li>
+      <li>Services PPI +1.2%, also the biggest move since March 2022. Two-thirds of the move came from a 2.7% jump in trade services margins. Tariffs are starting to land in producer prices.</li>
+      <li>Real average hourly wages fell 0.5% on the month and 0.3% on the year. The consumer is losing ground in real terms.</li>
+    </ul>
+
+    <h3>The Bond Reset</h3>
+
+    <ul class="bullet-list">
+      <li>30Y Treasury auction Wednesday cleared at 5% for the first time since 2007.</li>
+      <li>30Y closed Friday at 5.121%, the highest since May 22, 2025.</li>
+      <li>10Y closed Friday at 4.595%, up roughly 14bp on the day. Fresh one-year high.</li>
+      <li>2Y at 4.079%, also a one-year high.</li>
+      <li>Rate hike odds for end-2026 climbed past 50%. Traders now fully price one hike for March 2027.</li>
+      <li>The Fed funds expectation curve no longer contains a cut.</li>
+    </ul>
+
+    <h3>Powell Out, Warsh In</h3>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-17 at 19.11.37 (1).jpeg" alt="WhatsApp Image 2026-05-17 at 19.11.37 (1).jpeg" loading="lazy">
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Kevin Warsh confirmed by the Senate Wednesday. Powell's term as Chair ended Friday.</li>
+      <li>Powell stays on the Board as governor through January 2028, citing legal pressure from the administration as the reason to not step away.</li>
+      <li>Warsh inherits a fractured committee. The April 29 FOMC vote was 8-4, the most dissents since October 1992. Three of the four dissenters wanted the easing bias removed, not a cut added.</li>
+      <li>Warsh has argued AI productivity creates room to cut without sparking inflation. This week's data made that case harder.</li>
+      <li>First Warsh FOMC: June 16-17. Powell will be in the room.</li>
+    </ul>
+
+    <h3>Records, Then a Friday</h3>
+
+    <ul class="bullet-list">
+      <li>SPX, NDX, Russell 2000, and SOX all set fresh ATHs Monday ahead of the inflation data.</li>
+      <li>Tuesday's CPI print pulled tech down. SPX -0.16% to 7,400.96. Nasdaq -0.71%. MU -3.6%, AMD -2%, QCOM -11%. PHLX Semiconductor Index off 0.9%.</li>
+      <li>Wednesday absorbed the PPI shock and set new ATHs anyway for SPX and Nasdaq.</li>
+      <li>Thursday: SPX crossed 7,500 for the first time with a 0.8% gain, the second straight ATH close.</li>
+      <li>Dow closed above 50,000 Thursday for the first time since February, when the level was first crossed and then surrendered as the Iran war began.</li>
+      <li>NVDA's market cap reached $5.7 trillion intraday Thursday, with the stock up over 4% after Reuters reported the Commerce Department cleared roughly 10 Chinese firms to buy the H200.</li>
+      <li>Shiller CAPE closed Wednesday at 42.32, the highest reading of this cycle and the second-highest in 155 years of data. Only December 1999 was higher, at 44.19.</li>
+      <li>Friday broke the spell:</li>
+      <li class="bullet-list-sub">SPX -1.24% to 7,408.50</li>
+      <li class="bullet-list-sub">Nasdaq -1.54% to 26,225</li>
+      <li class="bullet-list-sub">Dow -1.07% to 49,526</li>
+      <li>Russell 2000 -2.44% confirms the breakdown was duration-driven, not rotational</li>
+      <li>The unwind concentrated in AI hardware: NVDA -4.4%, INTC -6.2%, MU -6.6%, AMD -5.7%, ARM -6.9%.The 30Y at 5.121% reset the discount rate every long-duration tech name is priced against.</li>
+      <li>POET Technologies: +43% Thursday on a Lumilens $50M order with $500M five-year framework for AI photonic interposers, -18% Friday. The marginal AI bid is a fast bid.</li>
+      <li>VIX closed Friday at 18.43, +6.78% on the day. The surface was compressed through Thursday and woke up Friday.</li>
+      <li>Weekly net: SPX +0.1%, NDX marginally positive, Dow flat. Friday surrendered almost all of the Monday-Thursday gains.</li>
+    </ul>
+
+    <h3>US-China Bilateral Talks: Pageantry, Modest Policy</h3>
+
+    <figure class="article-figure">
+      <img src="../images/WhatsApp Image 2026-05-17 at 19.18.39.jpeg" alt="WhatsApp Image 2026-05-17 at 19.18.39.jpeg" loading="lazy">
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Two-day summit, Thursday and Friday. CEO delegation included Musk, Cook, and Huang.</li>
+      <li>Headline: China to purchase 200 Boeing jets, well below the 500-aircraft, $77bn package the market had positioned for.</li>
+      <li>BA -4.7% Thursday to $229.21, then another -3.8% Friday to $220.49.</li>
+      <li>Agricultural piece restated the 25 million metric ton grain commitment already booked at Busan in October.</li>
+      <li>Iran: Both sides agreed Hormuz must reopen and Iran cannot have a nuclear weapon. Trump called the opening sentence of Iran's latest proposal &quot;unacceptable&quot; Friday.</li>
+      <li>Bessent ruled out a chip war detente. The H200 has Chinese clearance, nothing more advanced does.</li>
+      <li>Brent closed Friday at $109.26, +3.35% on the day. The energy shock driving inflation is not resolving.</li>
+      <li>Gold $4,561.90, -2.63% Friday. The metal traded as duration this week. The haven bid is selective when yields are this attractive.</li>
+      <li>Net: summit removed fresh tariff tail risk and confirmed the South Korea truce holds. Delivered nothing else.</li>
+    </ul>
+
+    <h3>Our Trades</h3>
+
+    <p>A week of opening rather than closing. Four bull put spreads, all short premium, all in AI-semi names where implied vol is structurally bid and earnings catalysts cluster in early-to-late June. Directional skew bullish on each. The structural edge is the short-vol leg.</p>
+
+    <ul class="bullet-list">
+      <li>AVGO bull put spread (May 11).</li>
+      <li class="bullet-list-sub">Broadcom sits at the intersection of custom AI silicon (Google TPU, Meta MTIA) and AI networking (Tomahawk 6 102Tb/s switches, optical DSPs, retimers, lasers, PCIe components). The dual position is a structural moat pure-GPU plays cannot replicate.</li>
+      <li class="bullet-list-sub">AI switch backlog exited fiscal 2025 above $10B.</li>
+      <li class="bullet-list-sub">Q2 FY2026 prints June 3. Company guide $22B revenue (+47% y/y), ahead of the $20.4-$20.5B consensus.</li>
+      <li class="bullet-list-sub">AVGO implied vol is elevated because the stock has run, earnings are binary three weeks out, and the AI-semi complex is event-rich. Bull put spread harvests that elevated premium with a bullish directional skew. Stock holds above the short strike, premium accrues. Stock runs through earnings, more accrues on vol crush.</li>
+      <li>SNDK bull put spread (May 11).</li>
+      <li class="bullet-list-sub">Continuation of our closed-into-April-30 trade. The print was a blowout.</li>
+      <li class="bullet-list-sub">Post-earnings IV remains elevated but compressing.</li>
+      <li class="bullet-list-sub">No earnings catalyst sits inside the trade window. What we are paid is the volatility premium, not a binary print. This is the trade designed to make the short-vol distinction unambiguous.</li>
+      <li>CRDO bull put spread (May 11), June 5 expiration.</li>
+      <li class="bullet-list-sub">Credo is the cleanest pure-play on AI active electrical cables (AECs) and optical retimers.</li>
+      <li class="bullet-list-sub">Q3 FY2026 revenue grew 51.9% sequentially and 201.5% year over year.</li>
+      <li class="bullet-list-sub">Q4 FY2026 reports Monday June 1 after close. Position holds through the print and expires Friday June 5.</li>
+      <li class="bullet-list-sub">Two edges: IV bid going into earnings collapses Tuesday June 2 if CRDO confirms the optical retimer ramp, and the directional move aligns with the same AI infrastructure thesis driving the AVGO position.</li>
+      <li>MU bull put spread (May 11).</li>
+      <li class="bullet-list-sub">Micron is mid-memory-supercycle.</li>
+      <li class="bullet-list-sub">Q2 FY2026 guide set Q3 revenue at $33.5B with gross margin near 81%. The Q3 single-quarter guide exceeds Micron's full-year revenue in any year through fiscal 2024.</li>
+      <li class="bullet-list-sub">Customers receiving only 50-66% of requested supply per management. Stock up over 750% on a twelve-month basis, crossed $800B market cap this week.</li>
+      <li class="bullet-list-sub">Next earnings June 24. Short premium where IV is structurally bid by the speculative chase. Even a 5-10% consolidation leaves room above the short strike.</li>
+    </ul>
+
+    <h3>A note on what we are actually doing</h3>
+
+    <p>A fair question came up recently: are we short vol or just earning delta? Both, and the structural edge is the vol piece. Each bull put spread has a delta. Stock up, position up. Intentional, not incidental.</p>
+
+    <ul class="bullet-list">
+      <li>The dominant payoff is the volatility premium. Implied vol in AI semis is elevated because the tape has run, the complex is event-rich (NVDA May 20, AVGO June 3, CRDO June 1, MU June 24), and broader macro vol is bid by stagflation and the yield reset.</li>
+      <li>Realized moves post-trade, conditional on names not breaking key supports, tend to come in well below what implied vol priced. That gap is the harvest.</li>
+      <li>Picking names with strong fundamental setups skews delta in our favor (we are not short premium on a tape we think is breaking) and tilts realized outcomes toward the lower tail (companies meeting or beating expectations tend not to gap down on the print).</li>
+      <li>The thesis is the entry filter. The premium is the payoff.</li>
+    </ul>
+
+    <h3>Next Week</h3>
+
+    <ul class="bullet-list">
+      <li>NVDA Q1 prints Wednesday May 20 after close. Setup is harder than two weeks ago. Hyperscalers gave back two weeks of gains, the discount rate reset 30bp higher, and consensus is already high. Guide is the only number that matters.</li>
+      <li>First Warsh FOMC June 16-17. The market is pricing him as constrained by his own committee before he chairs a meeting.</li>
+      <li>Structural setup: 30Y above 5%, Brent above $100, Hormuz closed, an inflation print that does not permit cuts, and a vol surface that woke up Friday. Short premium has a cleaner setup than it did last week.</li>
+    </ul>
+
+</article>
+
+<div class="insight-end">
+  <div>
+    <div class="insight-end-label">Note</div>
+    <p class="insight-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-insights" href="../market-insights.html">← All Insights</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
