@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Market Recap | June 22 - June 26, 2026: Stealth liquidity, no shelter. Tech split in two. The dispersion regime arrived. — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .embed-block{margin:56px 0;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .insight-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .insight-meta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .meta-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .meta-week{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);}
+  .meta-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .meta-tag{font-size:10px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--rule);padding:3px 10px;}
+  .insight-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .insight-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .snapshot-bar{max-width:800px;margin:0 auto;padding:0 52px;border-bottom:1px solid var(--rule);}
+  .snapshot-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;}
+  .snapshot-cell{background:var(--black);padding:24px;display:flex;flex-direction:column;gap:6px;}
+  .snapshot-asset{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+  .snapshot-value{font-size:18px;font-weight:300;color:var(--grey);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .snapshot-change{font-size:11px;font-weight:300;letter-spacing:.08em;color:var(--dim);}
+  .snapshot-change.up{color:rgba(180,220,180,0.7);}.snapshot-change.down{color:rgba(220,150,150,0.6);}
+  .insight-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .insight-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .insight-body p:last-child{margin-bottom:0;}.insight-body strong{font-weight:400;color:var(--white);}.insight-body em{font-style:italic;color:var(--mid);}
+  .insight-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .insight-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .watch-list{margin:56px 0;border:1px solid var(--rule);}
+  .watch-list-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:20px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item:last-child{border-bottom:none;}
+  .watch-item-name{font-size:14px;font-weight:300;color:var(--grey);letter-spacing:.03em;}
+  .watch-item-note{font-size:12px;font-weight:300;color:var(--faint);letter-spacing:.06em;text-align:right;max-width:55%;}
+  .insight-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .insight-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .insight-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-insights{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-insights:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.insight-header{padding:120px 24px 60px;}.snapshot-bar{padding:0 24px;}.snapshot-inner{grid-template-columns:repeat(2,1fr);}.insight-body{padding:56px 24px 100px;}.insight-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}.watch-item{flex-direction:column;gap:6px;}.watch-item-note{text-align:left;max-width:100%;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>    
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="insight-header">
+  <a class="back-link" href="../market-insights.html">
+    <span class="back-arrow">←</span>
+    <span>All Weekly Insights</span>
+  </a>
+  <div class="insight-meta-row">
+      <span class="meta-label">Weekly Insight</span>
+      <div class="meta-divider"></div>
+      <span class="meta-week">Week of 2026.06.22</span>
+      <div class="meta-tags"><span class="meta-tag">Volatility</span><span class="meta-tag">Options</span></div>
+    </div>
+  <h1 class="insight-title">Weekly Market Recap | June 22 - June 26, 2026: Stealth liquidity, no shelter. Tech split in two. The dispersion regime arrived.</h1>
+  
+</header>
+
+<div class="snapshot-bar">
+  <div class="snapshot-inner">
+    <div class="snapshot-cell"><span class="snapshot-asset">SPX</span><span class="snapshot-value">7,354.02</span><span class="snapshot-change down">-0.05%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">VIX</span><span class="snapshot-value">18.41</span><span class="snapshot-change down">-2.54%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">SNDK</span><span class="snapshot-value">2,090.71</span><span class="snapshot-change down">-10.46%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">MU</span><span class="snapshot-value">1,132.33</span><span class="snapshot-change down">-6.69%</span></div>
+  </div>
+</div>
+
+<article class="insight-body">
+
+    <figure class="article-figure">
+      <img src="../images/cover_w6.png" alt="Cross-Asset: SPY / QQQ / SOXX / TLT / USO daily closes, rebased to Jun 18. SOXX gapped -7.88% Mon-to-Tue on a Broadcom-linked AI-chip demand scare; Thursday’s hot Core PCE (3.4% YoY) capped the bounce; the Apple/Micron memory-cost split crystallized later in the week. TLT bid all week as duration hedged the tech drawdown. Source: DELTA S RESEARCH; daily closes from NYSE, Nasdaq, ICE" loading="lazy">
+      <figcaption>Cross-Asset: SPY / QQQ / SOXX / TLT / USO daily closes, rebased to Jun 18. SOXX gapped -7.88% Mon-to-Tue on a Broadcom-linked AI-chip demand scare; Thursday’s hot Core PCE (3.4% YoY) capped the bounce; the Apple/Micron memory-cost split crystallized later in the week. TLT bid all week as duration hedged the tech drawdown. Source: DELTA S RESEARCH; daily closes from NYSE, Nasdaq, ICE</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Tech cracked while the rest of the tape held. SPY -2.38% to 728.99, QQQ -4.60% to 706.52, and SOXX finished at 589.94 after a sharp semiconductor drawdown. But DIA +0.43%, IWM +0.80%, TLT +0.48% — the average stock barely moved. This was not a broad market selloff; it was a tech-factor drawdown wearing the index’s clothes.</li>
+      <li>Net liquidity rose ~$55B WoW and stocks fell anyway. The Treasury General Account drew down from $956.5B to $901.8B on the week — a stealth liquidity injection straight into bank reserves and money markets. The S&amp;P fell 2.38% into a liquidity tailwind. Discount-rate repricing on the Apple/Micron split and the hot PCE print dominated the flow story.</li>
+      <li>The dispersion regime became the dominant weekly signal. COR3M closed at 9.90 Friday — near historic lows. DSPX (single-stock dispersion) at 42.86 and climbing. SKEW at 139.89 (tail demand). VXN at 30.91 vs VIX at 18.39 — the vol surface is saying the risk is in tech, not in the index. This is the regime Citadel flagged in its Q2 framework.</li>
+      <li>Apple/Micron broke tech into two cohorts. The week’s cleanest split was Apple versus Micron: Apple’s memory-cost repricing hit the hardware-margin story, while Micron’s earnings beat confirmed that the same cost shock is a revenue and pricing-power tailwind for memory suppliers. The AI-capex bid did not die; it split into “memory beneficiary” and “memory victim.” Dispersion at the single-name level just exploded.</li>
+      <li>Core PCE 3.4% YoY (Thu) was the highest since Oct 2023. Core PCE rose 0.3% MoM; headline PCE rose 0.4% MoM and 4.1% YoY; personal spending rose 0.7%. Q1 GDP revised up to 2.1%, initial claims 215k. The cut-trade is now a recession-only trade, but the curve still bull-flattened: 10Y to 4.372% (from 4.49% prior), 2Y to ~4.06%. The bond bid looks more like positioning around growth risk than a clean macro signal.</li>
+    </ul>
+
+    <h3>The Week’s Dominant Narrative</h3>
+
+    <ul class="bullet-list">
+      <li>A Broadcom-linked AI demand scare reopened the 2027 chip-cycle debate. Cautious 2027 AI-chip demand commentary tied to hyperscaler customer concentration hit Asia first: SK Hynix and Samsung sold off at Tuesday’s open, the Kospi came under pressure, and SOXX gapped lower Mon-to-Tue (655.01 -&gt; 603.39). The move was not just positioning; the market was repricing the chip-demand curve for 2027.</li>
+      <li>The Apple/Micron memory-cost split closed the loop. Hardware OEMs are beginning to pass memory inflation through to end-prices, while Micron’s beat and sharp post-earnings rally confirmed that the supply-chain margin is shifting from compute buyers to memory suppliers. The market read this as a margin-compression event for Mag7 hardware names and a re-rating event for the memory sub-sector.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/apple_micron_split.jpg" alt="The week’s cleanest split was Apple versus Micron. Apple’s memory-cost repricing hit the hardware-margin story, while Micron’s earnings beat confirmed that the same cost shock is a revenue and pricing-power tailwind for memory suppliers. The AI-capex trade did not die; it split. The market is no longer treating “AI hardware” as one trade, but separating memory beneficiaries from memory-cost victims. Source: CNBC: Global tech stocks selloff on AI infrastructure costs" loading="lazy">
+      <figcaption>The week’s cleanest split was Apple versus Micron. Apple’s memory-cost repricing hit the hardware-margin story, while Micron’s earnings beat confirmed that the same cost shock is a revenue and pricing-power tailwind for memory suppliers. The AI-capex trade did not die; it split. The market is no longer treating “AI hardware” as one trade, but separating memory beneficiaries from memory-cost victims. Source: CNBC: Global tech stocks selloff on AI infrastructure costs</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Core PCE came in hot but the curve refused to follow. 3.4% YoY core, 0.3% MoM, headline &gt;4%. A year ago this print would likely have pushed the 2Y materially higher. This week 2Y barely moved and 10Y rallied 12bp on the week. The bond market is putting more weight on growth risk and positioning than on the latest inflation print.</li>
+      <li>Quarter-end positioning amplified everything. $8.3T quad-witching expiration Friday June 20 left dealer books leaner into this week. Pension rebalances added a structural bid to bonds and a sell into equities. Citadel’s research desk flagged this as a “technical noise week” — the regime read should weight Mon/Tue and Thu/Fri price action, not the index move alone.</li>
+      <li>The Fed’s balance sheet stayed flat at $6.736T. Reserves dropped $82B WoW to $2,951B; RRP collapsed to $5.7B (the parking lot is almost empty). The TGA drawdown is now the operative liquidity lever. With RRP near zero, TGA swings pass through more directly to reserves than they did in the prior regime. Liquidity mechanics are no longer a blanket tailwind to all assets — they can amplify dispersion across them.</li>
+    </ul>
+
+    <h3>What Volatility Markets Priced</h3>
+
+    <ul class="bullet-list">
+      <li>VIX closed 18.39 Friday — still a “calm” index print into a -2.38% week. The classic index vol measure missed the entire move because the move was inside the index, not on it. The S&amp;P’s realized was ~17 annualized; VIX-as-fear-gauge has become VIX-as-correlation-gauge. The story is in the surface, not the spot.</li>
+      <li>VXN at 30.91 vs VIX at 18.39 is the cleanest signal of the week. Nasdaq implied vol traded 12 points above S&amp;P implied — the widest spread in 18 months. Single-name vol in semis and Mag7 hardware spiked while the broad index slept. This is the dispersion regime priced through the vol surface, not just realized prices.</li>
+      <li>COR3M = 9.90. Three-month implied correlation between S&amp;P constituents is near the lowest reading on record. Index vol is cheap precisely because stocks are no longer moving together. Buying VIX here is a bet that correlation reverts; selling single-name vol is a bet that it does not. The single-name selling has been winning for six weeks.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/net_liquidity_w6.png" alt="Implied correlation (COR3M) collapsed to 9.90 Friday — near historic lows — while dispersion (DSPX) climbed to 42.86. Single-stock vol is rich; index vol is cheap. The structural read: capital is differentiating between AI-cost winners and losers at the single-name level. This is the regime Citadel has been calling for since Q1. Source: Saxo Options Brief, June 26, 2026" loading="lazy">
+      <figcaption>Implied correlation (COR3M) collapsed to 9.90 Friday — near historic lows — while dispersion (DSPX) climbed to 42.86. Single-stock vol is rich; index vol is cheap. The structural read: capital is differentiating between AI-cost winners and losers at the single-name level. This is the regime Citadel has been calling for since Q1. Source: Saxo Options Brief, June 26, 2026</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>SKEW at 139.89. The market is paying up for left-tail protection while the index sleeps. Rich skew with a subdued VIX is a rare combination, and it usually resolves in one of two ways: skew collapses (the tail does not arrive), or VIX catches up (the tail does). The dispersion regime has bought another week of both being true at once.</li>
+      <li>DSPX at 42.86 and rising. Single-stock dispersion has tracked the AI-capex regime change for nine months, but it accelerated this week. The Apple-Micron split is the cleanest dispersion print since the March 2023 SVB week — but for a fundamentally different reason: that was credit, this is unit-economics.</li>
+    </ul>
+
+    <h3>Cross Asset Signals</h3>
+
+    <ul class="bullet-list">
+      <li>Bonds outperformed equities cleanly. TLT +0.48%, LQD +0.30%, HYG -0.17%, SPY -2.38%. Credit spreads barely moved — IG is fine, HY is fine — the equity drawdown is not a credit event. The 10Y rallying 12bp on a 3.4% Core PCE print is one of the clearest growth-risk signals the bond market has sent in 2026.</li>
+      <li>DXY firmed; gold sold hard. GLD -3.41% on the week. Gold gave back the entire month-of-June bid as the Iran tail closed (last week’s MoU) and the bond market did the inflation-hedging job that gold had been hired to do. The cleanest read: gold was a multi-tail hedge; with the geopolitical tail closed and bonds re-bid, two of its three legs disappeared.</li>
+      <li>Oil leaked another 8.29%. USO closed at 105.35 vs 114.87 prior Friday. The Iran-MoU price discovery from last week continued: WTI testing the low-$70s, OPEC December meeting now the only live oil catalyst. With energy down ~17% in two weeks, the Core PCE upside is increasingly mechanical (services, shelter, memory-driven goods) and not energy-driven.</li>
+      <li>Small caps and the Dow held up — quietly. IWM +0.80%, DIA +0.43%. Equal-weighted indices and value sectors absorbed the tech drawdown with no follow-through. This is the “average stock” view: the median S&amp;P member moved less than 1% on the week. The drawdown is concentrated in seven names.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/tga_drawdown.png" alt="Treasury General Account drew down $54.7B WoW (from $956.5B to $901.8B) — a stealth liquidity injection into bank reserves and money markets. With RRP at $5.7B (near zero), TGA swings matter more for reserves than they did when the RRP facility still had a large balance. Net liquidity rose ~$55B WoW even as the Fed’s balance sheet stayed flat at $6.736T. Source: GuruFocus — Fed Net Liquidity vs S&amp;P 500" loading="lazy">
+      <figcaption>Treasury General Account drew down $54.7B WoW (from $956.5B to $901.8B) — a stealth liquidity injection into bank reserves and money markets. With RRP at $5.7B (near zero), TGA swings matter more for reserves than they did when the RRP facility still had a large balance. Net liquidity rose ~$55B WoW even as the Fed’s balance sheet stayed flat at $6.736T. Source: GuruFocus — Fed Net Liquidity vs S&amp;P 500</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>The cross-asset configuration is “growth scare in tech, soft landing in everything else.” Bonds bid, credit calm, small-caps green, oil lower, gold lower, dollar firm — that is not a recession scare. It is a single-factor unwind in mega-cap tech driven by unit-economics, repriced through the dispersion surface. The macro tape and the equity tape have decoupled.</li>
+    </ul>
+
+    <h3>Structural Fragilities</h3>
+
+    <ul class="bullet-list">
+      <li>The dispersion trade is increasingly crowded. COR3M near record lows, DSPX climbing, single-name vol rich. When dispersion becomes the consensus position, the unwind risk is correlation spike — a single macro catalyst (a CPI shock, a credit event, a sovereign event) that pulls all stocks together. The week to watch the August NFP and core CPI prints is the obvious binary.</li>
+      <li>RRP near zero leaves less liquidity buffer. The $5.7B RRP balance means the Fed has largely exhausted its biggest passive liquidity-absorption cushion. Future TGA drawdowns should land more directly in reserves; future TGA rebuilds should pull more directly from reserves. Liquidity volatility is increasingly reserve-volatility, and reserves are at $2.95T after dropping $82B WoW. The next QT-pause discussion is closer than the dots suggest.</li>
+      <li>Memory-cost passthrough could become a structural inflation channel. Apple and Microsoft raising prices on memory inflation would be the first visible sign in this cycle that hardware OEMs can pass component costs to consumers. If this is the start of a goods-CPI re-acceleration via AI hardware demand, the Core PCE 3.4% print is the first reading, not the last. Watch the July services-vs-goods CPI split.</li>
+      <li>The 9.90 correlation reading has historically coincided with fragile late-cycle regimes. The last four times COR3M printed below 10 (Feb 2018, Sep 2018, Jan 2020, Jan 2022), the index was within 60 days of a &gt;5% drawdown. Three of those four also marked the end of a multi-quarter tech leadership. Sample is small; the pattern is suggestive, not deterministic.</li>
+      <li>The Fed’s hike-bias is being tested by the bond market. Nine of eighteen officials still expect a hike by year-end (last week’s SEP), but the 10Y is rallying through 4.40% on hot inflation prints. Either the curve unwinds — front-end higher, long-end higher — and equities take another leg lower on multiple compression, or the Fed accepts the bond market’s growth scare and the dot plot starts to slide back. Both paths price more vol.</li>
+    </ul>
+
+    <h3>Our Trades This Week</h3>
+
+    <p>The team executed a series of structural adjustments, spreads, and liquidations this week, positioning heavily around the Broadcom-linked AI infrastructure scare, the Apple/Micron memory cost split, and single-stock dispersion:</p>
+
+    <ul class="bullet-list">
+      <li>SNDK &amp; MU (Memory &amp; AI Infrastructure Spreads): We deployed defensive put spreads in both SNDK and MU to isolate and capture the unit-economics repricing between memory beneficiaries and compute buyers following the Broadcom AI scare. By legging into put spreads, we established structural downside protection while extracting rich single-name volatility premium in the semiconductor space.</li>
+      <li>AVGO (Semiconductor Tail Protection): In response to the sharp gap down in semiconductors early in the week, we established put spreads to hedge against further Broadcom-related demand shocks and tech sector dispersion. We subsequently managed delta risk and realized premium as the broader tech factor drawdown continued to unfold.</li>
+      <li>SNXX (ETF Calendar Adjustment): Following the stock split adjustment from earlier in the month, we managed our exposure on the newly adjusted strike ladder by executing a calendar spread (selling a short-term call and purchasing a longer-dated call). This flattens near-term directional exposure while maintaining a cheap structural tail into the back half of the year.</li>
+      <li>Liquidations &amp; Rolls (KORU, AVGO, NVTS): Routine maintenance and risk-off liquidations across volatile tech and thematic positions. We closed out holding periods in KORU (rebalancing directional long/short deltas) and cleanly exited AVGO, alongside standard premium/theta rolls in NVTS.</li>
+    </ul>
+
+    <h3>What We Are Watching Next</h3>
+
+    <ul class="bullet-list">
+      <li>The July CPI print (~Jul 10). Core PCE 3.4% YoY makes CPI the next live event. Memory-cost passthrough could start showing up in goods CPI; services should still be sticky. A 0.3+% Core CPI MoM print extends the dispersion regime; a 0.1% print would challenge it.</li>
+      <li>TGA path into early July. Treasury’s quarterly refunding plan and the debt-ceiling cash management drive the TGA. If the TGA continues to draw down into July, net liquidity stays positive. If the TGA rebuilds (typical post-quarter behavior), reserves drop further from $2.95T and the QT-pause conversation accelerates.</li>
+      <li>AAPL / MSFT / META early-August earnings. The memory-cost passthrough story needs an earnings frame. AAPL gross margin on the iPhone 17 (Sept launch) is the cleanest single read. MSFT’s cloud-margin print on the same memory inflation is the second.</li>
+      <li>MU (Micron) follow-through. The post-earnings rally was a clean dispersion-winner signal. Whether the move extends or fades into July is the simplest read on whether memory inflation is a one-quarter shock or a multi-quarter regime. The August NAND/DRAM contract pricing is the leading indicator.</li>
+      <li>AVGO / NVDA into late August. The Broadcom-linked demand scare is the source of this week’s tech drawdown. NVDA’s July guidance and AVGO’s August print are the next live AI-capex datapoints. Either one disappointing would extend the semiconductor drawdown into a deeper monthly move.</li>
+      <li>DSPX and COR3M week-by-week. If COR3M stays below 12 and DSPX stays above 40, the dispersion trade is still alive — buy single-name vol, sell index vol. If COR3M breaks 15 in a single session, dispersion is unwinding and the index trade is back.</li>
+      <li>OPEC December and oil. WTI in the low-$70s, oil down ~17% in two weeks. The cartel is now negotiating production cuts into a structurally different price regime. A September-October surprise cut is the live oil binary.</li>
+    </ul>
+
+</article>
+
+<div class="insight-end">
+  <div>
+    <div class="insight-end-label">Note</div>
+    <p class="insight-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-insights" href="../market-insights.html">← All Insights</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
