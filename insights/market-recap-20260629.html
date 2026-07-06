@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Market Recap | June 29 - July 2, 2026: Dow ATH. Chips Crash. Quarter-End Rebalance Runs the Tape. — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .embed-block{margin:56px 0;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .insight-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .insight-meta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .meta-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .meta-week{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);}
+  .meta-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .meta-tag{font-size:10px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--rule);padding:3px 10px;}
+  .insight-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .insight-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .snapshot-bar{max-width:800px;margin:0 auto;padding:0 52px;border-bottom:1px solid var(--rule);}
+  .snapshot-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;}
+  .snapshot-cell{background:var(--black);padding:24px;display:flex;flex-direction:column;gap:6px;}
+  .snapshot-asset{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+  .snapshot-value{font-size:18px;font-weight:300;color:var(--grey);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .snapshot-change{font-size:11px;font-weight:300;letter-spacing:.08em;color:var(--dim);}
+  .snapshot-change.up{color:rgba(180,220,180,0.7);}.snapshot-change.down{color:rgba(220,150,150,0.6);}
+  .insight-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .insight-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .insight-body p:last-child{margin-bottom:0;}.insight-body strong{font-weight:400;color:var(--white);}.insight-body em{font-style:italic;color:var(--mid);}
+  .insight-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .insight-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .watch-list{margin:56px 0;border:1px solid var(--rule);}
+  .watch-list-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:20px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item:last-child{border-bottom:none;}
+  .watch-item-name{font-size:14px;font-weight:300;color:var(--grey);letter-spacing:.03em;}
+  .watch-item-note{font-size:12px;font-weight:300;color:var(--faint);letter-spacing:.06em;text-align:right;max-width:55%;}
+  .insight-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .insight-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .insight-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-insights{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-insights:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.insight-header{padding:120px 24px 60px;}.snapshot-bar{padding:0 24px;}.snapshot-inner{grid-template-columns:repeat(2,1fr);}.insight-body{padding:56px 24px 100px;}.insight-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}.watch-item{flex-direction:column;gap:6px;}.watch-item-note{text-align:left;max-width:100%;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>    
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="insight-header">
+  <a class="back-link" href="../market-insights.html">
+    <span class="back-arrow">←</span>
+    <span>All Weekly Insights</span>
+  </a>
+  <div class="insight-meta-row">
+      <span class="meta-label">Weekly Insight</span>
+      <div class="meta-divider"></div>
+      <span class="meta-week">Week of 2026.06.29</span>
+      <div class="meta-tags"><span class="meta-tag">Volatility</span><span class="meta-tag">Liquidity</span><span class="meta-tag">Fed</span></div>
+    </div>
+  <h1 class="insight-title">Weekly Market Recap | June 29 - July 2, 2026: Dow ATH. Chips Crash. Quarter-End Rebalance Runs the Tape.</h1>
+  
+</header>
+
+
+<article class="insight-body">
+
+    <figure class="article-figure">
+      <img src="../images/cover_w5.png" alt="Cross-Asset: SPX / NDX / SOXX / DIA 1-day closes, rebased to Jun 26. Chips peak Tuesday, crash Wednesday-Thursday. Dow prints an all-time high on defensive rotation. US markets closed Friday for Independence Day. Source: DELTA S RESEARCH; daily closes from Cboe, Nasdaq, ICE, S&amp;P Global" loading="lazy">
+      <figcaption>Cross-Asset: SPX / NDX / SOXX / DIA 1-day closes, rebased to Jun 26. Chips peak Tuesday, crash Wednesday-Thursday. Dow prints an all-time high on defensive rotation. US markets closed Friday for Independence Day. Source: DELTA S RESEARCH; daily closes from Cboe, Nasdaq, ICE, S&amp;P Global</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>A 4-day holiday week that split the tape. SPX +1.75% to 7,483.24. DIA +1.96%, printing an all-time high close of 52,900.07 Thursday. NDX +0.72%. SOXX minus 4.00% on the week but minus 11.6% from Tuesday peak to Thursday close. The index moved sideways while dispersion under the surface widened out.</li>
+      <li>Quarter-end rebalancing was the single biggest capital-flow event of the week. JPM tagged the expected equity selling at approximately $165B (US pensions $55B, GPIF $60B, Norges Bank $40B, SNB $25B). The buying rotated into names that had underperformed. AAPL +8.75%, MSFT +4.70%, META +5.93%, GOOGL +6.67% were funded by tops in the semis leaders.</li>
+      <li>June options expiration cleared roughly $8.3T of open interest, the largest quad-witching print on record per Paralia Trading Desk. Dealer gamma reset from long to short. SPX has traded below the 7,450 gamma-flip line since June 23. Vol-control funds sold approximately $10.8B of equity over 10 sessions, largest single-day landing on the Monday the flip line broke.</li>
+      <li>Thursday NFP printed 57k versus 115k consensus. Unemployment 4.3%. Yet the 10Y closed the week at 4.49%, up 12bp WoW. 30Y +13bp to 4.99%. A soft labor print with long-end selling is unusual. The curve is pricing supply and term premium, not the Fed reaction function.</li>
+      <li>VIX 18.41 to 16.15 (minus 12.28%). Realized dispersion did the work volatility did not. SOXX one-week realized ran approximately 3 standard deviations against last Friday’s implied. The vol surface still has not repriced dealer negative gamma above the flip.</li>
+    </ul>
+
+    <h3>The Week's Dominant Narrative</h3>
+
+    <ul class="bullet-list">
+      <li>Quarter-end mechanics dictated the flow. The $165B rebalance estimate was the largest quarterly equity sell in over a year (per JPM via Paralia). Selling concentrated in the names with the biggest Q2 gains (semis) and rotated into laggards (defensives, AAPL, MSFT). That is why Dow printed a record while SOXX collapsed in the same week.</li>
+      <li>Dealer gamma has been negative above 7,450 for 8 sessions. Kurt Altrichter’s gamma report flagged the flip broken on June 23. Below the flip, dealers sell into rallies and buy into weakness, which amplifies both directions. The SOXX Wed-Thu air-pocket lines up with the gamma regime, not just news flow.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/chip_selloff.jpg" alt="Semis crashed after peaking Tuesday. SOXX minus 11.6% Tue-Thu. MRVL minus 17.7% from Tuesday peak to Thursday close. AMD minus 10.9%. AVGO minus 8.0%. The AI capex debate returned as rotation funded defensives with proceeds from the biggest Q2 winners. Source: Yahoo Finance coverage of chip selloff" loading="lazy">
+      <figcaption>Semis crashed after peaking Tuesday. SOXX minus 11.6% Tue-Thu. MRVL minus 17.7% from Tuesday peak to Thursday close. AMD minus 10.9%. AVGO minus 8.0%. The AI capex debate returned as rotation funded defensives with proceeds from the biggest Q2 winners. Source: Yahoo Finance coverage of chip selloff</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Concentration remains the biggest structural risk. Scott Rubner (Citadel Securities) notes the top-10 SPX names now account for approximately 40% of the index, up roughly 10% since June 2023 and 13% since June 2020. When those names rotate, the index masks the move underneath. Equal-weight SPX gained about 1.5% on the week while cap-weight moved less (per LSEG).</li>
+      <li>Systematic flow was on the sell side into quarter-end. CTAs printed short in six of the last seven sessions per Altrichter. Combined systematic positioning score collapsed to approximately minus 1.3 sigma (below the bearish line), down from plus 2 sigma in mid-May. CTAs had bought roughly $170B of global equities MTD per Paralia, but &quot;impulse looks spent.&quot;</li>
+      <li>Dow ATH was a rotation print, not a broad advance. Thursday close 52,900.07 (+594.83). WMT +2.78%, COST +2.92%, KO +3.51%, PG +2.70%. Defensives and consumer names caught the flow. Same session: SOX minus 5.4%, NVDA minus 1.39%, AVGO minus 2.41%, INTC minus 5.25%, MRVL minus 9.84%.</li>
+    </ul>
+
+    <h3>What Volatility Markets Priced</h3>
+
+    <ul class="bullet-list">
+      <li>VIX 16.15 close is misleading. Index vol compressed while single-name dispersion widened. SOXX realized ran multiples of implied, MRVL delivered a two-day 17.7% move against a much lower implied vol coming in. Anyone short semis premium into quarter-end got hit.</li>
+      <li>Dealer negative gamma above 7,450 is the market-structure fact of the week. Altrichter marks vol-control fund selling at $10.8B over 10 sessions. Combined with negative gamma, both directions amplify. The Wed-Thu SOXX air-pocket and Thursday’s Dow ATH both fit that regime. Positive news reaches full extension; negative news reaches full extension the other way.</li>
+      <li>Breadth held even as leaders broke. Per Altrichter, 64.5% of SPX trades above its 200-day (up from 60.4% last week). This is the split behind Dow ATH: the median stock is fine, the mega-cap semis are the ones being sold. Dispersion, not direction, is the trade.</li>
+      <li>Skew reset in tech. MRVL, AMD, AVGO put skew widened from Tuesday to Thursday as the crash extended. NVDA held better (minus 1.39% Thu, +1.20% WoW) because it did not have the same MTD gain to rebalance out of. The rotation is inside the AI trade, not across it.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/dow_record.jpg" alt="Dow Jones closed at an all-time high of 52,900.07 on Thursday July 2, gaining 594.83 points on rotation into defensives. Wall Street closed the strongest first-half of a year in over a decade in points terms, but the internals were driven by quarter-end capital reallocation. Source: Foreign Policy Journal coverage of Dow record" loading="lazy">
+      <figcaption>Dow Jones closed at an all-time high of 52,900.07 on Thursday July 2, gaining 594.83 points on rotation into defensives. Wall Street closed the strongest first-half of a year in over a decade in points terms, but the internals were driven by quarter-end capital reallocation. Source: Foreign Policy Journal coverage of Dow record</figcaption>
+    </figure>
+
+    <h3>Cross Asset Signals</h3>
+
+    <ul class="bullet-list">
+      <li>The curve steepened against the payroll print. 10Y +12bp WoW to 4.49%, 30Y +13bp to 4.99%. A soft NFP (57k vs 115k, unemployment 4.3%) that lifts long-end yields is a supply concern, not a growth concern. Long-end selling into the July refunding window is the read. This is not a cut-trade signal.</li>
+      <li>DXY 100.86 (minus 0.49). Dollar softened marginally on the soft NFP. Gold caught the symmetric bid: GLD +1.20% to 378.13. Neither move was directional enough to signal a regime shift. The dollar is holding above 100 despite a weak jobs print, which tells you the front end is not pricing dovishness.</li>
+      <li>Small caps and Dow did not agree. IWM minus 0.75% while DIA +1.96%. Dow ATH was mega-cap defensives, not broad small-cap participation. This is a narrow-breadth advance dressed as a record close. The tell is IWM under-performing DIA by 271bp in a rally week.</li>
+      <li>Oil traded quietly through the week. No major geopolitical channel driving. The absence of an energy story let the equity structural themes do the work uninterrupted. That will not always be the case in H2.</li>
+      <li>BTC held mid-$60Ks with structural weakness underneath. Glassnode: underwater supply crossed 10.83M BTC versus 9.22M in profit, first crossover this drawdown. Long-term holder supply hit a record 16.3M BTC. Exchange reserves at 2.21M BTC, a 7-year low. Old hands are accumulating while ETFs bleed.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/btc_etf.jpg" alt="US spot Bitcoin ETFs bled $4.5B in June (Glassnode Studio), the worst month since January 2024. Seven straight negative weeks totaling $1.79B through June 26. July 1 alone saw $296M leave. Yet long-term holder supply hit a record 16.3M BTC. Retail ETF selling; old wallets accumulating. Source: CryptoSlate coverage of BTC ownership crossover" loading="lazy">
+      <figcaption>US spot Bitcoin ETFs bled $4.5B in June (Glassnode Studio), the worst month since January 2024. Seven straight negative weeks totaling $1.79B through June 26. July 1 alone saw $296M leave. Yet long-term holder supply hit a record 16.3M BTC. Retail ETF selling; old wallets accumulating. Source: CryptoSlate coverage of BTC ownership crossover</figcaption>
+    </figure>
+
+    <h3>Structural Fragilities</h3>
+
+    <ul class="bullet-list">
+      <li>The $8.3T June expiration cleared record dealer gamma. That is the largest quad-witching print on record. The market entered July with a much thinner dealer book, hence the amplified moves. Until dealers rebuild long gamma, both directions will run further than fundamentals justify. Watch for accumulation off July expiration.</li>
+      <li>Top-10 SPX at approximately 40% of index. A 10% weight increase in 3 years, 13% in 5 years (Rubner/Citadel). When those names rotate, the index masks the underlying dispersion. This week showed the mechanism clearly: SOXX minus 4% while SPX +1.75% because the buying rotated into mega-cap laggards.</li>
+      <li>Curve steepening on a soft NFP is a warning. The bond market did not price a cut on 57k payrolls. That means either the print is dismissed (revision expected) or the long end is signaling something the front end cannot see. Term premium reset ahead of Treasury refunding is the leading candidate. Watch the July 3-week bill and 30Y auctions.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/nfp_soft.jpg" alt="June nonfarm payrolls printed 57k against 115k consensus, unemployment 4.3%. The 10Y closed the day at 4.49%, up 12bp WoW. Bond market did not buy the cut trade on a soft print. Curve steepening (30Y +13bp) points at supply concern, not growth deceleration. Source: Yahoo Finance June jobs report coverage" loading="lazy">
+      <figcaption>June nonfarm payrolls printed 57k against 115k consensus, unemployment 4.3%. The 10Y closed the day at 4.49%, up 12bp WoW. Bond market did not buy the cut trade on a soft print. Curve steepening (30Y +13bp) points at supply concern, not growth deceleration. Source: Yahoo Finance June jobs report coverage</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Systematic positioning is now underweight equities. CTAs short 6 of 7 sessions. Combined positioning at minus 1.3 sigma (vs +2 sigma mid-May). Vol-control $10.8B out over 10 days. If macro data cooperates in July (cool CPI, orderly ISM), the reflex is a systematic re-lever, which would be a slower but broader tape than late June.</li>
+      <li>BTC ownership crossover is a late-cycle signal. When underwater supply exceeds supply in profit, drawdowns historically last months, not weeks (per Glassnode). LT holders accumulating record 16.3M BTC while ETF flows print $4.5B June outflows is the classic diamond-hand versus tourist money split. The financialization channel is bleeding; the on-chain base is thickening.</li>
+      <li>AI capex debate is back in the price. The chip crash Wed-Thu was not driven by a single catalyst. Rotation into defensives and out of the biggest Q2 winners was the mechanism. Underneath: the market is asking whether hyperscaler capex growth (Oracle, MSFT, GOOGL, META, AMZN) is sustainable or already in the numbers. Q2 prints in late July will settle the debate.</li>
+    </ul>
+
+    <h3>Our Trades This Week</h3>
+
+    <p>Our activity this week centered on navigating the significant dispersion regime and quarter-end rebalancing mechanics. We focused on capturing volatility within AI-related names and positioning around institutional flows to capitalize on the rapid sectoral rotation.</p>
+
+    <ul class="bullet-list">
+      <li>META Butterfly: We deployed butterfly spreads on META to capitalize on the rotation into mega-cap laggards, taking advantage of the inflow into names that had underperformed during the initial quarter.</li>
+      <li>AMD Butterfly: As semiconductor stocks crashed following Tuesday's peak, we utilized butterfly spreads to manage exposure and capture premium dispersion amidst the rapid, news-driven price moves in the sector.</li>
+      <li>CRDO Hedge: We executed put spreads ahead of the market closure to manage downside risk, maintaining a defensive posture in an environment where dealer gamma remains sensitive to further rotation.</li>
+    </ul>
+
+    <h3>What We Are Watching Next</h3>
+
+    <ul class="bullet-list">
+      <li>July expiration and dealer gamma rebuild. The July 18 monthly expiry is the next big flow event. If dealers rebuild long gamma above 7,450, the amplified regime unwinds. If not, expect more session-level dispersion into Q2 earnings.</li>
+      <li>Q2 hyperscaler capex reads. MSFT (late July), GOOGL, META, AMZN prints. The market wants to see whether Oracle’s Q4 capex revision (50B to 55.7B) is a one-off or a template. If MSFT/GOOGL mark up capex plans similarly, the AI-infrastructure balance sheet story reprices further.</li>
+      <li>CPI on July 15. After May’s 4.2% YoY headline (energy-driven), June is where the disinflation gradient in services either holds or breaks. Curve steepening this week suggests the market is nervous. A hot core would push 10Y through 4.55%.</li>
+      <li>July 30-31 FOMC. Warsh’s second meeting. With NFP at 57k and CPI still to come, this is where the market either gets the hawkish continuation the curve is pricing, or gets a signal that soft data has changed the reaction function. Front end is priced for patience; long end is not.</li>
+      <li>Treasury refunding cadence. Long-end supply into a soft-data environment. Watch the July auction tail, especially 20Y and 30Y. Any weak auction cover ratio validates the term-premium reset story and pushes yields further.</li>
+      <li>BTC $58K support. Underwater cohort crossover historically preceded month-long drawdowns. If $58K breaks, next cluster is $52-54K. If it holds, LT holder accumulation eventually stabilizes the market at a higher base.</li>
+      <li>Concentration measurement. If the top-10 SPX weight compresses below 40% in July, the market is broadening. If it climbs back above 40%, the underlying dispersion regime persists. Equal-weight SPX vs cap-weight SPX is the cleanest tell.</li>
+    </ul>
+
+</article>
+
+<div class="insight-end">
+  <div>
+    <div class="insight-end-label">Note</div>
+    <p class="insight-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-insights" href="../market-insights.html">← All Insights</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
