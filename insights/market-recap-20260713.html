@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Market Recap | July 13 - July 17, 2026: Capex hangover — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .embed-block{margin:56px 0;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .insight-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .insight-meta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .meta-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .meta-week{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);}
+  .meta-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .meta-tag{font-size:10px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--rule);padding:3px 10px;}
+  .insight-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .insight-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .snapshot-bar{max-width:800px;margin:0 auto;padding:0 52px;border-bottom:1px solid var(--rule);}
+  .snapshot-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;}
+  .snapshot-cell{background:var(--black);padding:24px;display:flex;flex-direction:column;gap:6px;}
+  .snapshot-asset{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+  .snapshot-value{font-size:18px;font-weight:300;color:var(--grey);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .snapshot-change{font-size:11px;font-weight:300;letter-spacing:.08em;color:var(--dim);}
+  .snapshot-change.up{color:rgba(180,220,180,0.7);}.snapshot-change.down{color:rgba(220,150,150,0.6);}
+  .insight-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .insight-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .insight-body p:last-child{margin-bottom:0;}.insight-body strong{font-weight:400;color:var(--white);}.insight-body em{font-style:italic;color:var(--mid);}
+  .insight-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .insight-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .watch-list{margin:56px 0;border:1px solid var(--rule);}
+  .watch-list-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:20px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item:last-child{border-bottom:none;}
+  .watch-item-name{font-size:14px;font-weight:300;color:var(--grey);letter-spacing:.03em;}
+  .watch-item-note{font-size:12px;font-weight:300;color:var(--faint);letter-spacing:.06em;text-align:right;max-width:55%;}
+  .insight-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .insight-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .insight-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-insights{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-insights:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.insight-header{padding:120px 24px 60px;}.snapshot-bar{padding:0 24px;}.snapshot-inner{grid-template-columns:repeat(2,1fr);}.insight-body{padding:56px 24px 100px;}.insight-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}.watch-item{flex-direction:column;gap:6px;}.watch-item-note{text-align:left;max-width:100%;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>    
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="insight-header">
+  <a class="back-link" href="../market-insights.html">
+    <span class="back-arrow">←</span>
+    <span>All Weekly Insights</span>
+  </a>
+  <div class="insight-meta-row">
+      <span class="meta-label">Weekly Insight</span>
+      <div class="meta-divider"></div>
+      <span class="meta-week">Week of 2026.07.13</span>
+      <div class="meta-tags"><span class="meta-tag">Equities</span><span class="meta-tag">Liquidity</span><span class="meta-tag">Options</span></div>
+    </div>
+  <h1 class="insight-title">Weekly Market Recap | July 13 - July 17, 2026: Capex hangover</h1>
+  
+</header>
+
+
+<article class="insight-body">
+
+    <figure class="article-figure">
+      <img src="../images/cover_cross_asset_w7.png" alt="Cross-asset performance, rebased to Jul 10 close. SOXX led the decline; DIA held. Source: DELTA S Research, finance connector OHLCV." loading="lazy">
+      <figcaption>Cross-asset performance, rebased to Jul 10 close. SOXX led the decline; DIA held. Source: DELTA S Research, finance connector OHLCV.</figcaption>
+    </figure>
+
+    <h3>The Week in Five Bullets</h3>
+
+    <ul class="bullet-list">
+      <li>A losing week on semis de-grossing. SPX -1.55% to 7,457.69. NDX -4.13%. SOXX -10.24% and into bear-market territory. DIA -0.95%, IWM -0.66%.</li>
+      <li>TSMC was the single-name trigger. TSM -8.23% after a record beat-and-raise; the capex hike to $60-64B (from $52-56B) and $265B US commitment re-priced AI capex as a margin drag, not a growth signal.</li>
+      <li>Dispersion was extreme. The AI chip complex collapsed while AAPL +5.84% and MSFT +2.26% held. MRVL -19.99%, CRDO -21.38%, AMD -11.14%, ORCL -10.12%, TSM -8.23%, AVGO -7.29%.</li>
+      <li>Geopolitical bid in oil. WTI +15.52% to 82.49 as US-Iran strikes escalated across the Strait of Hormuz; Persian Gulf shipping neared a halt. A stagflationary tail.</li>
+      <li>Volatility bid and yields slipped. VIX 15.03 to 18.77 (+24.88%). 10Y -3bp to 4.54%, 30Y -1bp to 5.06% after June CPI came in soft (3.5% headline, 2.6% core).</li>
+    </ul>
+
+    <h3>The Week’s Dominant Narrative: Beat, Raise, Sell</h3>
+
+    <ul class="bullet-list">
+      <li>TSMC printed a record Q2: revenue $40.2B (+36% YoY), net profit +77% to ~$22B, gross margin 67.7% (record), operating margin 60.3%, EPS $4.31 vs ~$3.87 est. Raised FY2026 revenue growth to &gt;40% (from &gt;30%). Q3 guide $44.6-45.8B, above consensus. A blowout by every fundamental measure.</li>
+      <li>The market sold it anyway. TSM -8.23% on the week. The trigger was the capex line: 2026 capex raised to $60-64B from $52-56B, plus an additional $100B US fab investment (total US commitment $265B). Investors read heavier capex and overseas-fab margin dilution (2nm ramp to cut gross margin 3-4pp in 2H) as a near-term FCF and margin cost, not a demand signal.</li>
+      <li>The pattern was not TSM-specific. ASML did the same July 15. The whole complex de-rated: SOXX -10.24% into a bear market. MRVL -19.99%, CRDO -21.38%, AMD -11.14%, ORCL -10.12%. Investors still believe in AI demand but are no longer willing to pay as if today’s scarcity and margins last indefinitely.</li>
+      <li>The damage was narrow at the index level. SPX -1.55%, DIA -0.95%. AAPL +5.84% and MSFT +2.26% absorbed flows rotating out of semis. Financials were the other offset: JPM +2.01% to $341.60 after a $21.2B Q2 profit (EPS $7.70, +41%), Dimon calling the economy &quot;close to as good as it gets.&quot;</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/tsmc_wafer.jpg" alt="TSMC’s wafer pricing power has been the bull case; the market is now discounting the capex behind it.  Source: Tom’s Hardware" loading="lazy">
+      <figcaption>TSMC’s wafer pricing power has been the bull case; the market is now discounting the capex behind it.  Source: Tom’s Hardware</figcaption>
+    </figure>
+
+    <h3>What Volatility Markets Priced</h3>
+
+    <ul class="bullet-list">
+      <li>VIX 15.03 to 18.77 (+24.88%). The bid built Thursday-Friday as the semis break accelerated; VIX closed at the weekly high Friday. No single overnight gap, a grinding risk-off.</li>
+      <li>Dispersion was the trade. SOXX realized -10.24% while SPX moved -1.55%; single-name realized in MRVL/CRDO/AMD ran -10% to -21%. Index vol understated single-name pain.</li>
+      <li>Single-name realized tells the real story. MRVL -19.99% and CRDO -21.38% dwarfed SOXX -10.24%; the index masked the worst of the single-name break.</li>
+      <li>Two regimes ran in parallel. A semis de-grossing and an oil spike both featured in the same week’s tape, on different drivers (AI capex fears and a Hormuz escalation).</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/tech_selloff_ap.jpg" alt="A tech-led sell-off slammed Wall Street as the semis complex broke lower (ORACLE visible on the board).  Source: AP News" loading="lazy">
+      <figcaption>A tech-led sell-off slammed Wall Street as the semis complex broke lower (ORACLE visible on the board).  Source: AP News</figcaption>
+    </figure>
+
+    <h3>Cross Asset Signals</h3>
+
+    <ul class="bullet-list">
+      <li>Bull-flattener across the curve. 10Y -3bp to 4.54%, 30Y -1bp to 5.06%, on the soft June CPI (3.5% headline, 2.6% core, -0.4% MoM headline). A different regime from last week’s bear-steepener.</li>
+      <li>DXY 100.97 to 100.75, flat. The dollar did not catch a safe-haven bid despite the risk-off; the soft CPI worked against it.</li>
+      <li>Oil round-tripped up, not down. WTI +15.52% to 82.49 as US-Iran strikes escalated across the Strait of Hormuz and Persian Gulf shipping neared a halt. Stagflationary tail risk.</li>
+      <li>Gold fell, not rose. GLD -2.28%, Comex gold around $4,013, largest weekly drop since early June. Profit-taking after a long run and a reduced inflation-hedge bid on the cool CPI outweighed safe-haven flows.</li>
+      <li>Small caps and the Dow held better than tech. IWM -0.66%, DIA -0.95%. The tape was a semis and NDX problem, not a broad risk-off.</li>
+      <li>BTC flat at ~63,900, rangebound 62,233 to 64,968. Crypto refused to lead either way; no risk-on or risk-off signal.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/hormuz_tankers.jpg" alt="Tankers transit the Strait of Hormuz; Persian Gulf shipping neared a halt as US-Iran strikes escalated.  Source: PBS NewsHour / Reuters" loading="lazy">
+      <figcaption>Tankers transit the Strait of Hormuz; Persian Gulf shipping neared a halt as US-Iran strikes escalated.  Source: PBS NewsHour / Reuters</figcaption>
+    </figure>
+
+    <h3>Structural Fragilities</h3>
+
+    <ul class="bullet-list">
+      <li>AI-capex is now a valuation lever turning negative. TSMC’s capex hike to $60-64B, ASML’s beat-and-sell, and the SOXX bear market mark the first coordinated signal that the market is discounting AI capex returns, not just confirming demand.</li>
+      <li>Concentration risk rotated, not dissolved. Flows left semis and crowded into AAPL +5.84% and MSFT +2.26%; the mega-cap narrow leadership that held SPX to -1.55% is itself a fragility if those names roll.</li>
+      <li>Volatility risk premium stayed compressed into a vol shock. VIX at 18.77 with 10Y at 4.54%, a contested geopolitical tail (Hormuz), and a semis bear market is a thin cushion for an idiosyncratic hit.</li>
+      <li>The oil-inflation feedback is live. A 15.5% WTI weekly move into a soft-CPI print means the disinflation story is one Hormuz disruption away from repricing; the bond market is pricing the CPI, not the oil.</li>
+      <li>Positioning is the reflexive risk. If forced semis de-grossing accelerates into next week’s chip earnings, the dispersion widens further.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/gold_falling.jpg" alt="Gold posted its largest weekly drop since early June.  Source: Euronews" loading="lazy">
+      <figcaption>Gold posted its largest weekly drop since early June.  Source: Euronews</figcaption>
+    </figure>
+
+    <blockquote class="extended-quote">
+      <div class="extended-quote-body">&quot;TSMC beat, raised capex, and the market sold the whole AI chip complex into a bear market while oil ripped 15% on a Hormuz scare. That is a de-grossing inside a stagflationary tail, not a healthy correction.&quot;</div>
+    </blockquote>
+
+    <h3>What We Are Watching Next</h3>
+
+    <ul class="bullet-list">
+      <li>Bank earnings cadence (July 17-18). JPM set a high bar; Citi, Wells, BofA follow. NII guides and credit-loss provisions test whether financials leadership holds.</li>
+      <li>Chip earnings spillover (week of July 20). After TSMC’s capex hangover, watch AVGO, AMD, MRVL, CRDO guidance and capex commentary for the next leg of the de-rating or a stabilization.</li>
+      <li>SOXX bear-market technicals. Below the Feb-high support zone; next support watched if the break continues into the $490-500 region.</li>
+      <li>Iran-Hormuz escalation path. Persian Gulf shipping near a halt; any disruption to tanker traffic reprices oil and the inflation tail immediately.</li>
+      <li>Fed reaction to the soft CPI. June CPI 3.5% / 2.6% strengthens the early-cut case; watch Fedspeak and the next dot plot signal.</li>
+      <li>2Y and 10Y auction coverage. Bull-flattener on soft CPI; weak covers would test the duration bid anchoring the risk-off.</li>
+      <li>Mega-cap rotation risk. AAPL/MSFT absorbed the semis outflow; if those names roll, SPX -1.55% becomes the floor, not the ceiling.</li>
+      <li>Gold positioning after the largest weekly drop since June. A break of $4,000 in gold would confirm profit-taking over safe-haven.</li>
+    </ul>
+
+    <h3>Sources and References</h3>
+
+    <ol class="numbered-list">
+      <li>Reuters: US consumer inflation moderates; upside risks remain</li>
+      <li>CNBC: Consumer price index inflation report, June 2026</li>
+      <li>The Guardian: Inflation cools to 3.5% in June</li>
+      <li>BLS: Consumer Price Index News Release</li>
+      <li>Investing.com: JPMorgan Q2 2026: broad strength drives 41% profit jump</li>
+      <li>The Globe and Mail: JPMorgan $21.2B Q2 net income, up 41%</li>
+      <li>Yahoo Finance: TSMC stock falls after earnings; why strong guidance was not enough</li>
+      <li>Longbridge: TSMC breaks Q2 2026 records, then falls 5%</li>
+      <li>Investing.com: TSMC crushed earnings, so why are chip stocks falling</li>
+      <li>MarketBeat: TSMC shares down 2.7%, AI capex peaking concerns</li>
+      <li>ESEN Global: Marvell drops 8% as AI capex slowdown fears weigh on chips</li>
+      <li>Straits Times: US stocks close lower, chipmakers drop</li>
+      <li>Moneycontrol: US chips stocks tumble into bear market as 105% AI rally fizzles</li>
+      <li>NYT: Shipping in the Persian Gulf nears a halt and oil prices rise</li>
+      <li>CNBC: US oil jumps above $75 after Trump reinstates Hormuz blockade</li>
+      <li>Anadolu: Oil prices jump nearly 5% as US-Iran strikes raise Hormuz fears</li>
+      <li>Morningstar: Comex gold ends the week 2.23% lower at $4,012.70</li>
+      <li>GoldSilver: Gold fell 3.4% this week, largest decline since June 1</li>
+      <li>FRED: Coinbase Bitcoin price (CBBTCUSD)</li>
+      <li>Boursorama: JPM 5-day price history</li>
+      <li>JPMorgan: Insights and market outlook</li>
+      <li>Goldman Sachs: Insights</li>
+      <li>Glassnode: Research</li>
+      <li>Cboe: VIX dashboard</li>
+      <li>FRED: 10Y Treasury yield (DGS10)</li>
+      <li>FRED: 30Y Treasury yield (DGS30)</li>
+    </ol>
+
+</article>
+
+<div class="insight-end">
+  <div>
+    <div class="insight-end-label">Note</div>
+    <p class="insight-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-insights" href="../market-insights.html">← All Insights</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
