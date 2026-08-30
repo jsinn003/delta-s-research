@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Market Recap | Aug 24 - Aug 28, 2026: Proof of Demand, Price of Policy — Delta S Research</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;1,14..32,300&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{--black:#000;--white:#fff;--grey:#E0E0E0;--mid:#BBBBBB;--dim:#AAAAAA;--faint:#777777;--rule:rgba(255,255,255,0.06);--font:'Inter',-apple-system,'Helvetica Neue',Helvetica,sans-serif;}
+  html{font-size:16px;background:var(--black);}
+  body{font-family:var(--font);font-weight:300;color:var(--white);background:var(--black);letter-spacing:.035em;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(255,255,255,.1);color:var(--white);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:64px;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);}
+  .nav-wordmark{font-size:13px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:40px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s ease;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--dim);transition:width .35s ease;}
+  .nav-links a:hover{color:var(--grey);}.nav-links a:hover::after{width:100%;}
+  .back-link{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .35s ease;margin-bottom:64px;}
+  .back-link:hover{color:var(--grey);}.back-arrow{transition:transform .35s ease;}.back-link:hover .back-arrow{transform:translateX(-3px);}
+  .meta-divider{width:1px;height:12px;background:var(--faint);}
+  .pull-quote{margin:64px 0;padding:0 0 0 28px;border-left:1px solid rgba(255,255,255,.14);}
+  .pull-quote p{font-size:clamp(17px,1.9vw,22px);color:var(--grey);font-style:italic;letter-spacing:.02em;line-height:1.75;margin-bottom:0;}
+  .callout{margin:56px 0;padding:36px 40px;border:1px solid var(--rule);}
+  .callout-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:20px;}
+  .callout ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .callout ul li{font-size:14px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.6;padding-left:16px;position:relative;}
+  .callout ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:56px 0;}
+  .stat-cell{background:var(--black);padding:32px 28px;}
+  .stat-value{font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);letter-spacing:.04em;margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .stat-label{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .numbered-list{list-style:none;counter-reset:od-counter;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .numbered-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-counter;}
+  .numbered-list li::before{content:counter(od-counter,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .bullet-list{list-style:none;margin:40px 0;display:flex;flex-direction:column;gap:12px;}
+  .bullet-list li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:20px;position:relative;}
+  .bullet-list li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:1px;background:var(--dim);}
+  .bullet-list li.bullet-list-sub{padding-left:36px;color:var(--dim);font-size:clamp(13px,1.3vw,15px);}
+  .bullet-list li.bullet-list-sub::before{left:16px;background:var(--faint);}
+  .nested-list{list-style:none;counter-reset:od-nested;margin:40px 0;display:flex;flex-direction:column;gap:16px;}
+  .nested-list>li{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.85;padding-left:40px;position:relative;counter-increment:od-nested;}
+  .nested-list>li::before{content:counter(od-nested,decimal-leading-zero);position:absolute;left:0;top:0;font-size:10px;font-weight:400;letter-spacing:.14em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:2.2;}
+  .nested-list-children{list-style:none;margin:10px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .nested-list-children li{font-size:clamp(13px,1.3vw,15px);font-weight:300;color:var(--dim);letter-spacing:.025em;line-height:1.75;padding-left:16px;position:relative;}
+  .nested-list-children li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--faint);}
+  .extended-quote{margin:56px 0;padding:28px 36px;border-left:2px solid rgba(255,255,255,0.1);}
+  .extended-quote-body{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.9;font-style:italic;margin-bottom:14px;}
+  .extended-quote-attr{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;}
+  .highlight-block{margin:40px 0;padding:28px 32px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(255,255,255,0.12);font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.9;}
+  .strikethrough{text-decoration:line-through;color:var(--faint);}
+  .inline-highlight{color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);}
+  .body-rule{width:1px;height:64px;margin:72px auto;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);}
+  .article-figure{margin:56px 0;}
+  .article-figure img{width:100%;display:block;opacity:.88;border:1px solid var(--rule);}
+  .article-figure figcaption{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.1em;line-height:1.6;padding:14px 0 0;font-style:italic;}
+  .embed-block{margin:56px 0;}
+  .data-table-wrap{margin:56px 0;overflow-x:auto;}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid var(--rule);}
+  .data-table th{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;background:rgba(255,255,255,.018);}
+  .data-table th:last-child{border-right:none;}
+  .data-table td{font-size:13px;font-weight:300;color:var(--dim);padding:16px 20px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);letter-spacing:.03em;line-height:1.5;font-variant-numeric:tabular-nums;}
+  .data-table td:last-child{border-right:none;}.data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{color:var(--grey);}
+  .chart-wrap{margin:56px 0;border:1px solid var(--rule);padding:36px 32px 28px;}
+  .chart-title{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:28px;}
+  .chart-canvas-wrap{position:relative;width:100%;max-height:340px;}
+  .chart-canvas-wrap canvas{max-height:340px;}
+  footer{padding:72px 52px 56px;text-align:center;border-top:1px solid var(--rule);}
+  .footer-mark{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+  .insight-header{padding:148px 52px 80px;max-width:800px;margin:0 auto;border-bottom:1px solid var(--rule);}
+  .insight-meta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .meta-label{font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+  .meta-week{font-size:10px;font-weight:300;letter-spacing:.16em;color:var(--faint);}
+  .meta-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .meta-tag{font-size:10px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);border:1px solid var(--rule);padding:3px 10px;}
+  .insight-title{font-size:clamp(28px,4.5vw,56px);font-weight:300;letter-spacing:.03em;line-height:1.15;color:var(--white);margin-bottom:32px;}
+  .insight-abstract{font-size:clamp(15px,1.6vw,18px);font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.85;max-width:660px;}
+  .snapshot-bar{max-width:800px;margin:0 auto;padding:0 52px;border-bottom:1px solid var(--rule);}
+  .snapshot-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;}
+  .snapshot-cell{background:var(--black);padding:24px;display:flex;flex-direction:column;gap:6px;}
+  .snapshot-asset{font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+  .snapshot-value{font-size:18px;font-weight:300;color:var(--grey);letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+  .snapshot-change{font-size:11px;font-weight:300;letter-spacing:.08em;color:var(--dim);}
+  .snapshot-change.up{color:rgba(180,220,180,0.7);}.snapshot-change.down{color:rgba(220,150,150,0.6);}
+  .insight-body{max-width:800px;margin:0 auto;padding:80px 52px 140px;}
+  .insight-body p{font-size:clamp(15px,1.5vw,17px);font-weight:300;color:var(--grey);letter-spacing:.025em;line-height:1.95;margin-bottom:32px;}
+  .insight-body p:last-child{margin-bottom:0;}.insight-body strong{font-weight:400;color:var(--white);}.insight-body em{font-style:italic;color:var(--mid);}
+  .insight-body h2{font-size:clamp(13px,1.3vw,15px);font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:72px 0 28px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+  .insight-body h3{font-size:clamp(16px,1.8vw,20px);font-weight:300;letter-spacing:.04em;color:var(--white);margin:48px 0 20px;}
+  .watch-list{margin:56px 0;border:1px solid var(--rule);}
+  .watch-list-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:20px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 32px;border-bottom:1px solid var(--rule);}
+  .watch-item:last-child{border-bottom:none;}
+  .watch-item-name{font-size:14px;font-weight:300;color:var(--grey);letter-spacing:.03em;}
+  .watch-item-note{font-size:12px;font-weight:300;color:var(--faint);letter-spacing:.06em;text-align:right;max-width:55%;}
+  .insight-end{max-width:800px;margin:0 auto;padding:56px 52px 80px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;gap:32px;}
+  .insight-end-label{font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .insight-end-note{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.03em;line-height:1.7;max-width:360px;}
+  .back-to-insights{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .35s;white-space:nowrap;margin-top:28px;}
+  .back-to-insights:hover{color:var(--grey);}
+  @media(max-width:768px){nav{padding:0 24px;}.nav-links{gap:20px;}.insight-header{padding:120px 24px 60px;}.snapshot-bar{padding:0 24px;}.snapshot-inner{grid-template-columns:repeat(2,1fr);}.insight-body{padding:56px 24px 100px;}.insight-end{padding:48px 24px 64px;flex-direction:column;}.stat-row{grid-template-columns:1fr;}.callout{padding:28px 24px;}.watch-item{flex-direction:column;gap:6px;}.watch-item-note{text-align:left;max-width:100%;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a class="nav-wordmark" href="../index.html">Delta S Research</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#philosophy">Philosophy</a></li>
+    <li><a href="../index.html#methodology">Methodology</a></li>
+    <li><a href="../research.html">Research</a></li>
+    <li><a href="../market-insights.html">Weekly Insights</a></li>
+    <li><a href="../education.html">Education</a></li>    
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="insight-header">
+  <a class="back-link" href="../market-insights.html">
+    <span class="back-arrow">←</span>
+    <span>All Weekly Insights</span>
+  </a>
+  <div class="insight-meta-row">
+      <span class="meta-label">Weekly Insight</span>
+      <div class="meta-divider"></div>
+      <span class="meta-week">Week of 2026.08.24</span>
+      <div class="meta-tags"><span class="meta-tag">Volatility</span><span class="meta-tag">Dollar</span><span class="meta-tag">Fed</span></div>
+    </div>
+  <h1 class="insight-title">Weekly Market Recap | Aug 24 - Aug 28, 2026: Proof of Demand, Price of Policy</h1>
+  
+</header>
+
+<div class="snapshot-bar">
+  <div class="snapshot-inner">
+    <div class="snapshot-cell"><span class="snapshot-asset">SPX</span><span class="snapshot-value">7,711.76</span><span class="snapshot-change down">-0.25%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">NDX</span><span class="snapshot-value">29,433.43</span><span class="snapshot-change down">-0.70%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">VIX</span><span class="snapshot-value">14.43</span><span class="snapshot-change down">-0.55%</span></div>
+    <div class="snapshot-cell"><span class="snapshot-asset">DXY</span><span class="snapshot-value">99.68</span><span class="snapshot-change down">-0.03%</span></div>
+  </div>
+</div>
+
+<article class="insight-body">
+
+    <figure class="article-figure">
+      <img src="../images/20260829_weekly_recap_cover.png" alt="DELTA S weekly market path. SPX, NDX, NVIDIA and VIX are rebased to the August 21 close." loading="lazy">
+      <figcaption>DELTA S weekly market path. SPX, NDX, NVIDIA and VIX are rebased to the August 21 close.</figcaption>
+    </figure>
+
+    <h3>The Week in Five Bullets</h3>
+
+    <ul class="bullet-list">
+      <li>The broad indexes advanced, but the week did not produce a uniform risk-on signal. SPX gained 0.49% to 7,711.76 and NDX gained 0.42% to 29,433.43. The Nasdaq Composite and DJIA each added about 0.8% and 0.5%, while the Russell 2000 lost 1.5%. Large-cap earnings strength offset weaker small-cap breadth.</li>
+      <li>NVIDIA proved that AI compute demand remains supply constrained. Fiscal second-quarter revenue reached US$96.2 billion, up 106% year over year, with Data Center revenue of US$89.0 billion, up 117%. Third-quarter guidance of US$108.0 billion excludes Data Center compute revenue from China, keeping the focus on non-China deployment capacity.</li>
+      <li>Enterprise software and cybersecurity converted AI activity into measurable revenue. Salesforce reported US$11.3 billion of revenue and Agentforce ARR above US$1.5 billion, up more than 240% year over year. CrowdStrike delivered US$1.47 billion of revenue, US$5.84 billion of ending ARR and US$332.8 million of net new ARR.</li>
+      <li>Inflation limited the valuation benefit from resilient growth. July headline PCE inflation was 3.7% year over year and core PCE was 3.3%. Real PCE was essentially unchanged in July even as second-quarter real final sales to private domestic purchasers were revised to a 4.2% annualized gain.</li>
+      <li>Index volatility remained low while event risk stayed expensive at the constituent level. The final displayed VIX spot was 14.43, down 0.70 point from August 21. NVIDIA rose 8.74% on Thursday and fell 4.57% on Friday, while Marvell lost 10.3% on Friday, showing why a quiet SPX can coexist with large single-name gaps.</li>
+    </ul>
+
+    <h3>The Week's Dominant Narrative</h3>
+
+    <ul class="bullet-list">
+      <li>The core demand question shifted from whether AI spending exists to whether the supply chain can deliver it. NVIDIA's revenue increased 18% sequentially and its 75.0% gross margin held despite a larger system mix. Management's US$108.0 billion third-quarter outlook indicates that accelerator demand remains visible, but delivery now depends on racks, networking, memory, cooling and power as a coordinated system.</li>
+      <li>Rack-scale economics are replacing standalone GPU economics. NVIDIA described revenue intensity rising from roughly US$18 billion per gigawatt for Hopper to US$25 billion for Grace Blackwell and about US$40 billion for Vera Rubin. The trading implication is that power availability and system integration can govern revenue timing even when end demand remains strong.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/20260829_nvidia_vera_rubin_nvl72_nvidia.jpg" alt="Vera Rubin NVL72 makes the investment unit a complete rack: compute, CPU, networking, memory, power and cooling must arrive together. Source: NVIDIA official product page" loading="lazy">
+      <figcaption>Vera Rubin NVL72 makes the investment unit a complete rack: compute, CPU, networking, memory, power and cooling must arrive together. Source: NVIDIA official product page</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Software results supplied evidence of monetization rather than only usage. Salesforce's Agentforce and Data 360 ARR approached US$3.9 billion, while current remaining performance obligation reached US$33.5 billion. CrowdStrike's 25% ARR growth and 101% growth in ARR from Falcon Flex adopters showed that AI-related security demand can expand contract scope as well as user activity.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/20260829_salesforce_agentic_architecture_salesforce.png" alt="Salesforce's agentic-enterprise architecture separates orchestration, agents, AI models, semantics and data, clarifying where usage must become contracted revenue. Source: Salesforce Newsroom" loading="lazy">
+      <figcaption>Salesforce's agentic-enterprise architecture separates orchestration, agents, AI models, semantics and data, clarifying where usage must become contracted revenue. Source: Salesforce Newsroom</figcaption>
+    </figure>
+
+    <ul class="bullet-list">
+      <li>Custom silicon still faces an asymmetric expectations bar. Marvell reported US$2.74 billion of quarterly revenue and guided to US$3.15 billion for the next quarter, both slightly above expectations, yet the shares fell 10.3% on Friday. The market treated a narrow beat as insufficient after a year-to-date gain above 160%, particularly where the incremental Google custom-chip contribution did not clearly exceed prior assumptions.</li>
+      <li>Policy became the valuation governor after earnings validated demand. Warsh stated that the Fed must be confident underlying inflation is moving clearly and sufficiently quickly toward 2%. Fed-funds futures moved the September 16 hike probability from 35.9% before the speech to 57.4%, so the week ended with better earnings visibility but less confidence in a stable front-end discount rate.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/20260829_broadcom_3point5d_package_broadcom.jpg" alt="Broadcom's 3.5D platform illustrates why custom compute performance increasingly depends on packaging density and high-bandwidth memory integration. Source: Broadcom official technology page" loading="lazy">
+      <figcaption>Broadcom's 3.5D platform illustrates why custom compute performance increasingly depends on packaging density and high-bandwidth memory integration. Source: Broadcom official technology page</figcaption>
+    </figure>
+
+    <h3>What Volatility Markets Priced</h3>
+
+    <ul class="bullet-list">
+      <li>VIX fell even though Friday ended with a hawkish policy repricing. The index's final displayed spot was 14.43 versus 15.13 on August 21, a 4.63% weekly decline. SPX rose 0.49%, and Friday's 0.25% SPX loss did not generate sustained index-level hedging demand.</li>
+      <li>Implied volatility retained a wide premium to the latest realized path. Five-session SPX realized volatility was 6.69%, calculated from close-to-close log returns using sample standard deviation and square-root-of-252 annualization. VIX exceeded that backward-looking estimate by 7.74 volatility points, although the five-day window is deliberately responsive rather than structural.</li>
+      <li>The VIX futures curve priced more risk beyond the immediate week. The September 16 VIX future settled at 16.9353, the October 21 contract at 18.7002 and the November 18 contract at 19.3599. Relative to 14.43 spot, that positive slope preserved a material roll cost for a static long-volatility position.</li>
+      <li>The latest verified dispersion and correlation readings still pointed to offsetting single-name risk. The latest public end-of-day readings showed COR1M at 9.59 and the latest verified prior DSPX close at 33.52. A reliable Friday DSPX close was not available at the cutoff, so no Friday-to-Friday dispersion claim is made.</li>
+      <li>Earnings gaps, not the index close, carried the larger option risk. NVIDIA moved from a 1.59% Wednesday decline to an 8.74% Thursday gain and then a 4.57% Friday loss. CrowdStrike rose about 21% on Thursday while Marvell fell 10.3% Friday, confirming a cross-section in which index volatility understates event concentration.</li>
+    </ul>
+
+    <h3>Cross Asset Signals</h3>
+
+    <ul class="bullet-list">
+      <li>The 10-year Treasury par yield closed at 4.73%. It was 1 basis point below the August 21 close, but Friday's Warsh reaction reversed part of the midweek decline. The weekly finish therefore masks a shift from long-end relief toward front-end tightening risk.</li>
+      <li>The 30-year Treasury par yield closed at 5.22%. The 5 basis point weekly decline was larger than the move in the 10-year. Long-end yields benefited from earlier retracement, while the policy speech primarily raised the expected path of short rates.</li>
+      <li>Oil gave back part of the prior week's supply premium. October Brent futures settled at US$89.31 per barrel, down 5.4% for the week, while WTI settled at US$83.40, down 4.2%. Reports of higher regional shipments and possible alternative routes reduced the immediate scarcity premium without resolving the underlying geopolitical constraint.</li>
+      <li>The dollar and gold moved in opposite directions after policy repricing. DXY closed at 99.70, up 0.91% from 98.80, while front-month COMEX gold settled at US$4,478.10 per troy ounce, down 3.25%. Higher expected short rates restored the dollar's carry advantage and reduced demand for non-yielding exposure.</li>
+      <li>Bitcoin did not extend the prior week's liquidity-driven gain. The Friday spot reference was US$77,413.77, about 0.9% below the August 21 exchange daily close of US$78,126.63. The move was small relative to the prior 24.1% weekly gain, but it coincided with the firmer dollar and hawkish policy repricing.</li>
+      <li>Fund flows were defensive before the major events, not uniformly anti-technology. U.S. equity funds lost US$22.33 billion in the week through August 26, the largest outflow since March, while bond funds received US$7.12 billion for a nineteenth consecutive inflow week. Technology funds still gained US$1.81 billion, which is more consistent with concentration and event-risk management than a full AI exit.</li>
+      <li>The September policy contract moved more than the weekly Treasury close. Fed-funds futures placed a 57.4% probability on a September rate increase after Warsh spoke, up from 35.9% beforehand. The source is the September 16 meeting contract, not a prediction market, and the probability can change materially with next week's labor data.</li>
+    </ul>
+
+    <figure class="article-figure">
+      <img src="../images/20260829_warsh_jackson_hole_kansascityfed.jpg" alt="The 2026 Jackson Hole theme linked financial innovation to payments and policy. Warsh's remarks shifted the immediate market focus back to inflation and the short-rate path. Source: Federal Reserve Bank of Kansas City official webcast" loading="lazy">
+      <figcaption>The 2026 Jackson Hole theme linked financial innovation to payments and policy. Warsh's remarks shifted the immediate market focus back to inflation and the short-rate path. Source: Federal Reserve Bank of Kansas City official webcast</figcaption>
+    </figure>
+
+    <h3>Structural Fragilities</h3>
+
+    <ul class="bullet-list">
+      <li>Demand visibility does not eliminate delivery risk. NVIDIA's system roadmap requires GPU, CPU, HBM, networking, cooling and power to arrive together. A single bottleneck can shift revenue between quarters without changing the long-run order book, creating sharp reactions to timing language.</li>
+      <li>The AI trade is becoming more capital intensive as each generation raises revenue per gigawatt. Higher system value supports supplier revenue, but it also raises customer financing requirements and the cost of delays. If credit spreads or power interconnection timelines worsen, strong end demand can coexist with slower recognized revenue.</li>
+      <li>Low index volatility still depends on low correlation. A VIX near 14 can remain consistent with 10% to 20% earnings moves when gains and losses offset across constituents. If a common capex or rate shock aligns those moves, correlation can rise and index volatility can adjust faster than single-name implied volatility falls.</li>
+      <li>Software monetization metrics are not yet interchangeable. ARR, cRPO, delivered work units and revenue each describe a different stage of adoption. Capitalizing usage growth as recurring revenue before contract expansion appears in ARR or cRPO would overstate the speed of economic conversion.</li>
+      <li>The next macro week can overturn the policy interpretation quickly. JOLTS, ADP, ISM and the August employment report arrive before the September FOMC meeting. A weak labor sequence could reduce hike pricing, while a firm employment and prices mix would reinforce Warsh's assessment that financial conditions are not clearly restrictive.</li>
+    </ul>
+
+    <blockquote class="extended-quote">
+      <div class="extended-quote-body">Demand was verified in earnings; the cost of capital was repriced in policy.</div>
+    </blockquote>
+
+    <h3>What We Are Watching Next</h3>
+
+    <ul class="bullet-list">
+      <li>Tuesday, September 1, 10:00 AM ET: July JOLTS. Openings, quits and hires will test whether low payroll growth reflects weaker labor demand or continued low turnover.</li>
+      <li>Tuesday, September 1, 10:00 AM ET: August ISM Manufacturing PMI. New orders, employment and prices paid will show whether industrial demand is absorbing higher input costs.</li>
+      <li>Wednesday, September 2, 8:15 AM ET: August ADP National Employment Report. The private-payroll estimate is an imperfect guide to Friday's report, but it can move front-end rates when policy odds are near even.</li>
+      <li>Wednesday, September 2, 2:00 PM PT: Broadcom fiscal third-quarter results. AI semiconductor revenue, custom accelerator visibility, networking demand and VMware execution will determine whether NVIDIA's demand signal carries into the merchant and custom-silicon stack.</li>
+      <li>Thursday, September 3, 8:30 AM ET: Revised second-quarter productivity and unit labor costs. The revision will help separate supply-side productivity from inflationary wage pressure.</li>
+      <li>Thursday, September 3, 10:00 AM ET: August ISM Services PMI. The prices, employment and new-orders components matter directly for the persistence of core services inflation.</li>
+      <li>Friday, September 4, 8:30 AM ET: August Employment Situation. Payrolls, unemployment, participation and average hourly earnings will be the final major labor test before the September 15 to 16 FOMC meeting.</li>
+    </ul>
+
+    <h3>Sources and References</h3>
+
+    <ol class="numbered-list">
+      <li>Equities: FRED: S&amp;P 500 daily closes</li>
+      <li>Equities: FRED and Nasdaq: Nasdaq 100 daily closes</li>
+      <li>Equities: AP: weekly performance of major U.S. indexes</li>
+      <li>Market close: Reuters: U.S. stocks after Warsh's Jackson Hole remarks</li>
+      <li>Volatility: Cboe: VIX spot index</li>
+      <li>Volatility: Cboe: August 28 VIX futures settlements</li>
+      <li>Volatility: Cboe: S&amp;P 500 Dispersion Index</li>
+      <li>Volatility: Cboe: implied correlation indexes</li>
+      <li>Rates: U.S. Treasury: daily par yield curve rates</li>
+      <li>Inflation and spending: BEA: July personal income and outlays</li>
+      <li>Growth: BEA: second estimate of second-quarter GDP and corporate profits</li>
+      <li>Orders: U.S. Census Bureau: July durable goods</li>
+      <li>Policy: Federal Reserve: Chairman Warsh's Jackson Hole remarks</li>
+      <li>Policy probability: CME FedWatch: 30-Day Fed Funds futures methodology</li>
+      <li>AI compute: NVIDIA: fiscal second-quarter 2027 results</li>
+      <li>AI compute: NVIDIA: fiscal second-quarter earnings call transcript</li>
+      <li>Software: Salesforce: fiscal second-quarter 2027 results</li>
+      <li>Cybersecurity: CrowdStrike: fiscal second-quarter 2027 results</li>
+      <li>Custom silicon: Marvell earnings and market reaction</li>
+      <li>Fund flows: Reuters and LSEG Lipper: U.S. weekly fund flows</li>
+      <li>Cross asset: Reuters: dollar, Bitcoin and oil at the August 28 close</li>
+      <li>Gold: Dow Jones: front-month COMEX gold weekly settlement</li>
+      <li>Dollar: DXY historical closes</li>
+      <li>Calendar: BLS: September 2026 release schedule</li>
+      <li>Calendar: ISM: Manufacturing and Services PMI release calendar</li>
+      <li>Calendar: ADP National Employment Report calendar</li>
+      <li>Calendar: Broadcom: fiscal third-quarter earnings date</li>
+    </ol>
+
+</article>
+
+<div class="insight-end">
+  <div>
+    <div class="insight-end-label">Note</div>
+    <p class="insight-end-note">&nbsp;</p>
+  </div>
+  <a class="back-to-insights" href="../market-insights.html">← All Insights</a>
+</div>
+
+<footer>
+  <div class="footer-mark">© 2026 Delta S Research</div>
+</footer>
+
+</body>
+</html>
